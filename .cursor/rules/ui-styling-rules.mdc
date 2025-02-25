@@ -1,0 +1,8 @@
+---
+description: Guidelines for UI and styling, focusing on Tailwind CSS and MUI best practices.
+globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+- Utilize Tailwind CSS utility classes for styling components.
+- Follow MUI component guidelines and best practices.
+- Ensure UI is responsive and accessible.
