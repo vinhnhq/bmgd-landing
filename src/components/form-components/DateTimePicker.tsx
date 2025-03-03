@@ -1,0 +1,215 @@
+import { ScrollArea, ScrollBar } from "@/components/me/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { useState } from "react";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import { FaAsterisk } from "react-icons/fa";
+import { LuCalendarCheck2 } from "react-icons/lu";
+
+export interface DateTimePickerProps<T extends FieldValues> {
+	form: UseFormReturn<T>;
+	name: Path<T>;
+	label: string;
+	required?: boolean;
+	className?: string;
+	labelColor?: "black" | "red";
+	errorColor?: "black" | "red";
+	labelClassName?: string;
+}
+
+const amTimeSlots = ["8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM"];
+const pmTimeSlots = ["1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM"];
+
+export const DateTimePicker = <T extends FieldValues>({
+	form,
+	name,
+	label,
+	required = false,
+	className,
+	labelColor = "black",
+	errorColor = "red",
+	labelClassName,
+}: DateTimePickerProps<T>) => {
+	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+	const isDateDisabled = (date: Date) => {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		date.setHours(0, 0, 0, 0);
+		return date < today || isWeekend(date);
+	};
+
+	const isTimeDisabled = (timeSlot: string) => {
+		const selectedDate = form.getValues(name).date;
+		const today = new Date();
+
+		if (selectedDate.toDateString() === today.toDateString()) {
+			const currentHour = today.getHours();
+			const currentMinutes = today.getMinutes();
+
+			const [time, period] = timeSlot.split(" ");
+			const [hours, minutes] = time.split(":").map(Number);
+			let slotHour = hours;
+
+			if (period === "PM" && hours !== 12) {
+				slotHour += 12;
+			} else if (period === "AM" && hours === 12) {
+				slotHour = 0;
+			}
+
+			return slotHour < currentHour || (slotHour === currentHour && minutes <= currentMinutes);
+		}
+		return false;
+	};
+
+	const isWeekend = (date: Date) => {
+		const day = date.getDay();
+		return day === 0 || day === 6;
+	};
+
+	return (
+		<FormField
+			control={form.control}
+			name={name}
+			render={({ field }) => (
+				<FormItem className={className}>
+					{label && (
+						<FormLabel
+							className={cn(
+								"font-semibold flex items-start gap-[6px]",
+								{
+									"text-black": labelColor === "black",
+									"text-red-500": labelColor === "red",
+								},
+								labelClassName,
+							)}
+						>
+							<span>{label}</span>
+							{required && (
+								<>
+									<span className="text-[#FF0127] text-[8px]" aria-hidden="true">
+										<FaAsterisk />
+									</span>
+									<span className="sr-only">(bắt buộc)</span>
+								</>
+							)}
+						</FormLabel>
+					)}
+					<Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+						<PopoverTrigger asChild>
+							<FormControl>
+								<Button
+									variant="outline"
+									className={cn(
+										"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
+										"font-medium text-left justify-start hover:bg-white",
+										"shadow-elevation outline-none",
+										"focus:ring-2 focus:ring-black focus:border-transparent",
+										"focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-0",
+										"transition-all duration-200",
+									)}
+								>
+									<span>
+										{field.value.date ? format(field.value.date, "dd/MM/yyyy", { locale: vi }) : "DD/MM/YYYY"},{" "}
+										{field.value.time}
+									</span>
+									<LuCalendarCheck2 className="ml-auto !w-6 !h-6" />
+								</Button>
+							</FormControl>
+						</PopoverTrigger>
+						<PopoverContent className="w-auto p-0" align="start">
+							<div className="sm:flex">
+								<Calendar
+									mode="single"
+									locale={vi}
+									fixedWeeks
+									selected={field.value.date}
+									onSelect={(date) => {
+										if (date) field.onChange({ ...field.value, date });
+									}}
+									initialFocus
+									disabled={isDateDisabled}
+									className="p-4"
+									classNames={{
+										months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+										month: "space-y-4",
+										caption: "flex justify-center pt-1 relative items-center h-10 mb-4",
+										caption_label: " font-semibold text-lg",
+										nav: "space-x-1 flex items-center",
+										nav_button: cn(
+											"h-7 w-7 bg-transparent p-0 text-black hover:bg-[#F24444]/10 hover:text-[#F24444] transition-colors",
+										),
+										nav_button_previous: "absolute left-1",
+										nav_button_next: "absolute right-1",
+										table: "w-full border-collapse space-y-1",
+										head_row: "flex",
+										head_cell: " font-semibold text-black w-9 text-[15px] m-0.5 py-2",
+										row: "flex w-full mt-2",
+										cell: cn(
+											"relative p-0 text-center text-[17px]  hover:bg-[#F24444]/10 hover:text-[#F24444] m-0.5",
+											"focus-within:relative focus-within:z-20",
+										),
+										day: cn(
+											"h-9 w-9 p-0 font-semibold hover:bg-[#F24444]/10 hover:text-[#F24444] transition-colors",
+											"aria-selected:bg-[#F24444] aria-selected:text-white aria-selected:hover:bg-[#F24444] aria-selected:hover:text-white",
+										),
+										day_today: "bg-[#F24444]/10 text-[#F24444]",
+										day_outside: "text-muted-foreground opacity-50",
+										day_disabled: "text-muted-foreground opacity-50",
+										day_hidden: "invisible",
+									}}
+								/>
+								<ScrollArea className={"w-full h-96 my-4"}>
+									<div className="flex flex-col">
+										{[...amTimeSlots, ...pmTimeSlots].map((slot) => (
+											<Button
+												key={slot}
+												variant="ghost"
+												className={cn(
+													"h-10 mx-4 justify-center font-medium text-[17px] tracking-wide rounded-none text-black",
+													field.value.time === slot
+														? "bg-[#F24444] text-white hover:bg-[#F24444] hover:text-white"
+														: "hover:bg-[#F24444]/10 hover:text-[#F24444]",
+													isTimeDisabled(slot) && "opacity-50 cursor-not-allowed",
+												)}
+												onClick={() => {
+													if (!isTimeDisabled(slot)) {
+														field.onChange({
+															...field.value,
+															time: slot,
+														});
+														setIsCalendarOpen(false);
+													}
+												}}
+												disabled={isTimeDisabled(slot)}
+											>
+												{slot}
+											</Button>
+										))}
+									</div>
+									<ScrollBar />
+								</ScrollArea>
+							</div>
+							<div className="bg-[#F24444] px-4 py-2 text-right text-white font-medium text-base">
+								{field.value.date ? format(field.value.date, "dd/MM/yyyy", { locale: vi }) : "DD/MM/YYYY"},{" "}
+								{field.value.time}
+							</div>
+						</PopoverContent>
+					</Popover>
+					<FormMessage
+						className={cn({
+							"text-black": errorColor === "black",
+							"text-red-500": errorColor === "red",
+						})}
+						role="alert"
+					/>
+				</FormItem>
+			)}
+		/>
+	);
+};
