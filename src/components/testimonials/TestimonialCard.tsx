@@ -1,30 +1,35 @@
+import { cn } from "@/lib/utils";
 import RatingStars from "./RatingStars";
 
-interface TestimonialCardProps {
+export default function TestimonialCard({
+	name,
+	type,
+	content,
+	rating,
+	id,
+}: {
 	name: string;
 	type: string;
 	content: string;
 	rating: number;
 	id: string;
-}
-
-const TestimonialCard = ({ name, type, content, rating, id }: TestimonialCardProps) => {
+}) {
 	return (
-		<div className="rounded-2xl shadow-md shadow-slate-900/40 overflow-hidden group cursor-pointer h-full">
-			<div className="bg-white group-hover:bg-[#F24444] transition-colors p-8 h-full">
-				<div className="mb-6">
-					<RatingStars rating={rating} id={id} />
-				</div>
-				<p className="text-[15px] leading-[24px]  text-black group-hover:text-white mb-6 line-clamp-[7]">{content}</p>
-				<div className="mt-auto">
-					<h3 className="text-[15px] leading-[20px] font-bold  text-black group-hover:text-white">{name}</h3>
-					<span className="text-[14px] leading-[24px] font-semibold italic  text-[#6A6A6A] group-hover:text-white">
-						{type}
-					</span>
-				</div>
+		<div
+			className={cn(
+				"flex flex-col gap-8 justify-between h-full",
+				"p-8 rounded-2xl bg-white group cursor-pointer",
+				"hover:bg-brand-redPrimary hover:text-white",
+			)}
+		>
+			<div className="space-y-4">
+				<RatingStars rating={rating} id={id} className="text-brand-redPrimary group-hover:text-white" />
+				<p className="text-sm text-justify text-balance">{content}</p>
+			</div>
+			<div>
+				<div className="text-base font-bold">{name}</div>
+				<span className="text-sm font-semibold italic text-black/60 group-hover:text-white">{type}</span>
 			</div>
 		</div>
 	);
-};
-
-export default TestimonialCard;
+}

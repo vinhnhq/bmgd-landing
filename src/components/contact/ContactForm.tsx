@@ -138,7 +138,7 @@ const ContactForm = () => {
 				<Button
 					type="submit"
 					className={cn(
-						"w-48 h-12 bg-brand-redPrimary text-white font-semibold rounded-3xl shadow-elevation",
+						"w-48 h-12 bg-brand-redPrimary text-white font-bold rounded-3xl shadow-elevation",
 						"hover:scale-105 transition-all duration-300",
 					)}
 				>

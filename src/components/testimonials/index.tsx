@@ -1,7 +1,13 @@
-import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Container } from "@/components/layout";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/me/carousel";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import TestimonialCard from "./TestimonialCard";
 
 const mockTestimonials = [
@@ -55,111 +61,43 @@ const mockTestimonials = [
 	},
 ];
 
-const Testimonials = () => {
-	const [api, setApi] = useState<CarouselApi>();
-	const [current, setCurrent] = useState(0);
-	const [count, setCount] = useState(0);
-
-	useEffect(() => {
-		if (!api) {
-			return;
-		}
-
-		setCount(api.scrollSnapList().length);
-		setCurrent(api.selectedScrollSnap());
-
-		api.on("select", () => {
-			setCurrent(api.selectedScrollSnap());
-		});
-	}, [api]);
-
-	useEffect(() => {
-		if (!api) return;
-
-		const timer = setInterval(() => {
-			api.scrollPrev();
-		}, 5000);
-
-		return () => clearInterval(timer);
-	}, [api]);
-
+export default function Testimonials() {
 	return (
-		<Container className="bg-white px-28 py-8">
-			<section className="flex flex-col">
-				<div className="mb-8">
-					<h2 className="text-[40px] leading-[48px] font-bold  text-black mb-4">
-						Đối Tác & Khách Hàng Nói Về Bảo Minh Gia Đình
-					</h2>
-					<p className="text-base text-black tracking-tight">
-						Những ý kiến đánh giá từ đối tác và khách hàng luôn là động lực để Bảo Minh Gia Đình không ngừng nâng cao và
-						hoàn thiện chất lượng dịch vụ của mình.
-					</p>
-				</div>
+		<Container className="bg-white px-28 py-8 space-y-4">
+			<h2 className="text-4xl font-bold text-black">Đối Tác & Khách Hàng Nói Về Bảo Minh Gia Đình</h2>
+			<p className="text-base text-black tracking-tight">
+				Những ý kiến đánh giá từ đối tác và khách hàng luôn là động lực để Bảo Minh Gia Đình không ngừng nâng cao và
+				hoàn thiện chất lượng dịch vụ của mình.
+			</p>
 
-				<div className="relative -mx-16">
-					<Carousel
-						opts={{
-							align: "start",
-							loop: true,
-						}}
-						setApi={setApi}
-						className="w-full"
-					>
-						<div className="px-16">
-							<CarouselContent className="-ml-4">
-								{mockTestimonials.map((testimonial) => (
-									<CarouselItem key={testimonial.id} className="pl-4 basis-1/3">
-										<div className="p-[2px]">
-											<TestimonialCard {...testimonial} />
-										</div>
-									</CarouselItem>
-								))}
-							</CarouselContent>
-						</div>
-						<button
-							type="button"
-							onClick={() => api?.scrollNext()}
-							className="absolute -left-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md shadow-slate-900/40 flex items-center justify-center hover:bg-[#F24444] hover:text-white transition-colors"
-							aria-label="Previous slide"
-						>
-							<IoIosArrowBack className="h-4 w-4" />
-						</button>
-						<button
-							type="button"
-							onClick={() => api?.scrollPrev()}
-							className="absolute -right-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md shadow-slate-900/40 flex items-center justify-center hover:bg-[#F24444] hover:text-white transition-colors"
-							aria-label="Next slide"
-						>
-							<IoIosArrowForward className="h-4 w-4" />
-						</button>
-					</Carousel>
-					<div className="py-4 flex justify-center gap-2">
-						{Array.from({ length: count }).map((_, index) => (
-							<button
-								type="button"
-								key={`dot-${index + 1}`}
-								className={`w-2 h-2 rounded-full transition-colors ${
-									index === current ? "bg-[#F24444]" : "bg-[#F24444]/20"
-								}`}
-								onClick={() => api?.scrollTo(index)}
-								aria-label={`Go to slide ${index + 1}`}
-							/>
-						))}
-					</div>
-				</div>
+			<Carousel opts={{ loop: true, align: "start" }} className="-mx-4">
+				<CarouselContent className="">
+					{mockTestimonials.map((testimonial) => (
+						<CarouselItem key={testimonial.id} className="basis-1/3">
+							<div className="h-full p-4">
+								<div className="shadow-elevation rounded-2xl h-full">
+									<TestimonialCard {...testimonial} />
+								</div>
+							</div>
+						</CarouselItem>
+					))}
+				</CarouselContent>
 
-				{/* Add Write Review Button */}
-				<div className="flex justify-center mt-8">
-					<button
-						type="button"
-						className="bg-[#F24444] text-white px-8 py-3 rounded-md font-bold text-lg hover:opacity-90 transition-opacity"
-					>
-						Viết Nhận Xét
-					</button>
-				</div>
-			</section>
+				<CarouselPrevious />
+				<CarouselNext />
+			</Carousel>
+
+			<div className="flex justify-center">
+				<Button
+					type="button"
+					className={cn(
+						"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold",
+						"hover:scale-105 transition-all duration-300",
+					)}
+				>
+					Viết Nhận Xét
+				</Button>
+			</div>
 		</Container>
 	);
-};
-
-export default Testimonials;
+}
