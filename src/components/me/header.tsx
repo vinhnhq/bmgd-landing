@@ -8,9 +8,9 @@ export default function Header({ title, description }: { title: string; descript
 }
 
 export function HeaderTitle({ title }: { title: string }) {
-	return <h2 className="text-[40px] font-bold">{title}</h2>;
+	return <h2 className="text-4xl font-bold">{title}</h2>;
 }
 
 export function HeaderDescription({ description }: { description: string }) {
-	return <p className="text-[22px] font-medium">{description}</p>;
+	return <p className="text-2xl font-medium">{description}</p>;
 }
