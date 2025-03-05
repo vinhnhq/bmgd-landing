@@ -20,6 +20,7 @@ export default {
 					redPrimary: "#f24444",
 					redSecondary: "#d71d22",
 					gray: "#cccccc",
+					green: "#8cc166",
 				},
 				text: {
 					primary: "#000000",

@@ -18,7 +18,7 @@ export default function TestimonialCard({
 		<div
 			className={cn(
 				"flex flex-col gap-8 justify-between h-full",
-				"p-8 rounded-2xl bg-white group cursor-pointer",
+				"p-6 rounded-2xl bg-white group cursor-pointer",
 				"hover:bg-brand-redPrimary hover:text-white",
 			)}
 		>
