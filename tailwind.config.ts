@@ -26,11 +26,13 @@ export default {
 					primary: "#000000",
 					secondary: "#58595d",
 					third: "#6A6A6A",
+					gray: "#F8FAFF",
 				},
 				bg: {
 					primary: "#ffffff",
 					secondary: "#ededed",
 					accent: "#ffeac8",
+					red: "#ff3b3b",
 				},
 				functional: {
 					link: "#d71d22",
