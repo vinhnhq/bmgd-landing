@@ -25,6 +25,7 @@ export default {
 				text: {
 					primary: "#000000",
 					secondary: "#58595d",
+					third: "#6A6A6A",
 				},
 				bg: {
 					primary: "#ffffff",
@@ -34,6 +35,7 @@ export default {
 				functional: {
 					link: "#d71d22",
 					border: "#000000",
+					disabled: "#858585",
 				},
 				neutral: {
 					gray: {

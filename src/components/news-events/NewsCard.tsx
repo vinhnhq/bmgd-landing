@@ -1,32 +1,25 @@
-interface NewsCardProps {
+import Image from "next/image";
+
+export default function NewsCard({
+	title,
+	date,
+	imageUrl,
+}: {
 	title: string;
 	date: string;
 	imageUrl: string;
-}
-
-const NewsCard = ({ title, date, imageUrl }: NewsCardProps) => {
+}) {
 	return (
-		<div className="rounded-2xl shadow-elevation overflow-hidden group cursor-pointer">
-			<div className="relative">
-				<div className="aspect-[5/3] max-h-[168px] overflow-hidden">
-					<img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-				</div>
-				<div className="bg-white group-hover:bg-[#F24444] transition-colors">
-					<div className="p-6">
-						<h3 className="text-[15px] leading-[20px] font-bold  text-black group-hover:text-white font-variant-all-small-caps mb-4 line-clamp-3">
-							{title}
-						</h3>
-						<div className="flex items-center gap-2 ml-5">
-							<div className="w-2 h-2 rounded-full bg-[#2B2A29] group-hover:bg-white" />
-							<span className="text-[14px] leading-[24px] font-semibold italic  text-[#6A6A6A] group-hover:text-white">
-								{date}
-							</span>
-						</div>
-					</div>
+		<div className="rounded-2xl shadow-elevation h-full flex flex-col justify-between overflow-hidden">
+			<Image src={imageUrl} width={0} height={0} alt={title} className="w-full h-auto" />
+
+			<div className="bg-white hover:bg-brand-redPrimary transition-all duration-300 h-full cursor-pointer group p-4 flex flex-col justify-between">
+				<h3 className="text-base font-bold text-black group-hover:text-white uppercase">{title}</h3>
+				<div className="flex items-center gap-2 ml-4">
+					<div className="w-2 h-2 rounded-full bg-black group-hover:bg-white" />
+					<span className="text-sm font-semibold italic text-text-third group-hover:text-white">{date}</span>
 				</div>
 			</div>
 		</div>
 	);
-};
-
-export default NewsCard;
+}

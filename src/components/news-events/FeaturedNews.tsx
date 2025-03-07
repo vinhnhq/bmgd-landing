@@ -1,31 +1,30 @@
-interface FeaturedNewsProps {
+import Image from "next/image";
+
+export default function FeaturedNews({
+	title,
+	date,
+	description,
+	imageUrl,
+}: {
 	title: string;
 	date: string;
 	description: string;
-	imageUrl?: string;
-}
-
-const FeaturedNews = ({ title, date, description, imageUrl }: FeaturedNewsProps) => {
+	imageUrl: string;
+}) {
 	return (
-		<div className="rounded-2xl shadow-elevation overflow-hidden">
-			<div className="relative">
-				<div className="aspect-[4/3] bg-[#D9D9D9] overflow-hidden">
-					{imageUrl && <img src={imageUrl} alt={title} className="w-full h-full object-cover" />}
+		<div className="rounded-2xl shadow-elevation overflow-hidden h-full">
+			<Image src={imageUrl} width={0} height={0} alt={title} className="w-full h-auto" />
+
+			<div className="h-2 w-full bg-brand-redPrimary" />
+
+			<div className="flex flex-col py-8 px-4 space-y-4">
+				<h3 className="text-2xl tracking-tight font-bold text-black">{title}</h3>
+				<div className="flex items-center gap-2 ml-4">
+					<div className="w-2 h-2 rounded-full bg-black" />
+					<span className="text-sm font-semibold italic text-text-third">{date}</span>
 				</div>
-				<div className="relative">
-					<div className="absolute top-0 left-0 right-0 h-2 bg-[#F24444]" />
-					<div className="px-4 py-8 space-y-4">
-						<h3 className="text-[24px] tracking-tight font-bold  text-black line-clamp-3 min-h-[108px]">{title}</h3>
-						<div className="flex items-center gap-2 ml-6">
-							<div className="w-2 h-2 rounded-full bg-[#2B2A29]" />
-							<span className="text-[15px] font-semibold italic  text-[#444444] leading-6">{date}</span>
-						</div>
-						<p className="text-base  text-black line-clamp-3 min-h-[72px]">{description}</p>
-					</div>
-				</div>
+				<p className="text-base text-black">{description}</p>
 			</div>
 		</div>
 	);
-};
-
-export default FeaturedNews;
+}
