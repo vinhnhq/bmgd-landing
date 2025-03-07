@@ -46,26 +46,24 @@ const features = [
 
 const CompanyIntro = () => {
 	return (
-		<Container className="px-28 py-8 bg-white">
-			<h2 className="text-[40px] font-bold mb-8 leading-[48px] text-black">Giới Thiệu Về Bảo Minh Gia Định</h2>
+		<Container className="px-28 py-8 bg-white space-y-8">
+			<h2 className="text-4xl font-bold text-black">Giới Thiệu Về Bảo Minh Gia Định</h2>
 
 			<div className="grid grid-cols-2 gap-8">
 				{features.map((feature) => (
 					<Card
 						key={feature.id}
-						className="border-none shadow-md shadow-slate-900/40 hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#F24444] cursor-pointer group"
+						className="shadow-elevation transition-all duration-300 hover:scale-105 hover:bg-brand-redPrimary cursor-pointer group"
 					>
-						<CardContent className="grid grid-cols-[1fr_auto] items-center p-8">
-							<div className="flex flex-col gap-4">
-								<h3 className="text-[28px] font-[700] text-[#D71D22] leading-[1.21] group-hover:text-white transition-all duration-300 ease-in-out origin-left scale-[0.9] group-hover:scale-100">
-									{feature.title}
-								</h3>
+						<CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 p-6 h-full">
+							<div className="flex flex-col justify-between gap-4">
+								<h3 className="text-2xl font-bold text-brand-redPrimary group-hover:text-white">{feature.title}</h3>
 								{feature.description ? (
-									<p className="text-[14px] font-[500] text-black leading-[1.43] group-hover:text-white transition-all duration-300 ease-in-out text-justify origin-left scale-[0.9] group-hover:scale-100">
+									<p className="text-sm font-medium text-black group-hover:text-white text-justify">
 										{feature.description}
 									</p>
 								) : (
-									<ul className="text-[14px] font-[500] text-black leading-[1.43] group-hover:text-white transition-all duration-300 ease-in-out space-y-1 origin-left scale-[0.9] group-hover:scale-100">
+									<ul className="text-sm font-medium text-black space-y-1 origin-left group-hover:text-white">
 										{feature.details?.map((detail) => (
 											<li key={`${feature.id}-${detail}`} className="flex items-start gap-2">
 												<span className="inline-block w-2 text-center">-</span>
@@ -75,16 +73,9 @@ const CompanyIntro = () => {
 									</ul>
 								)}
 							</div>
-							<div className="ml-4">
-								<div className="w-[127px] h-[127px] rounded-full bg-[#FFEAC8] group-hover:bg-white flex items-center justify-center transition-colors duration-300 ease-in-out">
-									<Image
-										src={feature.icon}
-										alt={feature.title}
-										width={127}
-										height={127}
-										className="w-auto h-auto object-contain transition-transform duration-300 ease-in-out group-hover:scale-[1.03]"
-									/>
-								</div>
+
+							<div className="w-32 h-32 rounded-full bg-bg-accent group-hover:bg-white flex items-center justify-center">
+								<Image src={feature.icon} alt={feature.title} width={73} height={88} />
 							</div>
 						</CardContent>
 					</Card>
