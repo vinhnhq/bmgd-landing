@@ -211,12 +211,8 @@ const Navbar = () => {
 	return (
 		<Container className="bg-white px-28 py-4 flex items-center justify-center relative z-50">
 			<div className="w-[1440px] flex items-center relative">
-				<motion.div
-					className="w-[78px] flex items-center justify-center"
-					whileHover={{ scale: 1.05 }}
-					transition={{ duration: 0.2 }}
-				>
-					<Image src="/logo.png" alt="Bảo Minh" width={150} height={50} className="w-auto h-auto" />
+				<motion.div className="w-[78px] flex items-center justify-center">
+					<Image src="/logo.png" alt="Bảo Minh" width={281} height={351} className="w-auto h-auto" />
 				</motion.div>
 
 				{/* Navigation items */}

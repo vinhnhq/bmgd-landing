@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 import { Container } from "@/components/layout";
+import Image from "next/image";
 
 const features = [
 	{
@@ -44,18 +43,18 @@ const features = [
 	},
 ];
 
-const CompanyIntro = () => {
+export default function CompanyIntro() {
 	return (
 		<Container className="px-28 py-8 bg-white space-y-8">
 			<h2 className="text-4xl font-bold text-black">Giới Thiệu Về Bảo Minh Gia Định</h2>
 
 			<div className="grid grid-cols-2 gap-8">
 				{features.map((feature) => (
-					<Card
+					<div
 						key={feature.id}
-						className="shadow-elevation transition-all duration-300 hover:scale-105 hover:bg-brand-redPrimary cursor-pointer group"
+						className="transition-all duration-300 hover:scale-105 hover:bg-brand-redPrimary cursor-pointer group shadow-elevation rounded-2xl"
 					>
-						<CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 p-6 h-full">
+						<div className="grid grid-cols-[1fr_auto] items-center gap-4 p-6 h-full">
 							<div className="flex flex-col justify-between gap-4">
 								<h3 className="text-2xl font-bold text-brand-redPrimary group-hover:text-white">{feature.title}</h3>
 								{feature.description ? (
@@ -77,12 +76,10 @@ const CompanyIntro = () => {
 							<div className="w-32 h-32 rounded-full bg-bg-accent group-hover:bg-white flex items-center justify-center">
 								<Image src={feature.icon} alt={feature.title} width={73} height={88} />
 							</div>
-						</CardContent>
-					</Card>
+						</div>
+					</div>
 				))}
 			</div>
 		</Container>
 	);
-};
-
-export default CompanyIntro;
+}

@@ -1,28 +1,26 @@
 import { Container } from "@/components/layout";
+import Image from "next/image";
 import Menu from "./Menu";
-import banner from "../../../public/banner.png";
 
-const InsuranceHero = () => {
+export default function InsuranceHero() {
 	return (
-		<section className="relative w-full min-h-[737px] overflow-y-auto">
-			{/* Background overlay */}
-			<div className="absolute inset-0" style={{ backgroundColor: "rgba(255, 59, 59, 0.42)" }} />
+		<div className="relative h-auto overflow-y-auto">
+			<div className="absolute inset-0 bg-bg-red bg-opacity-[0.42]" />
+			<div className="absolute inset-0">
+				<Image
+					src={"/light.png"}
+					alt="light background with red overlay"
+					width={1440}
+					height={553}
+					className="w-full h-full mix-blend-screen object-cover object-center"
+				/>
+			</div>
 
-			{/* Background image */}
-			<div
-				className="absolute inset-0 mix-blend-screen bg-cover bg-center"
-				style={{ backgroundImage: `url(${banner})` }}
-			/>
-
-			<Container className="relative h-full px-28">
-				<div className="flex h-full py-10">
-					<div className="w-full max-w-[531px] bg-white shadow-md shadow-slate-900/40 rounded-3xl p-6">
-						<Menu />
-					</div>
+			<Container className="relative h-full px-28 py-8">
+				<div className="w-full max-w-xl bg-white shadow-elevation rounded-3xl p-6">
+					<Menu />
 				</div>
 			</Container>
-		</section>
+		</div>
 	);
-};
-
-export default InsuranceHero;
+}
