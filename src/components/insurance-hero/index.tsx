@@ -17,7 +17,7 @@ export default function InsuranceHero() {
 			</div>
 
 			<Container className="relative h-full px-28 py-8">
-				<div className="w-full max-w-xl bg-white shadow-elevation rounded-3xl p-6">
+				<div className="w-full max-w-xl bg-white shadow-elevation rounded-3xl px-6 py-4">
 					<Menu />
 				</div>
 			</Container>

@@ -22,9 +22,9 @@ export default function TestimonialCard({
 				"hover:bg-brand-redPrimary hover:text-white",
 			)}
 		>
-			<div className="space-y-4">
+			<div className="space-y-6">
 				<RatingStars rating={rating} id={id} className="text-brand-redPrimary group-hover:text-white" />
-				<p className="text-sm text-justify text-balance">{content}</p>
+				<p className="text-base text-justify text-balance">{content}</p>
 			</div>
 			<div>
 				<div className="text-base font-bold">{name}</div>

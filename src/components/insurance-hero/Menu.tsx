@@ -103,70 +103,21 @@ export default function InsuranceMenu() {
 				</button>
 			</div>
 
-			<div className="space-y-2">
-				{activeTab === "insurance" &&
-					insuranceOptions.map((option) => (
-						<div
-							key={option.id}
-							className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-2 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
-						>
-							<div className="w-24 flex items-center justify-center">
-								<Image src={option.icon} alt="" className="w-auto h-auto object-contain" width={73} height={83} />
-							</div>
-							<div className="flex-1 flex flex-col justify-between gap-2">
-								<div>
-									<h3 className="text-xl font-bold text-black group-hover:text-white">{option.title}</h3>
-									<p className="text-sm font-medium text-black group-hover:text-white text-justify">
-										{option.description}
-									</p>
-								</div>
-								<div className="flex items-center justify-between mt-auto">
-									<span className="text-base font-extrabold text-brand-redSecondary group-hover:text-white">
-										{option.price}
-									</span>
-									<button
-										type="button"
-										className={cn(
-											"px-6 py-1 text-sm font-bold rounded-full flex items-center justify-center bg-brand-redPrimary text-white ",
-											"group-hover:bg-white group-hover:text-brand-redPrimary",
-										)}
-									>
-										{option.buttonText}
-									</button>
-								</div>
-							</div>
-						</div>
+			{activeTab === "insurance" && (
+				<div className="space-y-3">
+					{insuranceOptions.map((option) => (
+						<InsuranceCard key={option.id} option={option} />
 					))}
+				</div>
+			)}
 
-				{activeTab === "recruitment" &&
-					recruitmentOptions.map((option) => (
-						<div
-							key={option.id}
-							className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-2 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
-						>
-							<div className="w-24 flex items-center justify-center">
-								<Image src={option.icon} alt="" width={73} height={83} className="w-auto h-auto object-contain" />
-							</div>
-							<div className="flex-1 flex flex-col justify-between gap-2">
-								<div>
-									<h3 className="text-xl font-bold text-black group-hover:text-white">{option.title}</h3>
-									<p className="text-sm font-medium text-black group-hover:text-white text-justify">
-										{option.description}
-									</p>
-								</div>
-
-								<div className="flex items-center justify-end">
-									<button
-										type="button"
-										className="px-6 py-1 text-sm font-bold rounded-full bg-brand-redPrimary text-white group-hover:bg-white group-hover:text-brand-redPrimary"
-									>
-										{option.buttonText}
-									</button>
-								</div>
-							</div>
-						</div>
+			{activeTab === "recruitment" && (
+				<div className="space-y-2">
+					{recruitmentOptions.map((option) => (
+						<RecruitmentCard key={option.id} option={option} />
 					))}
-			</div>
+				</div>
+			)}
 
 			<button
 				type="button"
@@ -174,6 +125,67 @@ export default function InsuranceMenu() {
 			>
 				TÌM HIỂU THÊM <PiCaretDownBold className="size-6" />
 			</button>
+		</div>
+	);
+}
+
+function InsuranceCard({ option }: { option: (typeof insuranceOptions)[number] }) {
+	return (
+		<div
+			key={option.id}
+			className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-4 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
+		>
+			<div className="w-24 flex items-center justify-center">
+				<Image src={option.icon} alt="" className="w-auto h-auto object-contain" width={73} height={83} />
+			</div>
+			<div className="flex-1 flex flex-col justify-between gap-2 py-[1px]">
+				<div className="flex flex-col gap-2">
+					<h3 className="text-lg font-bold text-black group-hover:text-white">{option.title}</h3>
+					<p className="text-sm font-medium text-black group-hover:text-white text-justify">{option.description}</p>
+				</div>
+				<div className="flex items-center justify-between mt-auto">
+					<span className="text-base font-extrabold text-brand-redSecondary group-hover:text-white">
+						{option.price}
+					</span>
+					<button
+						type="button"
+						className={cn(
+							"px-4 py-1 min-w-40 text-base font-bold rounded-full flex items-center justify-center bg-brand-redPrimary text-white ",
+							"group-hover:bg-white group-hover:text-brand-redPrimary",
+						)}
+					>
+						{option.buttonText}
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function RecruitmentCard({ option }: { option: (typeof recruitmentOptions)[number] }) {
+	return (
+		<div
+			key={option.id}
+			className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-2 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
+		>
+			<div className="w-24 flex items-center justify-center">
+				<Image src={option.icon} alt="" width={73} height={83} className="w-auto h-auto object-contain" />
+			</div>
+			<div className="flex-1 flex flex-col justify-between gap-2">
+				<div className="flex flex-col gap-2">
+					<h3 className="text-base font-bold text-black group-hover:text-white">{option.title}</h3>
+					<p className="text-xs font-medium text-black group-hover:text-white text-justify">{option.description}</p>
+				</div>
+
+				<div className="flex items-center justify-end">
+					<button
+						type="button"
+						className="px-2 py-1 min-w-36 text-sm font-bold rounded-full bg-brand-redPrimary text-white group-hover:bg-white group-hover:text-brand-redPrimary"
+					>
+						{option.buttonText}
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 }
