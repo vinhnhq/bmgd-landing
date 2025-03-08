@@ -77,7 +77,7 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 						<button
 							type="button"
 							onClick={onToggleExpand}
-							className="flex items-center justify-center w-full h-16 bg-[#F24444] rounded-full shadow-md"
+							className="flex items-center justify-center w-full h-16 bg-[#F24444] rounded-full shadow-elevation"
 						>
 							<span className="px-4 text-2xl font-bold text-white">
 								{isExpanded ? "Ẩn Lọc Chi Tiết" : "Hiện Lọc Chi Tiết"}
