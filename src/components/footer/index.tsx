@@ -167,7 +167,7 @@ function SocialLinkButton({
 			rel="noopener noreferrer"
 			className="
         w-8 h-8 text-white bg-brand-redPrimary rounded flex items-center justify-center
-        hover:bg-white hover:shadow-md hover:text-brand-redPrimary
+        hover:bg-white hover:shadow-elevation hover:text-brand-redPrimary
         transition-all duration-300"
 		>
 			<Icon className="w-4 h-4" />

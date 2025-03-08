@@ -20,7 +20,7 @@ const CounterCard: FC<CounterCardProps> = ({ title, value, icon, digitCount }) =
 	const digits = safeValue.toString().padStart(digitCount, "0").split("");
 
 	return (
-		<div className="flex-1 bg-[#F24444] rounded-lg shadow-lg shadow-slate-900/40 flex items-center p-4">
+		<div className="flex-1 bg-[#F24444] rounded-lg shadow-elevation flex items-center p-4">
 			{icon && <div className="w-12 bg-white rounded-md flex items-center justify-center mr-2">{icon}</div>}
 			<span className="text-white text-[22px] font-extrabold font-montserrat leading-[27px] mr-auto">{title}</span>
 			<div className="flex gap-2">

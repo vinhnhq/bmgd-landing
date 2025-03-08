@@ -39,7 +39,9 @@ const ProductList = () => {
 		<Container className="mx-auto px-28 py-4 mt-8">
 			<div className="grid grid-cols-3 gap-8">
 				{PRODUCTS.map((product) => (
-					<ProductCard key={product.title} {...product} isActive={product.status === "available"} />
+					<div key={product.title} className="shadow-elevation rounded-2xl">
+						<ProductCard {...product} isActive={product.status === "available"} />
+					</div>
 				))}
 			</div>
 
