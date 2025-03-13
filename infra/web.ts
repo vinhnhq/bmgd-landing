@@ -1,4 +1,4 @@
-export const frontend = new sst.aws.StaticSite("bmgd-landing", {
+const frontend = new sst.aws.StaticSite("bmgd-landing", {
 	path: "./",
 	build: {
 		output: "out",
