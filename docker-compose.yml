@@ -1,0 +1,12 @@
+services:
+  nextjs:
+    build: .
+    container_name: bmgd-landing
+    restart: always
+    ports:
+      - "3100:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
