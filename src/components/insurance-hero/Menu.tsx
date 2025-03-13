@@ -3,6 +3,16 @@ import Image from "next/image";
 import { useState } from "react";
 import { PiCaretDownBold } from "react-icons/pi";
 
+const images = {
+	product1: "/product-1.png",
+	product2: "/product-2.png",
+	product3: "/product-3.png",
+	art1: "/art-1.png",
+	art2: "/art-2.png",
+	art3: "/art-3.png",
+	art4: "/art-4.png",
+};
+
 const insuranceOptions = [
 	{
 		id: 1,
@@ -11,7 +21,7 @@ const insuranceOptions = [
 			"An tâm trên mọi hành trình với sự bảo vệ toàn diện từ tai nạn, chi phí y tế đến mất hành lý hay hủy chuyến bay, mang đến cho bạn chuyến đi trọn vẹn.",
 		price: "20.000 VNĐ/ ngày",
 		buttonText: "Tìm Hiểu Thêm",
-		icon: "/product-1.png",
+		icon: images.product1,
 		bgColor: "bg-brand-redPrimary",
 	},
 	{
@@ -22,7 +32,7 @@ const insuranceOptions = [
 		price: "3.000 VNĐ/ ngày",
 		buttonText: "Sắp Ra Mắt",
 		bgColor: "bg-white",
-		icon: "/product-2.png",
+		icon: images.product2,
 	},
 	{
 		id: 3,
@@ -31,7 +41,7 @@ const insuranceOptions = [
 			"Bảo vệ tài chính cho gia đình trước những sự kiện không mong muốn, từ thương tật, ốm đau đến thai sản, giữ trọn nụ cười cho những người thân yêu.",
 		price: "4.000 VNĐ/ ngày",
 		buttonText: "Sắp Ra Mắt",
-		icon: "/product-3.png",
+		icon: images.product3,
 		bgColor: "bg-white",
 	},
 ];
@@ -43,7 +53,7 @@ const recruitmentOptions = [
 		description:
 			"Hỗ trợ đào tạo toàn diện với giáo trình dễ hiểu: Từ kiến thức, thi chứng chỉ bảo hiểm đến kỹ năng mềm, tư vấn cách xử lý các tình huống bán hàng và chốt sale hiệu quả.",
 		buttonText: "Tìm Hiểu Thêm",
-		icon: "/art-1.png",
+		icon: images.art1,
 		bgColor: "bg-[#F24444]",
 	},
 	{
@@ -52,7 +62,7 @@ const recruitmentOptions = [
 		description:
 			"Cung cấp kịch bản bán hàng chuyên sâu, giúp xử lý tình huống, tư vấn sản phẩm và chốt sale hiệu quả, gia tăng doanh số bán hàng.",
 		buttonText: "Tìm Hiểu Thêm",
-		icon: "/art-2.png",
+		icon: images.art2,
 		bgColor: "bg-white",
 	},
 	{
@@ -61,7 +71,7 @@ const recruitmentOptions = [
 		description:
 			"Hỗ trợ thiết kế poster, cung cấp nội dung và video, giúp cộng tác viên dễ dàng tiếp cận khách hàng và giới thiệu sản phẩm hiệu quả hơn.",
 		buttonText: "Tìm Hiểu Thêm",
-		icon: "/art-3.png",
+		icon: images.art3,
 		bgColor: "bg-white",
 	},
 	{
@@ -70,7 +80,7 @@ const recruitmentOptions = [
 		description:
 			"Nền tảng bán hàng tiện lợi với portal cấp đơn nhanh chóng, tài liệu hướng dẫn đầy đủ, báo cáo tự động và đội ngũ hỗ trợ tận tình.",
 		buttonText: "Tìm Hiểu Thêm",
-		icon: "/art-4.png",
+		icon: images.art4,
 		bgColor: "bg-white",
 	},
 ];
