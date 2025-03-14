@@ -1,10 +1,11 @@
-import type { FC } from "react";
+"use client";
+
 import { FiChevronDown } from "react-icons/fi";
 import { Container } from "@/components/layout";
 import { faqFileUrl } from "../../constants";
 import Header from "@/components/me/header";
 
-const FAQ: FC = () => {
+export default function FAQ() {
 	return (
 		<Container className="px-28 my-16">
 			<Header
@@ -33,6 +34,4 @@ const FAQ: FC = () => {
 			</div>
 		</Container>
 	);
-};
-
-export default FAQ;
+}

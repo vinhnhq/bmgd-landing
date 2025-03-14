@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -16,7 +18,7 @@ async function handleShare() {
 				</div>
 			),
 			position: "top-center",
-			duration: 50000,
+			duration: 5000,
 		});
 	} catch (err) {
 		toast.error("Không thể sao chép liên kết");

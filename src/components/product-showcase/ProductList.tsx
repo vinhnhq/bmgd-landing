@@ -34,7 +34,7 @@ const PRODUCTS = [
 	},
 ];
 
-const ProductList = () => {
+export default function ProductList() {
 	return (
 		<Container className="mx-auto px-28 py-4 mt-8">
 			<div className="grid grid-cols-3 gap-8">
@@ -50,6 +50,4 @@ const ProductList = () => {
 			</div>
 		</Container>
 	);
-};
-
-export default ProductList;
+}

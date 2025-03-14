@@ -1,17 +1,16 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { FaAsterisk } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
-export interface FormInputProps<T extends FieldValues> {
+export interface FormTextAreaProps<T extends FieldValues> {
 	form: UseFormReturn<T>;
 	name: Path<T>;
 	label: string;
 	placeholder: string;
-	type?: string;
 	required?: boolean;
-	inputMode?: "text" | "numeric" | "tel" | "email";
-	onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+	rows?: number;
 	labelColor?: "black" | "red";
 	errorColor?: "black" | "red";
 	disabled?: boolean;
@@ -22,15 +21,13 @@ export interface FormInputProps<T extends FieldValues> {
 	labelClassName?: string;
 }
 
-export const FormInput = <T extends FieldValues>({
+export const FormTextArea = <T extends FieldValues>({
 	form,
 	name,
 	label,
 	placeholder,
-	type = "text",
 	required = false,
-	inputMode,
-	onKeyPress,
+	rows = 4,
 	labelColor = "black",
 	errorColor = "red",
 	disabled = false,
@@ -39,7 +36,7 @@ export const FormInput = <T extends FieldValues>({
 	className,
 	containerClassName,
 	labelClassName,
-}: FormInputProps<T>) => {
+}: FormTextAreaProps<T>) => {
 	return (
 		<FormField
 			control={form.control}
@@ -71,30 +68,17 @@ export const FormInput = <T extends FieldValues>({
 						</FormLabel>
 
 						<FormControl>
-							<input
-								{...field}
-								placeholder={placeholder}
-								type={type}
-								inputMode={inputMode}
-								onKeyPress={onKeyPress}
-								readOnly={readOnly}
-								className={cn(
-									"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
-									"font-medium placeholder:text-black/60 placeholder:text-base",
-									"shadow-elevation outline-none hover:bg-white",
-									"focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200",
-									readOnly && "bg-gray-100 cursor-not-allowed",
-									className,
-								)}
-							/>
+							<Textarea {...field} placeholder={placeholder} rows={rows} readOnly={readOnly} className={className} />
 						</FormControl>
 					</div>
-					<div className={cn("mt-1", layout === "horizontal" && "ml-[calc(176px+1rem)]")}>
+
+					<div className={cn(layout === "horizontal" && "ml-[calc(176px+1rem)]")}>
 						<FormMessage
 							className={cn("font-semibold", {
 								"text-black": errorColor === "black",
 								"text-red-500": errorColor === "red",
 							})}
+							role="alert"
 						/>
 					</div>
 				</FormItem>

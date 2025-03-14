@@ -1,13 +1,6 @@
 import { Container } from "@/components/layout";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@/components/me/carousel";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/me/carousel";
+import { CreateTestimonialButton } from "./CreateButton";
 import TestimonialCard from "./TestimonialCard";
 
 const mockTestimonials = [
@@ -88,15 +81,7 @@ export default function Testimonials() {
 			</Carousel>
 
 			<div className="flex justify-center">
-				<Button
-					type="button"
-					className={cn(
-						"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold",
-						"hover:scale-105 transition-all duration-300",
-					)}
-				>
-					Viết Nhận Xét
-				</Button>
+				<CreateTestimonialButton />
 			</div>
 		</Container>
 	);

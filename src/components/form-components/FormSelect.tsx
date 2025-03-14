@@ -69,31 +69,30 @@ export const FormSelect = <T extends FieldValues>({
 								</>
 							)}
 						</FormLabel>
-						<div className="flex-1">
-							<Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
-								<FormControl>
-									<SelectTrigger
-										className={cn(
-											"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
-											"font-medium placeholder:text-black/60 placeholder:text-base",
-											"shadow-elevation outline-none hover:bg-white",
-											"focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200",
-											disabled && "bg-gray-100 cursor-not-allowed",
-											className,
-										)}
-									>
-										<SelectValue placeholder={placeholder} />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									{options.map((option) => (
-										<SelectItem key={option.value} value={option.value} className="font-medium">
-											{option.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
+
+						<Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+							<FormControl>
+								<SelectTrigger
+									className={cn(
+										"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
+										"font-medium placeholder:text-black/60 placeholder:text-base",
+										"shadow-elevation outline-none hover:bg-white",
+										"focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200",
+										disabled && "bg-gray-100 cursor-not-allowed",
+										className,
+									)}
+								>
+									<SelectValue placeholder={placeholder} />
+								</SelectTrigger>
+							</FormControl>
+							<SelectContent>
+								{options.map((option) => (
+									<SelectItem key={option.value} value={option.value} className="font-medium">
+										{option.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 					</div>
 					<div className={cn("mt-1", layout === "horizontal" && "ml-[calc(176px+1rem)]")}>
 						<FormMessage
