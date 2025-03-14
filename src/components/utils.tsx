@@ -27,6 +27,10 @@ export function ConditionalRenderer({
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { FiCheck } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
+import { forwardRef } from "react";
+import { FormLabel, FormMessage } from "@/components/ui/form";
+import { FaAsterisk } from "react-icons/fa";
 
 interface SuccessProps {
 	onClose?: () => void;
@@ -93,3 +97,78 @@ export const DialogSuccess = ({
 		</div>
 	);
 };
+
+export const FormSubmitButton = forwardRef<
+	HTMLButtonElement,
+	React.ComponentProps<typeof Button> & { children: React.ReactNode }
+>(({ children, className, ...props }, ref) => {
+	return (
+		<Button
+			type="button"
+			className={cn(
+				"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold cursor-pointer",
+				"hover:scale-105 transition-all duration-300",
+				className,
+			)}
+			ref={ref}
+			{...props}
+		>
+			{children}
+		</Button>
+	);
+});
+
+export const MyFormMessage = forwardRef<
+	HTMLDivElement,
+	React.ComponentProps<typeof FormMessage> & { errorColor: "black" | "red" }
+>(({ className, errorColor, ...props }, ref) => {
+	return (
+		<FormMessage
+			role="alert"
+			className={cn(
+				"font-semibold text-text-error",
+				errorColor === "black" && "text-black",
+				errorColor === "red" && "text-text-error",
+				className,
+			)}
+			{...props}
+			ref={ref}
+		/>
+	);
+});
+
+export const MyFormLabel = forwardRef<
+	HTMLLabelElement,
+	React.ComponentProps<typeof FormLabel> & {
+		className?: string;
+		required: boolean;
+		label: string;
+		labelColor: "black" | "red";
+	}
+>(({ className, required, label, labelColor, ...props }, ref) => {
+	return (
+		<ConditionalRenderer
+			condition={!!label}
+			component={
+				<FormLabel
+					className={cn(
+						"font-semibold flex items-start gap-2",
+						{ "text-text-primary": labelColor === "black", "text-text-error": labelColor === "red" },
+						className,
+					)}
+					{...props}
+					ref={ref}
+				>
+					{label}
+
+					<ConditionalRenderer
+						condition={required}
+						component={<FaAsterisk className="text-text-error w-2 h-2" />}
+						fallback={null}
+					/>
+				</FormLabel>
+			}
+			fallback={null}
+		/>
+	);
+});

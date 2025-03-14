@@ -1,9 +1,10 @@
 "use client";
 
 import { DateTimePicker, FormInput } from "@/components/form-components";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { ConditionalRenderer, DialogSuccess } from "@/components/utils";
+import { Separator } from "@/components/ui/separator";
+import { ConditionalRenderer, DialogSuccess, FormSubmitButton } from "@/components/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
@@ -89,10 +90,15 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 						}
 						fallback={
 							<>
-								<h2 className="text-2xl font-bold text-black mb-2">Tư Vấn Ngay</h2>
-								<div className="h-[1px] bg-gray-200 mb-4" />
-
-								<p className="text-gray-600 mb-6">Bảo Minh Gia Đình sẽ liên hệ lại theo thông tin bạn cung cấp</p>
+								<DialogHeader className="space-y-4 pb-4">
+									<DialogTitle className="text-2xl font-bold text-black">
+										Tư vấn ngay trở thành Cộng Tác Viên
+									</DialogTitle>
+									<Separator className="bg-black/20" />
+									<DialogDescription className="text-base text-black/80">
+										Bảo Minh Gia Đình sẽ liên hệ lại theo thông tin bạn cung cấp
+									</DialogDescription>
+								</DialogHeader>
 
 								<Form {...form}>
 									<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -107,6 +113,7 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 											readOnly
 											layout="horizontal"
 											className="bg-gray-100"
+											labelClassName="w-1/3"
 										/>
 
 										<FormInput<FormValues>
@@ -118,6 +125,7 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 											labelColor="black"
 											errorColor="red"
 											layout="horizontal"
+											labelClassName="w-1/3"
 										/>
 
 										<FormInput<FormValues>
@@ -136,6 +144,7 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 													e.preventDefault();
 												}
 											}}
+											labelClassName="w-1/3"
 											className="w-1/2"
 										/>
 
@@ -149,46 +158,31 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 											labelColor="black"
 											errorColor="red"
 											layout="horizontal"
+											labelClassName="w-1/3"
 											className="w-1/2"
 										/>
 
-										<div className="flex items-center gap-4">
-											<div className="min-w-44 font-semibold flex items-start gap-[6px]">
-												<span>Thời gian tư vấn</span>
-												<span className="text-[#FF0127] text-[8px]" aria-hidden="true">
-													<FaAsterisk />
-												</span>
-												<span className="sr-only">(bắt buộc)</span>
-											</div>
-											<div className="flex-1">
-												<DateTimePicker<FormValues> form={form} name="datetime" label="" required className="w-1/2" />
-											</div>
-										</div>
+										<DateTimePicker<FormValues>
+											form={form}
+											name="datetime"
+											label="Thời gian tư vấn"
+											required
+											labelColor="black"
+											labelClassName="w-1/3"
+											className="w-1/2"
+										/>
 
-										<div className="">
-											<button
-												type="submit"
-												className="px-12 py-2 bg-[#F24444] text-white
-                    rounded-full shadow-elevation hover:scale-105
-                    transition-all duration-200 focus-visible:ring-0
-                    flex items-center justify-center"
-											>
-												<span className="text-base font-semibold">Tư Vấn Ngay</span>
-											</button>
-										</div>
+										<FormSubmitButton type="submit">Tư Vấn Ngay</FormSubmitButton>
 									</form>
 								</Form>
 
-								{/* Illustration */}
-								<div className="absolute bottom-0 right-0 w-[300px] -z-10">
-									<Image
-										src={"/tu-van-ngay.jpg"}
-										width={300}
-										height={300}
-										alt="Tư vấn ngay"
-										className="w-full h-auto"
-									/>
-								</div>
+								<Image
+									src={"/tu-van-ngay.jpg"}
+									width={0}
+									height={0}
+									alt="Tư vấn ngay"
+									className="w-full h-auto object-cover absolute bottom-0 right-0 -z-10 max-w-72"
+								/>
 							</>
 						}
 					/>

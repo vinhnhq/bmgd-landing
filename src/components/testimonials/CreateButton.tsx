@@ -1,14 +1,14 @@
 "use client";
 
 import { FormInput, FormTextArea } from "@/components/form-components";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { VerticalFormInput } from "@/components/form-components/FormInput";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { ConditionalRenderer, DialogSuccess } from "@/components/utils";
-import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { ConditionalRenderer, DialogSuccess, FormSubmitButton } from "@/components/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiLoader } from "react-icons/fi";
 import * as z from "zod";
@@ -16,18 +16,9 @@ import * as z from "zod";
 const formSchema = z.object({
 	name: z
 		.string()
-		.min(3, {
-			message: "Họ và tên phải có ít nhất 3 ký tự.",
-		})
-		.max(128, {
-			message: "Họ và tên phải có tối đa 128 ký tự.",
-		}),
-	email: z.union([
-		z.string().email({
-			message: "Email không hợp lệ.",
-		}),
-		z.literal(""),
-	]),
+		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
+		.max(128, { message: "Họ và tên phải có tối đa 128 ký tự." }),
+	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
 	occupation: z.string().optional(),
 	company: z.string().optional(),
 	comment: z.string().min(10, {
@@ -72,7 +63,7 @@ const NewForm = ({
 			<Form {...form}>
 				<div className="space-y-8">
 					<div className="grid grid-cols-2 gap-8">
-						<FormInput<FormValues>
+						<VerticalFormInput<FormValues>
 							form={form}
 							name="name"
 							label="Họ và Tên"
@@ -81,7 +72,7 @@ const NewForm = ({
 							labelColor="black"
 						/>
 
-						<FormInput<FormValues>
+						<VerticalFormInput<FormValues>
 							form={form}
 							name="email"
 							label="Email"
@@ -91,7 +82,7 @@ const NewForm = ({
 							labelColor="black"
 						/>
 
-						<FormInput<FormValues>
+						<VerticalFormInput<FormValues>
 							form={form}
 							name="occupation"
 							label="Nghề Nghiệp"
@@ -99,7 +90,7 @@ const NewForm = ({
 							labelColor="black"
 						/>
 
-						<FormInput<FormValues>
+						<VerticalFormInput<FormValues>
 							form={form}
 							name="company"
 							label="Doanh Nghiệp"
@@ -116,16 +107,17 @@ const NewForm = ({
 						labelColor="black"
 						required
 						rows={4}
+						labelClassName="w-full"
 					/>
 
 					<ConditionalRenderer
 						condition={isSubmitted}
 						component={
-							<WithStyledButton disabled type="button">
+							<FormSubmitButton disabled type="button">
 								Gửi Nhận Xét <FiLoader className="w-4 h-4 ml-2 animate-spin" />
-							</WithStyledButton>
+							</FormSubmitButton>
 						}
-						fallback={<WithStyledButton type="submit">Gửi Nhận Xét</WithStyledButton>}
+						fallback={<FormSubmitButton type="submit">Gửi Nhận Xét</FormSubmitButton>}
 					/>
 				</div>
 			</Form>
@@ -139,14 +131,14 @@ export function CreateTestimonialButton() {
 	return (
 		<ConditionalRenderer
 			condition={renderer === "init"}
-			component={<WithStyledButton onClick={() => setRenderer("create")}>Gửi Nhận Xét</WithStyledButton>}
+			component={<FormSubmitButton onClick={() => setRenderer("create")}>Gửi Nhận Xét</FormSubmitButton>}
 			fallback={
 				<Dialog open={renderer === "create" || renderer === "success"} onOpenChange={() => setRenderer("init")}>
 					<VisuallyHidden>
 						<DialogTitle>Gửi Nhận Xét</DialogTitle>
 					</VisuallyHidden>
 
-					<DialogContent className="max-w-screen-md p-8 bg-white rounded-3xl overflow-hidden space-y-4">
+					<DialogContent className="max-w-screen-md md:shadow-elevation">
 						<VisuallyHidden>
 							<DialogDescription>Gửi Nhận Xét</DialogDescription>
 						</VisuallyHidden>
@@ -155,14 +147,14 @@ export function CreateTestimonialButton() {
 							condition={renderer === "create"}
 							component={
 								<>
-									<div className="space-y-4">
-										<h2 className="text-2xl font-bold text-black">Nhận Xét Của Bạn</h2>
-										<div className="h-[1px] bg-black/20" />
-										<p className="text-black/80">
+									<DialogHeader className="space-y-4 pb-4">
+										<DialogTitle className="text-2xl font-bold text-black">Gửi Nhận Xét</DialogTitle>
+										<Separator className="bg-black/20" />
+										<DialogDescription className="text-base text-black/80">
 											Chúng tôi rất vui khi nhận được phản hồi từ bạn. Mọi ý kiến đóng góp của bạn đều hữu ích đối với
 											chúng tôi.
-										</p>
-									</div>
+										</DialogDescription>
+									</DialogHeader>
 
 									<NewForm onOpenChange={(open) => setRenderer("init")} onFinish={() => setRenderer("success")} />
 								</>
@@ -181,22 +173,3 @@ export function CreateTestimonialButton() {
 		/>
 	);
 }
-
-const WithStyledButton = forwardRef<
-	HTMLButtonElement,
-	React.ComponentProps<typeof Button> & { children: React.ReactNode }
->(({ children, ...props }, ref) => {
-	return (
-		<Button
-			type="button"
-			className={cn(
-				"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold cursor-pointer",
-				"hover:scale-105 transition-all duration-300",
-			)}
-			ref={ref}
-			{...props}
-		>
-			{children}
-		</Button>
-	);
-});

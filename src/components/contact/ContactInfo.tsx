@@ -1,6 +1,7 @@
 import { MdEmail, MdPhone } from "react-icons/md";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ConditionalRenderer } from "@/components/utils";
 const ContactItem = ({
 	href,
 	icon,
@@ -34,9 +35,9 @@ const ContactItem = ({
 	</li>
 );
 
-const ContactInfo = () => {
+const ContactInfo = ({ hasZalo = true }: { hasZalo?: boolean }) => {
 	return (
-		<div className="space-y-4">
+		<div className="space-y-6 py-[1px]">
 			<h3 className="text-3xl font-bold">Thông tin liên hệ</h3>
 
 			<p className="text-lg font-normal">
@@ -60,13 +61,19 @@ const ContactInfo = () => {
 					srText="Gọi cho chúng tôi"
 				/>
 
-				<ContactItem
-					href="https://zalo.me/3824695044861019950"
-					icon={<Image src="/zalo.svg" alt="zalo icon" width={0} height={0} className="w-10 h-auto" />}
-					title="Zalo Liên Hệ"
-					description="Bảo Minh Gia Định"
-					srText="Mở Zalo để liên hệ (mở trong tab mới)"
-					isExternal
+				<ConditionalRenderer
+					condition={hasZalo}
+					component={
+						<ContactItem
+							href="https://zalo.me/3824695044861019950"
+							icon={<Image src="/zalo.svg" alt="zalo icon" width={0} height={0} className="w-10 h-auto" />}
+							title="Zalo Liên Hệ"
+							description="Bảo Minh Gia Định"
+							srText="Mở Zalo để liên hệ (mở trong tab mới)"
+							isExternal
+						/>
+					}
+					fallback={null}
 				/>
 			</ul>
 		</div>

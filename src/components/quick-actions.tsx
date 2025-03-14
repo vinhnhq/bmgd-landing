@@ -1,7 +1,7 @@
+import { ContactNowButton } from "@/components/contact/ContactNowButton";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { HiOutlinePhone } from "react-icons/hi";
 
 const BASE_OFFSET = 32;
 const FOOTER_THRESHOLD = 192;
@@ -47,12 +47,7 @@ const QuickActions = () => {
 					className="bg-white rounded-lg"
 				/>
 
-				<QuickActionButton
-					href="tel:0785258686"
-					icon={<HiOutlinePhone className="w-6 h-6" />}
-					label="Gọi điện thoại"
-					className="rounded-full bg-brand-redPrimary text-white"
-				/>
+				<ContactNowButton />
 			</div>
 		</div>
 	);

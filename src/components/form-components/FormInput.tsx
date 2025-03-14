@@ -1,7 +1,8 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
-import { FaAsterisk } from "react-icons/fa";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { MyFormLabel, MyFormMessage } from "@/components/utils";
 import { cn } from "@/lib/utils";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 export interface FormInputProps<T extends FieldValues> {
 	form: UseFormReturn<T>;
@@ -46,30 +47,10 @@ export const FormInput = <T extends FieldValues>({
 			name={name}
 			disabled={disabled}
 			render={({ field }) => (
-				<FormItem className={cn(layout === "vertical" ? "" : "flex flex-col", containerClassName)}>
-					<div className={cn("flex", layout === "horizontal" ? "items-center gap-4" : "flex-col gap-2")}>
-						<FormLabel
-							className={cn(
-								"font-semibold flex items-start gap-[6px]",
-								layout === "horizontal" && "min-w-44 mb-0",
-								{
-									"text-black": labelColor === "black",
-									"text-red-500": labelColor === "red",
-								},
-								labelClassName,
-							)}
-						>
-							<span>{label}</span>
-							{required && (
-								<>
-									<span className="text-[#FF0127] text-[8px]" aria-hidden="true">
-										<FaAsterisk />
-									</span>
-									<span className="sr-only">(bắt buộc)</span>
-								</>
-							)}
-						</FormLabel>
+				<FormItem className={cn("flex items-center gap-4", containerClassName)}>
+					<MyFormLabel label={label} labelColor={labelColor} required={required} className={labelClassName} />
 
+					<div className="flex flex-col gap-2 w-full">
 						<FormControl>
 							<input
 								{...field}
@@ -88,15 +69,60 @@ export const FormInput = <T extends FieldValues>({
 								)}
 							/>
 						</FormControl>
+
+						<MyFormMessage errorColor={errorColor} />
 					</div>
-					<div className={cn("mt-1", layout === "horizontal" && "ml-[calc(176px+1rem)]")}>
-						<FormMessage
-							className={cn("font-semibold", {
-								"text-black": errorColor === "black",
-								"text-red-500": errorColor === "red",
-							})}
+				</FormItem>
+			)}
+		/>
+	);
+};
+
+export const VerticalFormInput = <T extends FieldValues>({
+	form,
+	name,
+	label,
+	placeholder,
+	type = "text",
+	required = false,
+	inputMode,
+	onKeyPress,
+	labelColor = "black",
+	errorColor = "red",
+	disabled = false,
+	readOnly = false,
+	className,
+	containerClassName,
+	labelClassName,
+}: FormInputProps<T>) => {
+	return (
+		<FormField
+			control={form.control}
+			name={name}
+			disabled={disabled}
+			render={({ field }) => (
+				<FormItem className={cn("flex flex-col", containerClassName)}>
+					<MyFormLabel label={label} labelColor={labelColor} required={required} className={labelClassName} />
+					<FormControl>
+						<Input
+							{...field}
+							placeholder={placeholder}
+							type={type}
+							inputMode={inputMode}
+							onKeyPress={onKeyPress}
+							readOnly={readOnly}
+							className={cn(
+								"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
+								"font-medium placeholder:text-black/60 placeholder:text-base",
+								"shadow-elevation outline-none hover:bg-white",
+								"focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200",
+								readOnly && "bg-gray-100 cursor-not-allowed",
+								className,
+							)}
 						/>
-					</div>
+					</FormControl>
+
+					<MyFormMessage errorColor={errorColor} />
 				</FormItem>
 			)}
 		/>

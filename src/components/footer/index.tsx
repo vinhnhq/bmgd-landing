@@ -1,4 +1,5 @@
 import logoUrl from "@/assets/logo.png";
+import { FooterContactNowLink } from "@/components/contact/FooterContactNowLink";
 import { agentRecruitmentUrl, homePageUrl, privacyPolicyUrl, productShowcaseUrl, termsOfServiceUrl } from "@/constants";
 import Image from "next/image";
 import type { ComponentType } from "react";
@@ -12,10 +13,7 @@ const introLinks = [
 	{ id: "news", href: `${homePageUrl}#news`, text: "Tin Tức & Sự Kiện" },
 ];
 
-const productLinks = [
-	{ id: "product-showcase", href: productShowcaseUrl, text: "Trưng Bày Bảo Hiểm" },
-	{ id: "claims", href: `${homePageUrl}#contact`, text: "Hướng Dẫn Bồi Thường" },
-];
+const productLinks = [{ id: "product-showcase", href: productShowcaseUrl, text: "Trưng Bày Bảo Hiểm" }];
 
 const docLinks = [
 	{ id: "privacy-policy", href: privacyPolicyUrl, text: "Chính Sách Bảo Mật" },
@@ -41,6 +39,7 @@ export default function Footer() {
 						{productLinks.map((link) => (
 							<FooterLink key={link.id} href={link.href} text={link.text} />
 						))}
+						<FooterContactNowLink />
 					</ul>
 				</div>
 
