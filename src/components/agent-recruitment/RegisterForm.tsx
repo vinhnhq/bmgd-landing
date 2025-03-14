@@ -1,14 +1,15 @@
 import { DateTimePicker, FormInput } from "@/components/form-components";
+import { Container } from "@/components/layout";
 import Header from "@/components/me/header";
 import { Form } from "@/components/ui/form";
+import { RegisterSuccess } from "@/components/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowRight } from "react-icons/fi";
 import * as z from "zod";
-import { Container } from "@/components/layout";
-import { RegisterSuccess } from "./RegisterSuccess";
-import Image from "next/image";
+
 const formSchema = z.object({
 	name: z
 		.string()

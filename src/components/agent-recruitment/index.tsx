@@ -1,37 +1,13 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { PiCheckBold } from "react-icons/pi";
-
-const BenefitItem = ({ text }: { text: string }) => (
-	<li className="flex items-center gap-2">
-		<div className="w-4 h-4 rounded-full bg-white flex-shrink-0 flex items-center justify-center">
-			<PiCheckBold className="text-xs text-brand-redPrimary" />
-		</div>
-		<span className="text-base font-medium">{text}</span>
-	</li>
-);
-
-const ActionButton = ({
-	variant,
-	children,
-}: {
-	variant: "primary" | "secondary";
-	children: React.ReactNode;
-}) => {
-	const baseStyles =
-		"px-6 py-2 text-base font-semibold rounded-md transition-all duration-300 hover:scale-105 shadow-elevation";
-	const styles = {
-		primary: "bg-brand-redPrimary text-white flex items-center gap-1",
-		secondary: "bg-text-gray text-black",
-	};
-
-	return (
-		<button type="button" className={cn(baseStyles, styles[variant])}>
-			{children}
-		</button>
-	);
-};
+import { ConsultationDialog } from "./ConsultationDialog";
+import { ConditionalRenderer } from "@/components/utils";
 
 const benefits = [
 	"Cung cấp Poster/Video giúp CTV dễ dàng tiếp cận khách hàng",
@@ -40,13 +16,16 @@ const benefits = [
 ];
 
 export default function AgentRecruitment() {
+	const [open, setOpen] = useState(false);
+
 	return (
 		<div className="relative bg-bg-red bg-opacity-[0.42] overflow-hidden">
 			<Image
 				src={"/light.png"}
 				alt="light background with red overlay"
-				width={1440}
-				height={553}
+				width={0}
+				height={0}
+				priority
 				className="w-full h-auto mix-blend-screen"
 			/>
 
@@ -78,12 +57,20 @@ export default function AgentRecruitment() {
 							</ul>
 
 							<div className="flex gap-4">
-								<ActionButton variant="primary">
-									Tư Vấn Ngay
-									<FiArrowRight className="text-xl stroke-2" aria-hidden="true" />
-								</ActionButton>
+								<ConditionalRenderer
+									condition={!open}
+									component={
+										<ActionButton variant="primary" onClick={() => setOpen(true)}>
+											Tư Vấn Ngay
+											<FiArrowRight className="text-xl stroke-2" aria-hidden="true" />
+										</ActionButton>
+									}
+									fallback={<ConsultationDialog open={open} onOpenChange={setOpen} />}
+								/>
 
-								<ActionButton variant="secondary">Tìm Hiểu Thêm</ActionButton>
+								<Link href="/agent-recruitment">
+									<ActionButton variant="secondary">Tìm Hiểu Thêm</ActionButton>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -102,3 +89,34 @@ export default function AgentRecruitment() {
 		</div>
 	);
 }
+
+const BenefitItem = ({ text }: { text: string }) => (
+	<li className="flex items-center gap-2">
+		<div className="w-4 h-4 rounded-full bg-white flex-shrink-0 flex items-center justify-center">
+			<PiCheckBold className="text-xs text-brand-redPrimary" />
+		</div>
+		<span className="text-base font-medium">{text}</span>
+	</li>
+);
+
+const ActionButton = ({
+	variant,
+	children,
+	...props
+}: {
+	variant: "primary" | "secondary";
+	children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+	const baseStyles =
+		"px-6 py-2 text-base font-semibold rounded-md transition-all duration-300 hover:scale-105 shadow-elevation";
+	const styles = {
+		primary: "bg-brand-redPrimary text-white flex items-center gap-1",
+		secondary: "bg-text-gray text-black",
+	};
+
+	return (
+		<button type="button" className={cn(baseStyles, styles[variant])} {...props}>
+			{children}
+		</button>
+	);
+};

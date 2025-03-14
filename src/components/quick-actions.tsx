@@ -42,9 +42,7 @@ const QuickActions = () => {
 			<div className="flex flex-col gap-4">
 				<QuickActionButton
 					href="https://zalo.me/3824695044861019950"
-					icon={
-						<Image src="/zalo.svg" alt="zalo icon" width={0} height={0} priority className="w-10 h-auto aspect-auto" />
-					}
+					icon={<Image src="/zalo.svg" alt="zalo icon" width={0} height={0} className="w-10 h-auto" />}
 					label="Liên hệ qua Zalo"
 					className="bg-white rounded-lg"
 				/>

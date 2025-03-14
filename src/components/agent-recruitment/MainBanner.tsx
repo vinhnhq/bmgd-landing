@@ -16,7 +16,7 @@ const Slogan = ({ icon, text }: SloganProps) => (
 				<div className="w-[64px] h-[64px] relative">
 					<div className="absolute inset-0 flex items-center justify-center">
 						<div className="w-[64px] h-[64px] bg-[#F24444] rounded-full flex items-center justify-center">
-							<Image src={icon} width={64} height={64} alt="" className="w-full object-contain" aria-hidden="true" />
+							<Image src={icon} width={0} height={0} alt="" className="w-full object-contain" aria-hidden="true" />
 						</div>
 					</div>
 				</div>

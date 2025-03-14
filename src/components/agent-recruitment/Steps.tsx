@@ -2,6 +2,8 @@ import { FiArrowRight } from "react-icons/fi";
 import { Container } from "@/components/layout";
 import type { FC } from "react";
 import Header from "@/components/me/header";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface BaseStepCardProps {
 	number: string;
@@ -21,17 +23,20 @@ type StepCardProps = StepCardWithButtonProps | StepCardWithoutButtonProps;
 const StepCard: FC<StepCardProps> = (props) => {
 	if (props.hasButton) {
 		return (
-			<div className="w-full bg-[#F24444] rounded-[20px] p-10 relative">
-				<span className="font-inter font-semibold text-[90px] leading-[60px] text-white">{props.number}</span>
-				<p className="font-montserrat font-semibold text-[27px] leading-[40px] text-white mt-7">
+			<div className="w-full bg-primary rounded-3xl p-10 relative space-y-6">
+				<span className="font-inter font-semibold text-8xl text-white">{props.number}</span>
+				<p className="font-semibold text-2xl text-white">
 					Nhấn
-					<a
-						href="/tu-van"
-						className="inline-flex justify-center items-center mx-2 py-2 px-4 bg-white text-black font-semibold text-xl rounded-md shadow-elevation"
+					<Link
+						href="/agent-recruitment"
+						className={cn(
+							"inline-flex justify-center items-center mx-2 py-2 px-2 bg-white text-black font-semibold text-xl rounded-md shadow-elevation gap-2",
+							"hover:scale-105 transition-all duration-300",
+						)}
 					>
 						Tư Vấn Ngay
-						<FiArrowRight className="w-8 h-8 ml-2 stroke-2" />
-					</a>
+						<FiArrowRight className="w-6 h-6 stroke-2" />
+					</Link>
 					đăng ký trở thành Cộng Tác Viên.
 				</p>
 			</div>
@@ -39,11 +44,9 @@ const StepCard: FC<StepCardProps> = (props) => {
 	}
 
 	return (
-		<div className="w-full bg-[#F24444] rounded-[20px] p-10 relative">
-			<span className="font-inter font-semibold text-[90px] leading-[60px] text-white">{props.number}</span>
-			<p className="font-montserrat font-semibold text-[27px] leading-[40px] text-white mt-7 max-w-[455px]">
-				{props.content}
-			</p>
+		<div className="w-full bg-primary rounded-3xl p-10 relative space-y-6">
+			<span className="font-inter font-semibold text-8xl text-white">{props.number}</span>
+			<p className="font-montserrat font-semibold text-2xl text-white max-w-md">{props.content}</p>
 		</div>
 	);
 };

@@ -62,7 +62,7 @@ const ContactInfo = () => {
 
 				<ContactItem
 					href="https://zalo.me/3824695044861019950"
-					icon={<Image src="/zalo.svg" alt="Zalo" width={40} height={0} priority className="w-10 h-auto aspect-auto" />}
+					icon={<Image src="/zalo.svg" alt="zalo icon" width={0} height={0} className="w-10 h-auto" />}
 					title="Zalo Liên Hệ"
 					description="Bảo Minh Gia Định"
 					srText="Mở Zalo để liên hệ (mở trong tab mới)"

@@ -74,7 +74,7 @@ export default function CompanyIntro() {
 							</div>
 
 							<div className="w-32 h-32 rounded-full bg-bg-accent group-hover:bg-white flex items-center justify-center">
-								<Image src={feature.icon} alt={feature.title} width={73} height={88} />
+								<Image src={feature.icon} alt={feature.title} width={0} height={0} className="w-32 h-32" />
 							</div>
 						</div>
 					</div>

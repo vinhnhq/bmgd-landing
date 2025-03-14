@@ -1,5 +1,5 @@
 import { FiSearch, FiChevronDown, FiRotateCw } from "react-icons/fi";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Selection } from "@/components/me/selection";
 import { useState } from "react";
@@ -103,6 +103,9 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 					<DialogTitle>Nhóm Nghiệp Vụ Bảo Hiểm</DialogTitle>
 				</VisuallyHidden>
 				<DialogContent className="p-0 border-none m-0">
+					<VisuallyHidden>
+						<DialogDescription>Nhóm Nghiệp Vụ Bảo Hiểm</DialogDescription>
+					</VisuallyHidden>
 					<Selection options={INSURANCE_GROUP_OPTIONS} onChange={handleGroupSelection} />
 				</DialogContent>
 			</Dialog>

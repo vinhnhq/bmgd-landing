@@ -10,6 +10,7 @@ export default function Banner() {
 				height={1080}
 				alt="Các Sản Phẩm Bảo Hiểm"
 				className="w-full mix-blend-screen"
+				priority
 			/>
 
 			<div className="absolute inset-0">

@@ -1,5 +1,5 @@
 import { Selection } from "@/components/me/selection";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
@@ -125,6 +125,10 @@ const FilterOptions = () => {
 					<DialogTitle>{getFilterTitle()}</DialogTitle>
 				</VisuallyHidden>
 				<DialogContent className={`p-0 border-none m-0 ${activeFilter === "benefit" ? "max-w-screen-sm" : ""}`}>
+					<VisuallyHidden>
+						<DialogDescription>{getFilterTitle()}</DialogDescription>
+					</VisuallyHidden>
+
 					<Selection
 						options={getOptionsForFilter()}
 						onChange={(selectedIds) => {

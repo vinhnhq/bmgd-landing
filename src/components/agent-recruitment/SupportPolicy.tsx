@@ -1,10 +1,15 @@
-import Image from "next/image";
-import { FiArrowRight, FiChevronRight } from "react-icons/fi";
-import { FiCheck } from "react-icons/fi";
+"use client";
+
+import { ConsultationDialog } from "@/components/agent-recruitment/ConsultationDialog";
 import { Container } from "@/components/layout";
-import type { FC } from "react";
 import Header from "@/components/me/header";
+import { ConditionalRenderer } from "@/components/utils";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import type { FC } from "react";
 import { useState } from "react";
+import { FiArrowRight, FiCheck, FiChevronRight } from "react-icons/fi";
 
 interface PolicyCardProps {
 	title: string;
@@ -85,16 +90,17 @@ const PolicyCard: FC<PolicyCardProps> = ({ title, isActive = false, onClick }) =
 	return (
 		<button
 			type="button"
-			className={`w-[309px] h-20 flex items-center gap-4 px-3 rounded-[6px] shadow-elevation hover:shadow-elevation-hover cursor-pointer transition-all group ${
+			className={cn(
+				"flex items-center gap-4 py-2 px-3 rounded-xl shadow-elevation cursor-pointer transition-all group",
 				isActive
 					? "bg-[#F24444] hover:bg-[#d83e3e]"
-					: "bg-white hover:bg-[#F24444] border border-black hover:border-transparent"
-			}`}
+					: "bg-white hover:bg-[#F24444] border border-black hover:border-transparent",
+			)}
 			onClick={onClick}
 			onKeyDown={handleKeyDown}
 		>
 			<div
-				className={`w-[45px] h-[45px] bg-[#8CC166] rounded flex items-center justify-center flex-shrink-0 transition-all border-2 ${
+				className={`w-12 h-12 bg-[#8CC166] rounded flex items-center justify-center flex-shrink-0 transition-all border-2 ${
 					isActive ? "border-white" : "border-transparent group-hover:border-white"
 				}`}
 			>
@@ -108,15 +114,19 @@ const PolicyCard: FC<PolicyCardProps> = ({ title, isActive = false, onClick }) =
 				/>
 			</div>
 			<span
-				className={`text-[17px] font-extrabold text-left font-montserrat leading-[25px] transition-colors ${
-					isActive ? "text-white" : "text-black group-hover:text-white"
-				}`}
+				className={cn(
+					"text-lg font-bold text-left transition-colors",
+					isActive ? "text-white" : "text-black group-hover:text-white",
+				)}
 			>
 				{title}
 			</span>
 			<div className="ml-auto">
 				<FiChevronRight
-					className={`w-6 h-6 stroke-2 transition-colors ${isActive ? "text-white" : "text-black group-hover:text-white"}`}
+					className={cn(
+						"w-6 h-6 stroke-2 transition-colors",
+						isActive ? "text-white" : "text-black group-hover:text-white",
+					)}
 				/>
 			</div>
 		</button>
@@ -125,32 +135,15 @@ const PolicyCard: FC<PolicyCardProps> = ({ title, isActive = false, onClick }) =
 
 const BenefitItem: FC<BenefitItemProps> = ({ text }) => (
 	<div className="flex items-center gap-4">
-		<div className="w-7 h-7 rounded-full bg-[#F24444] flex-shrink-0 flex items-center justify-center">
+		<div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
 			<FiCheck className="w-4 h-4 text-white" />
 		</div>
-		<p className="text-xl font-medium font-montserrat">{text}</p>
-	</div>
-);
-
-const CTAButtons: FC = () => (
-	<div className="absolute bottom-4 inset-x-4 flex justify-between">
-		<button
-			type="button"
-			className="w-[146px] h-10 bg-[#F24444] text-white font-extrabold text-sm rounded-md shadow-elevation flex items-center justify-center gap-1 transition-all hover:bg-[#d83e3e] hover:shadow-elevation-hover"
-		>
-			Tư Vấn Ngay
-			<FiArrowRight className="w-6 h-6 stroke-2" />
-		</button>
-		<button
-			type="button"
-			className="w-[146px] h-10 bg-[#F8FAFF] text-black font-semibold text-sm rounded-md border border-[#E1E4ED] transition-all hover:bg-gray-50 hover:border-gray-400"
-		>
-			Tìm Hiểu Thêm
-		</button>
+		<p className="text-xl font-medium">{text}</p>
 	</div>
 );
 
 const SupportPolicy: FC = () => {
+	const [open, setOpen] = useState(false);
 	const [activePolicy, setActivePolicy] = useState(POLICY_CONTENTS[0]);
 
 	const handlePolicyClick = (policyId: string) => {
@@ -183,25 +176,56 @@ const SupportPolicy: FC = () => {
 
 				{/* Middle Column - Image */}
 				<div className="col-span-3 flex justify-center">
-					<div className="relative w-[368px]">
+					<div className="relative shadow-elevation overflow-hidden rounded-xl">
 						<Image
 							src={"/support-ctv.png"}
 							width={368}
 							height={558}
 							alt="Support CTV"
-							className="h-[558px] w-full object-cover rounded-[10px] border border-[#575756]"
+							className="h-[558px] w-full object-cover rounded-xl border border-black"
 						/>
-						<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/75 rounded-[10px]" />
-						<CTAButtons />
+						<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/75 rounded-xl" />
+
+						<div className="absolute bottom-4 inset-x-4 flex justify-between gap-4">
+							<ConditionalRenderer
+								condition={!open}
+								component={
+									<button
+										type="button"
+										className={cn(
+											"flex items-center justify-center gap-2",
+											"flex-1 py-2 bg-primary text-white font-semibold text-sm rounded-md shadow-elevation",
+											"focus-visible:ring-0 focus-visible:ring-offset-0",
+											"hover:scale-105 transition-all duration-300",
+										)}
+										onClick={() => setOpen(true)}
+									>
+										Tư Vấn Ngay
+										<FiArrowRight className="text-xl stroke-2" />
+									</button>
+								}
+								fallback={<ConsultationDialog open={open} onOpenChange={setOpen} />}
+							/>
+
+							<Link href="/agent-recruitment" className="flex-1">
+								<button
+									type="button"
+									className={cn(
+										"py-2 bg-white text-black font-semibold text-sm rounded-md w-full",
+										"transition-all duration-300 hover:scale-105",
+									)}
+								>
+									Tìm Hiểu Thêm
+								</button>
+							</Link>
+						</div>
 					</div>
 				</div>
 
 				{/* Right Column - Benefits */}
 				<div className="col-span-4 flex flex-col items-start">
-					<h3 className="text-[33px] font-semibold font-montserrat leading-[45px] mb-8 whitespace-pre-line">
-						{activePolicy.heading}
-					</h3>
-					<div className="flex flex-col gap-4 mr-20">
+					<h3 className="text-3xl font-semibold font-montserrat mb-8 whitespace-pre-line">{activePolicy.heading}</h3>
+					<div className="flex flex-col gap-4">
 						{activePolicy.benefits.map((text) => (
 							<BenefitItem key={text} text={text} />
 						))}

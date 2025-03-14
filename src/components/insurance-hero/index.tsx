@@ -10,8 +10,9 @@ export default function InsuranceHero() {
 				<Image
 					src={"/light.png"}
 					alt="light background with red overlay"
-					width={1440}
-					height={553}
+					width={0}
+					height={0}
+					priority
 					className="w-full h-full mix-blend-screen object-cover object-center"
 				/>
 			</div>

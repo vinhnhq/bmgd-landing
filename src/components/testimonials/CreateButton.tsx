@@ -2,13 +2,14 @@
 
 import { FormInput, FormTextArea } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Form } from "@/components/ui/form";
+import { ConditionalRenderer, DialogSuccess } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { forwardRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { FiLoader } from "react-icons/fi";
 import * as z from "zod";
 
@@ -37,13 +38,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const NewForm = ({
-	open,
 	onOpenChange,
+	onFinish,
 }: {
-	open: boolean;
 	onOpenChange: (open: boolean) => void;
+	onFinish: () => void;
 }) => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
+
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -58,12 +60,11 @@ const NewForm = ({
 	async function onSubmit(values: FormValues) {
 		setIsSubmitted(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 
-		toastSuccessMessage({ message: "Nhận xét đã được gửi thành công" });
-
-		setIsSubmitted(true);
+		setIsSubmitted(false);
 		onOpenChange(false);
+		onFinish();
 	}
 
 	return (
@@ -113,7 +114,7 @@ const NewForm = ({
 						label="Nhận Xét"
 						placeholder="Điền nhận xét tại đây..."
 						labelColor="black"
-            required
+						required
 						rows={4}
 					/>
 
@@ -133,26 +134,51 @@ const NewForm = ({
 };
 
 export function CreateTestimonialButton() {
-	const [open, setOpen] = useState(false);
-
-	if (!open) {
-		return <WithStyledButton onClick={() => setOpen(true)}>Gửi Nhận Xét</WithStyledButton>;
-	}
+	const [renderer, setRenderer] = useState<"create" | "success" | "init">("init");
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogContent className="max-w-screen-md p-8 bg-white rounded-3xl overflow-hidden space-y-4">
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold text-black">Nhận Xét Của Bạn</h2>
-					<div className="h-[1px] bg-black/20" />
-					<p className="text-black/80">
-						Chúng tôi rất vui khi nhận được phản hồi từ bạn. Mọi ý kiến đóng góp của bạn đều hữu ích đối với chúng tôi.
-					</p>
-				</div>
+		<ConditionalRenderer
+			condition={renderer === "init"}
+			component={<WithStyledButton onClick={() => setRenderer("create")}>Gửi Nhận Xét</WithStyledButton>}
+			fallback={
+				<Dialog open={renderer === "create" || renderer === "success"} onOpenChange={() => setRenderer("init")}>
+					<VisuallyHidden>
+						<DialogTitle>Gửi Nhận Xét</DialogTitle>
+					</VisuallyHidden>
 
-				<NewForm open={open} onOpenChange={setOpen} />
-			</DialogContent>
-		</Dialog>
+					<DialogContent className="max-w-screen-md p-8 bg-white rounded-3xl overflow-hidden space-y-4">
+						<VisuallyHidden>
+							<DialogDescription>Gửi Nhận Xét</DialogDescription>
+						</VisuallyHidden>
+
+						<ConditionalRenderer
+							condition={renderer === "create"}
+							component={
+								<>
+									<div className="space-y-4">
+										<h2 className="text-2xl font-bold text-black">Nhận Xét Của Bạn</h2>
+										<div className="h-[1px] bg-black/20" />
+										<p className="text-black/80">
+											Chúng tôi rất vui khi nhận được phản hồi từ bạn. Mọi ý kiến đóng góp của bạn đều hữu ích đối với
+											chúng tôi.
+										</p>
+									</div>
+
+									<NewForm onOpenChange={(open) => setRenderer("init")} onFinish={() => setRenderer("success")} />
+								</>
+							}
+							fallback={
+								<DialogSuccess
+									title="Đánh giá thành công!"
+									message="Cảm ơn bạn đã gửi đánh giá đến chúng tôi"
+									onClose={() => setRenderer("init")}
+								/>
+							}
+						/>
+					</DialogContent>
+				</Dialog>
+			}
+		/>
 	);
 }
 
@@ -164,7 +190,7 @@ const WithStyledButton = forwardRef<
 		<Button
 			type="button"
 			className={cn(
-				"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold",
+				"w-48 h-12 bg-brand-redPrimary text-white rounded-3xl shadow-elevation font-bold cursor-pointer",
 				"hover:scale-105 transition-all duration-300",
 			)}
 			ref={ref}
@@ -174,27 +200,3 @@ const WithStyledButton = forwardRef<
 		</Button>
 	);
 });
-
-function toastSuccessMessage({ message }: { message: string }) {
-	return toast.success(message, {
-		className: "bg-white text-black font-medium shadow-elevation !rounded-full",
-		position: "top-center",
-		duration: 5000,
-	});
-}
-
-function ConditionalRenderer({
-	condition,
-	component,
-	fallback,
-}: {
-	condition: boolean;
-	component: React.ReactNode;
-	fallback: React.ReactNode;
-}) {
-	if (condition) {
-		return component;
-	}
-
-	return fallback;
-}
