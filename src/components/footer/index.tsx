@@ -2,6 +2,7 @@ import logoUrl from "@/assets/logo.png";
 import { FooterContactNowLink } from "@/components/contact/FooterContactNowLink";
 import { agentRecruitmentUrl, homePageUrl, privacyPolicyUrl, productShowcaseUrl, termsOfServiceUrl } from "@/constants";
 import Image from "next/image";
+import Link from "next/link";
 import type { ComponentType } from "react";
 import { FaFacebookF, FaLinkedinIn, FaTiktok, FaYoutube } from "react-icons/fa";
 import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
@@ -28,7 +29,14 @@ export default function Footer() {
 					<h4 className="text-xl font-bold">Giới Thiệu</h4>
 					<ul className="space-y-4 text-base font-normal">
 						{introLinks.map((link) => (
-							<FooterLink key={link.id} href={link.href} text={link.text} target="_blank" rel="noopener noreferrer" />
+							<Link
+								key={link.id}
+								href={link.href}
+								className="flex items-center gap-4 group hover:scale-105 duration-300"
+								scroll={true}
+							>
+								{link.text}
+							</Link>
 						))}
 					</ul>
 				</div>
