@@ -85,7 +85,7 @@ const products = [
 
 export default function InsuranceProducts() {
 	return (
-		<Container className="bg-white px-28 py-16 space-y-4">
+		<Container className="bg-white px-28 py-16 space-y-4 w-full">
 			<h2 className="text-4xl font-bold text-black">Các Sản Phẩm Bảo Hiểm Nổi Bật</h2>
 
 			<Carousel opts={{ loop: true, align: "start" }} className="-mx-4">

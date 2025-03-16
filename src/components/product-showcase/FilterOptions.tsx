@@ -3,142 +3,146 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { AGE_OPTIONS, BENEFIT_OPTIONS, FEE_OPTIONS, INSURANCE_GROUP_OPTIONS, useSearch } from "./useSearch";
 
-// Mock data for each filter
-const AGE_OPTIONS = [
-	{ id: "1", label: "Dưới 12 Tháng Tuổi" },
-	{ id: "2", label: "Từ 12 Tháng - Dưới 06 Tuổi" },
-	{ id: "3", label: "Từ 06 Tuổi - Dưới 18 Tuổi" },
-	{ id: "4", label: "Từ 18 Đến 50 Tuổi" },
-	{ id: "5", label: "Từ 50 Đến 65 Tuổi" },
-	{ id: "6", label: "Trên 65 Tuổi" },
-];
-
-const FEE_OPTIONS = [
-	{ id: "1", label: "Dưới 1 Triệu Đồng" },
-	{ id: "2", label: "Từ 1 - 3 Triệu Đồng" },
-	{ id: "3", label: "Từ 3 - 5 Triệu Đồng" },
-	{ id: "4", label: "Từ 5 - 7 Triệu Đồng" },
-	{ id: "5", label: "Từ 7 - 9 Triệu Đồng" },
-	{ id: "6", label: "Trên 9 Triệu Đồng" },
-];
-
-const BENEFIT_OPTIONS = [
-	{ id: "1", label: "Điều Trị Ngoại Trú" },
-	{ id: "2", label: "Mất/ Giảm Thu Nhập Trong Thời Gian Điều Trị" },
-	{ id: "3", label: "Nằm Viện Tại Bệnh Viện Tây Y" },
-	{ id: "4", label: "Phẫu Thuật Do Ốm Đau, Bệnh Tật" },
-	{ id: "5", label: "Thương Tật Thân Thể Tạm Thời Do Tai Nạn" },
-	{ id: "6", label: "Thương Tật Thân Thể Vĩnh Viễn Do Tai Nạn" },
-	{ id: "7", label: "Trường Hợp Tử Vong" },
-];
-
-const FilterOptions = () => {
+export default function FilterOptions() {
+	const search = useSearch();
 	const [activeFilter, setActiveFilter] = useState<"age" | "fee" | "benefit" | null>(null);
 
-	const handleFilterClick = (filter: "age" | "fee" | "benefit") => {
-		setActiveFilter(filter === activeFilter ? null : filter);
+	const getSelectedAgeLabel = () => {
+		if (!search.searchState.age) return "Độ Tuổi";
+		const selected = AGE_OPTIONS.find((opt) => opt.id === search.searchState.age?.[0]);
+		return selected ? selected.label : "Độ Tuổi";
 	};
 
-	const getOptionsForFilter = () => {
-		switch (activeFilter) {
-			case "age":
-				return AGE_OPTIONS;
-			case "fee":
-				return FEE_OPTIONS;
-			case "benefit":
-				return BENEFIT_OPTIONS;
-			default:
-				return [];
-		}
+	const getSelectedFeeLabel = () => {
+		if (!search.searchState.premium) return "Phí Bảo Hiểm";
+		const selected = FEE_OPTIONS.find((opt) => opt.id === search.searchState.premium?.[0]);
+		return selected ? selected.label : "Phí Bảo Hiểm";
 	};
 
-	const getFilterTitle = () => {
-		switch (activeFilter) {
-			case "age":
-				return "Độ Tuổi";
-			case "fee":
-				return "Phí Bảo Hiểm";
-			case "benefit":
-				return "Quyền lợi bảo hiểm";
-			default:
-				return "";
-		}
+	const getSelectedBenefitLabel = () => {
+		if (!search.searchState.benefit) return "Quyền lợi bảo hiểm";
+		const selected = BENEFIT_OPTIONS.find((opt) => opt.id === search.searchState.benefit?.[0]);
+		return selected ? selected.label : "Quyền lợi bảo hiểm";
 	};
 
 	return (
 		<div className="relative">
-			{/* Main filter bar */}
 			<div className="flex items-center bg-white border border-black rounded-full">
-				{/* Age Range */}
 				<div className="basis-1/3 flex items-center">
-					<button
-						type="button"
-						className="flex items-center w-full px-6 cursor-pointer content-between justify-between"
-						onClick={() => handleFilterClick("age")}
-					>
-						<span className=" font-semibold text-2xl text-black">Độ Tuổi</span>
-						<FiChevronDown
-							className={`w-8 h-8 text-black stroke-2 transition-transform ${activeFilter === "age" ? "rotate-180" : ""}`}
-						/>
-					</button>
+					<TriggerButton
+						title={`${getSelectedAgeLabel()}`}
+						filter="age"
+						currentFilter={activeFilter}
+						onClick={() => setActiveFilter("age")}
+					/>
 				</div>
 
-				{/* Divider */}
 				<div className="w-px h-16 bg-black" />
 
-				{/* Insurance Fee */}
 				<div className="basis-1/3 flex items-center">
-					<button
-						type="button"
-						className="flex items-center w-full px-6 cursor-pointer content-between justify-between"
-						onClick={() => handleFilterClick("fee")}
-					>
-						<span className=" font-semibold text-2xl text-black">Phí Bảo Hiểm</span>
-						<FiChevronDown
-							className={`w-8 h-8 text-black stroke-2 transition-transform ${activeFilter === "fee" ? "rotate-180" : ""}`}
-						/>
-					</button>
+					<TriggerButton
+						title={`${getSelectedFeeLabel()}`}
+						filter="fee"
+						currentFilter={activeFilter}
+						onClick={() => setActiveFilter("fee")}
+					/>
 				</div>
 
-				{/* Divider */}
 				<div className="w-px h-16 bg-black" />
 
-				{/* Insurance Benefits */}
 				<div className="basis-1/3 flex items-center">
-					<button
-						type="button"
-						className="flex items-center w-full px-6 cursor-pointer content-between justify-between"
-						onClick={() => handleFilterClick("benefit")}
-					>
-						<span className=" font-semibold text-2xl text-black">Quyền lợi bảo hiểm</span>
-						<FiChevronDown
-							className={`w-8 h-8 text-black stroke-2 transition-transform ${activeFilter === "benefit" ? "rotate-180" : ""}`}
-						/>
-					</button>
+					<TriggerButton
+						title={`${getSelectedBenefitLabel()}`}
+						filter="benefit"
+						currentFilter={activeFilter}
+						onClick={() => setActiveFilter("benefit")}
+					/>
 				</div>
 			</div>
 
-			{/* Dialog Modal */}
-			<Dialog open={activeFilter !== null} onOpenChange={(open: boolean) => !open && setActiveFilter(null)}>
+			<Dialog open={activeFilter === "age"} onOpenChange={(open: boolean) => setActiveFilter(open ? "age" : null)}>
 				<VisuallyHidden>
-					<DialogTitle>{getFilterTitle()}</DialogTitle>
+					<DialogTitle>Độ Tuổi</DialogTitle>
 				</VisuallyHidden>
-				<DialogContent className={`p-0 border-none m-0 ${activeFilter === "benefit" ? "max-w-screen-sm" : ""}`}>
+				<DialogContent className={"p-0 border-none m-0 shadow-elevation"}>
 					<VisuallyHidden>
-						<DialogDescription>{getFilterTitle()}</DialogDescription>
+						<DialogDescription>Độ Tuổi</DialogDescription>
 					</VisuallyHidden>
 
 					<Selection
-						options={getOptionsForFilter()}
-						onChange={(selectedIds) => {
-							console.log(activeFilter, selectedIds);
-						}}
+						value={search.searchState.age || []}
+						options={AGE_OPTIONS}
+						onChange={(selectedIds) => search.updateSearch("age", selectedIds)}
+						onFinish={() => setActiveFilter(null)}
+					/>
+				</DialogContent>
+			</Dialog>
+
+			<Dialog open={activeFilter === "fee"} onOpenChange={(open: boolean) => setActiveFilter(open ? "fee" : null)}>
+				<VisuallyHidden>
+					<DialogTitle>Phí Bảo Hiểm</DialogTitle>
+				</VisuallyHidden>
+				<DialogContent className={"p-0 border-none m-0 shadow-elevation"}>
+					<VisuallyHidden>
+						<DialogDescription>Phí Bảo Hiểm</DialogDescription>
+					</VisuallyHidden>
+
+					<Selection
+						value={search.searchState.premium || []}
+						options={FEE_OPTIONS}
+						onChange={(selectedIds) => search.updateSearch("premium", selectedIds)}
+						onFinish={() => setActiveFilter(null)}
+					/>
+				</DialogContent>
+			</Dialog>
+
+			<Dialog
+				open={activeFilter === "benefit"}
+				onOpenChange={(open: boolean) => setActiveFilter(open ? "benefit" : null)}
+			>
+				<VisuallyHidden>
+					<DialogTitle>Quyền lợi bảo hiểm</DialogTitle>
+				</VisuallyHidden>
+				<DialogContent className={"p-0 border-none m-0 max-w-screen-sm shadow-elevation"}>
+					<VisuallyHidden>
+						<DialogDescription>Quyền lợi bảo hiểm</DialogDescription>
+					</VisuallyHidden>
+
+					<Selection
+						value={search.searchState.benefit || []}
+						options={BENEFIT_OPTIONS}
+						onChange={(selectedIds) => search.updateSearch("benefit", selectedIds)}
+						onFinish={() => setActiveFilter(null)}
 					/>
 				</DialogContent>
 			</Dialog>
 		</div>
 	);
-};
+}
 
-export default FilterOptions;
+function TriggerButton({
+	onClick,
+	title,
+	currentFilter,
+	filter,
+}: {
+	onClick: () => void;
+	title: string;
+	currentFilter: "age" | "fee" | "benefit" | null;
+	filter: string;
+}) {
+	return (
+		<button
+			type="button"
+			className="flex items-center w-full px-6 cursor-pointer content-between justify-between"
+			onClick={onClick}
+		>
+			<span className=" font-semibold text-2xl text-black">{title}</span>
+			<FiChevronDown
+				className={`w-8 h-8 flex-shrink-0 text-black stroke-2 transition-transform ${currentFilter === filter ? "rotate-180" : ""}`}
+			/>
+		</button>
+	);
+}

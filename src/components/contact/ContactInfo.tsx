@@ -37,12 +37,13 @@ const ContactItem = ({
 
 const ContactInfo = ({ hasZalo = true }: { hasZalo?: boolean }) => {
 	return (
-		<div className="space-y-6 py-[1px]">
-			<h3 className="text-3xl font-bold">Thông tin liên hệ</h3>
-
-			<p className="text-lg font-normal">
-				Lưu ý thời gian liên hệ: Thứ 2 - Thứ 6 (Sáng: 8:00 - 12:00, Chiều: 13h30 - 17h)
-			</p>
+		<div className="space-y-4">
+			<div className="space-y-[10px]">
+				<h3 className="text-3xl font-bold">Thông tin liên hệ</h3>
+				<p className="text-lg font-normal">
+					Lưu ý thời gian liên hệ: Thứ 2 - Thứ 6 (Sáng: 8:00 - 12:00, Chiều: 13h30 - 17h)
+				</p>
+			</div>
 
 			<ul className="space-y-4 list-none">
 				<ContactItem

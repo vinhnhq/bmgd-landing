@@ -1,10 +1,11 @@
 import { Container } from "@/components/layout";
-import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
+import { RenderIf } from "@/components/utils";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { useState } from "react";
 import FilterOptions from "./FilterOptions";
 import SearchBar from "./SearchBar";
 
-const AdvancedFilterForm = () => {
+export default function AdvancedFilterForm() {
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	return (
@@ -35,10 +36,4 @@ const AdvancedFilterForm = () => {
 			</div>
 		</Container>
 	);
-};
-
-function RenderIf(props: { condition: boolean; children: React.ReactNode }) {
-	return props.condition ? props.children : null;
 }
-
-export default AdvancedFilterForm;

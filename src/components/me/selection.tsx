@@ -12,12 +12,6 @@ interface Option {
 	label: string;
 }
 
-interface SelectionProps {
-	options: Option[];
-	onChange?: (selectedIds: string[]) => void;
-	className?: string;
-}
-
 interface SectionHeaderProps {
 	title: string;
 	buttonText: string;
@@ -63,7 +57,10 @@ function SectionHeader({ title, buttonText, onButtonClick, variant = "secondary"
 
 	return (
 		<div
-			className={cn("h-[4.5rem] px-6 flex items-center justify-between", isPrimary ? "bg-[#F24444] shadow-md" : "mb-4")}
+			className={cn(
+				"h-[4.5rem] px-6 flex items-center justify-between",
+				isPrimary ? "bg-brand-redPrimary shadow-md" : "mb-4",
+			)}
 		>
 			<span className={cn("font-semibold", isPrimary ? "text-2xl font-extrabold text-white" : "text-xl text-black")}>
 				{title}
@@ -75,7 +72,7 @@ function SectionHeader({ title, buttonText, onButtonClick, variant = "secondary"
 					"font-medium",
 					isPrimary
 						? "text-2xl font-bold text-white hover:bg-white/20"
-						: "text-lg text-[#F24444] hover:bg-[#F24444]/10",
+						: "text-lg text-brand-redPrimary hover:bg-brand-redPrimary/10",
 				)}
 			>
 				{buttonText}
@@ -93,7 +90,10 @@ function OptionList({ options, selectedIds, onToggle }: OptionListProps) {
 						id={`option-${option.id}`}
 						checked={selectedIds.includes(option.id)}
 						onCheckedChange={() => onToggle(option.id)}
-						className="w-5 h-5 border-2 border-black rounded-none data-[state=checked]:bg-[#F24444] data-[state=checked]:text-white data-[state=checked]:border-[#F24444] focus-visible:ring-1 focus-visible:ring-[#F24444] focus-visible:ring-offset-2"
+						className={cn(
+							"w-5 h-5 border-2 border-black rounded-none data-[state=checked]:bg-brand-redPrimary data-[state=checked]:text-white",
+							"data-[state=checked]:border-brand-redPrimary focus-visible:ring-1 focus-visible:ring-brand-redPrimary focus-visible:ring-offset-2",
+						)}
 					/>
 					<label
 						htmlFor={`option-${option.id}`}
@@ -119,7 +119,7 @@ function ActionButtons({ onCancel, onApply }: ActionButtonsProps) {
 			</Button>
 			<Button
 				onClick={onApply}
-				className="h-12 w-40 text-xl font-bold text-white capitalize bg-[#F24444] border-[#F24444] shadow-md rounded-2xl hover:bg-[#F24444]/90"
+				className="h-12 w-40 text-xl font-bold text-white capitalize bg-brand-redPrimary border-brand-redPrimary shadow-md rounded-2xl hover:bg-brand-redPrimary/90"
 			>
 				Áp Dụng
 			</Button>
@@ -128,9 +128,21 @@ function ActionButtons({ onCancel, onApply }: ActionButtonsProps) {
 }
 
 // Main Component
-export function Selection({ options, onChange, className }: SelectionProps) {
+export function Selection({
+	options,
+	onChange,
+	className,
+	onFinish,
+	value,
+}: {
+	options: Option[];
+	onChange?: (selectedIds: string[]) => void;
+	className?: string;
+	onFinish?: () => void;
+	value?: string[];
+}) {
 	const [search, setSearch] = useState("");
-	const [selectedIds, setSelectedIds] = useState<string[]>([]);
+	const [selectedIds, setSelectedIds] = useState<string[]>(value || []);
 
 	// Filter options based on search
 	const filteredOptions = options.filter((option) => option.label.toLowerCase().includes(search.toLowerCase()));
@@ -155,6 +167,7 @@ export function Selection({ options, onChange, className }: SelectionProps) {
 
 	const handleApply = () => {
 		onChange?.(selectedIds);
+		onFinish?.();
 	};
 
 	const handleCancel = () => {
@@ -183,7 +196,10 @@ export function Selection({ options, onChange, className }: SelectionProps) {
 					<SectionHeader
 						title="Danh sách lựa chọn"
 						buttonText="Chọn hết"
-						onButtonClick={() => setSelectedIds(options.map((opt) => opt.id))}
+						onButtonClick={() => {
+							setSelectedIds(options.map((opt) => opt.id));
+							onChange?.(options.map((opt) => opt.id));
+						}}
 						variant="primary"
 					/>
 

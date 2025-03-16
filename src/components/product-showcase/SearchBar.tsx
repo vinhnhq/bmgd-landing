@@ -1,16 +1,9 @@
-import { FiSearch, FiChevronDown, FiRotateCw } from "react-icons/fi";
+import { Selection } from "@/components/me/selection";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Selection } from "@/components/me/selection";
 import { useState } from "react";
-
-const INSURANCE_GROUP_OPTIONS = [
-	{
-		id: "1",
-		label: "Bảo Hiểm Con Người",
-		status: "Đang Cập Nhật",
-	},
-];
+import { FiChevronDown, FiRotateCw, FiSearch } from "react-icons/fi";
+import { INSURANCE_GROUP_OPTIONS, useSearch } from "./useSearch";
 
 interface SearchBarProps {
 	isExpanded: boolean;
@@ -18,23 +11,21 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
+	const search = useSearch();
 	const [showGroupDialog, setShowGroupDialog] = useState(false);
-	const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-	const [searchText, setSearchText] = useState("");
 
 	const handleGroupSelection = (selectedIds: string[]) => {
-		console.log(selectedIds);
+		search.updateSearch("type", selectedIds);
 	};
 
 	const getSelectedGroupLabel = () => {
-		if (!selectedGroup) return "Nhóm Nghiệp Vụ BH";
-		const selected = INSURANCE_GROUP_OPTIONS.find((opt) => opt.id === selectedGroup);
+		if (!search.searchState.type) return "Nhóm Nghiệp Vụ BH";
+		const selected = INSURANCE_GROUP_OPTIONS.find((opt) => opt.id === search.searchState.type?.[0]);
 		return selected ? selected.label : "Nhóm Nghiệp Vụ BH";
 	};
 
 	const handleReset = () => {
-		setSelectedGroup(null);
-		setSearchText("");
+		search.resetSearch();
 	};
 
 	return (
@@ -61,8 +52,8 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 					<div className="flex items-center w-full px-6">
 						<input
 							type="text"
-							value={searchText}
-							onChange={(e) => setSearchText(e.target.value)}
+							value={search.searchState.keyword || ""}
+							onChange={(e) => search.updateSearch("keyword", e.target.value)}
 							placeholder="Nhập Sản Phẩm Cần Tìm"
 							className="w-full text-2xl font-semibold placeholder-black border-none outline-none"
 						/>
@@ -102,11 +93,17 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 				<VisuallyHidden>
 					<DialogTitle>Nhóm Nghiệp Vụ Bảo Hiểm</DialogTitle>
 				</VisuallyHidden>
-				<DialogContent className="p-0 border-none m-0">
+				<DialogContent className="p-0 border-none m-0 shadow-elevation">
 					<VisuallyHidden>
 						<DialogDescription>Nhóm Nghiệp Vụ Bảo Hiểm</DialogDescription>
 					</VisuallyHidden>
-					<Selection options={INSURANCE_GROUP_OPTIONS} onChange={handleGroupSelection} />
+
+					<Selection
+						options={INSURANCE_GROUP_OPTIONS}
+						value={search.searchState.type || []}
+						onChange={handleGroupSelection}
+						onFinish={() => setShowGroupDialog(false)}
+					/>
 				</DialogContent>
 			</Dialog>
 		</div>

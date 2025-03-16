@@ -201,3 +201,7 @@ export function CustomFormMessage({ errorColor = "red" }: { errorColor?: "red" |
 		/>
 	);
 }
+
+export function RenderIf(props: { condition: boolean; children: React.ReactNode }) {
+	return props.condition ? props.children : null;
+}
