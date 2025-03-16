@@ -1,11 +1,17 @@
 "use client";
 
-import { FormInput, FormTextArea } from "@/components/form-components";
-import { VerticalFormInput } from "@/components/form-components/FormInput";
+import { MyInput } from "@/components/form-components/FormInput";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { ConditionalRenderer, DialogSuccess, FormSubmitButton } from "@/components/utils";
+import { Textarea } from "@/components/ui/textarea";
+import {
+	ConditionalRenderer,
+	CustomFormLabel,
+	CustomFormMessage,
+	DialogSuccess,
+	FormSubmitButton,
+} from "@/components/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
@@ -59,55 +65,79 @@ const NewForm = ({
 	}
 
 	return (
-		<form onSubmit={form.handleSubmit(onSubmit)}>
-			<Form {...form}>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="space-y-8">
 					<div className="grid grid-cols-2 gap-8">
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="name"
-							label="Họ và Tên"
-							placeholder="Nguyễn Văn A"
-							required
-							labelColor="black"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel required>Họ và Tên</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="Nguyễn Văn A" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="email"
-							label="Email"
-							placeholder="example@youremail.com"
-							type="email"
-							inputMode="email"
-							labelColor="black"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel required>Email</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="example@youremail.com" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="occupation"
-							label="Nghề Nghiệp"
-							placeholder="Công Nhân"
-							labelColor="black"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel>Nghề Nghiệp</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="Công Nhân" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="company"
-							label="Doanh Nghiệp"
-							placeholder="Công Ty ABC"
-							labelColor="black"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel>Doanh Nghiệp</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="Công Ty ABC" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 					</div>
 
-					<FormTextArea<FormValues>
-						form={form}
+					<FormField
+						control={form.control}
 						name="comment"
-						label="Nhận Xét"
-						placeholder="Điền nhận xét tại đây..."
-						labelColor="black"
-						required
-						rows={4}
-						labelClassName="w-full"
+						render={({ field }) => (
+							<FormItem>
+								<CustomFormLabel required>Nhận Xét</CustomFormLabel>
+								<FormControl>
+									<Textarea placeholder="Điền nhận xét tại đây..." rows={4} className="resize-none" {...field} />
+								</FormControl>
+								<CustomFormMessage />
+							</FormItem>
+						)}
 					/>
 
 					<ConditionalRenderer
@@ -120,8 +150,8 @@ const NewForm = ({
 						fallback={<FormSubmitButton type="submit">Gửi Nhận Xét</FormSubmitButton>}
 					/>
 				</div>
-			</Form>
-		</form>
+			</form>
+		</Form>
 	);
 };
 

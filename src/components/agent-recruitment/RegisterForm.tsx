@@ -1,14 +1,14 @@
-import { DateTimePicker, FormInput } from "@/components/form-components";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
-import { VerticalFormInput } from "@/components/form-components/FormInput";
+import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
+import { MyInput } from "@/components/form-components/FormInput";
 import { Container } from "@/components/layout";
 import Header from "@/components/me/header";
-import { Form } from "@/components/ui/form";
-import { ConditionalRenderer, RegisterSuccess } from "@/components/utils";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { ConditionalRenderer, CustomFormLabel, CustomFormMessage, RegisterSuccess } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowRight } from "react-icons/fi";
 import * as z from "zod";
@@ -16,44 +16,40 @@ import * as z from "zod";
 const formSchema = z.object({
 	name: z
 		.string()
-		.min(1, {
-			message: "Họ và tên phải có ít nhất 1 ký tự.",
-		})
-		.max(128, {
-			message: "Họ và tên phải có tối đa 128 ký tự.",
-		}),
+		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
+		.max(128, { message: "Họ và tên phải có tối đa 128 ký tự." }),
 	phone: z.string().regex(/^[0-9]{10,11}$/, {
 		message: "Số điện thoại phải có 10 số.",
 	}),
-	email: z.string().email({
-		message: "Email không hợp lệ.",
-	}),
+	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
+	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
 	datetime: z.object({
-		date: z.date({
-			required_error: "Vui lòng chọn ngày tư vấn.",
-		}),
-		time: z.string({
-			required_error: "Vui lòng chọn thời gian tư vấn.",
-		}),
+		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
+		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
 	}),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const RegisterForm = () => {
+export default function RegisterForm() {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			type: ["recruitment"],
 			name: "",
 			phone: "",
 			email: "",
-			datetime: {
-				date: new Date(),
-				time: `${new Date().getHours() + 1}:00`,
-			},
+			datetime: undefined,
 		},
 	});
+
+	useEffect(() => {
+		const initialDate = new Date();
+		const initialTime = `${initialDate.getHours() + 1}:00`;
+
+		form.setValue("datetime", { date: initialDate, time: initialTime });
+	}, [form]);
 
 	function onSubmit(values: FormValues) {
 		console.log(values);
@@ -79,7 +75,7 @@ const RegisterForm = () => {
 				/>
 
 				{/* Content Grid */}
-				<div className="relative grid grid-cols-12 gap-8 p-8">
+				<div className="relative grid grid-cols-12 gap-8 p-8 items-center">
 					{/* Left Column - Image */}
 					<div className="col-span-5 rounded-lg overflow-hidden">
 						<Image
@@ -97,78 +93,99 @@ const RegisterForm = () => {
 							condition={isSubmitted}
 							component={<RegisterSuccess />}
 							fallback={
-								<>
-									{/* Form Title */}
-									<div className="bg-[#EDEDED] border border-black rounded-md py-4 px-4 flex items-center mb-6 shadow-elevation">
-										<span className="font-montserrat font-semibold text-base text-[#58595D]">
-											Tư Vấn Trở Thành Cộng Tác Viên
-										</span>
-									</div>
+								<Form {...form}>
+									<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+										<FormField
+											control={form.control}
+											name="type"
+											render={({ field }) => {
+												const values = Array.isArray(field.value) ? field.value : ([] as string[]);
 
-									<Form {...form}>
-										<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-											<VerticalFormInput<FormValues>
-												form={form}
-												name="name"
-												label="Họ và Tên"
-												placeholder="Nguyễn Văn A"
-												required
-												labelColor="black"
-												errorColor="black"
-											/>
+												return (
+													<FormItem>
+														<FormControl>
+															<DropdownCheckboxMenu
+																disabled
+																values={values}
+																onChange={field.onChange}
+																options={[
+																	{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
+																	{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+																	{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
+																	{ value: "other", label: "Khác (Điền Tại Đây)" },
+																]}
+																placeholder="Chọn thông tin cần liên hệ"
+															/>
+														</FormControl>
+														<CustomFormMessage />
+													</FormItem>
+												);
+											}}
+										/>
 
-											<div className="grid grid-cols-2 gap-x-8">
-												<VerticalFormInput<FormValues>
-													form={form}
-													name="phone"
-													label="Số Điện Thoại"
-													placeholder="(123) 456 - 7890"
-													type="tel"
-													inputMode="numeric"
-													required
-													labelColor="black"
-													errorColor="black"
-													onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-														if (!/[0-9]/.test(e.key)) {
-															e.preventDefault();
-														}
-													}}
-												/>
+										<FormField
+											control={form.control}
+											name="name"
+											render={({ field }) => (
+												<FormItem>
+													<CustomFormLabel required>Họ và Tên</CustomFormLabel>
+													<FormControl>
+														<MyInput placeholder="Nguyễn Văn A" {...field} />
+													</FormControl>
+													<CustomFormMessage />
+												</FormItem>
+											)}
+										/>
 
-												<VerticalFormInput<FormValues>
-													form={form}
-													name="email"
-													label="Email"
-													placeholder="example@youremail.com"
-													type="email"
-													inputMode="email"
-													labelColor="black"
-													errorColor="black"
-												/>
-											</div>
-
-											<VerticalDateTimePicker<FormValues>
-												form={form}
-												name="datetime"
-												label="Thời Gian Tư Vấn"
-												required
-											/>
-
-											<button
-												type="submit"
-												className={cn(
-													"h-12 bg-brand-redPrimary text-white rounded-md shadow-elevation flex items-center justify-center gap-2",
-													"hover:scale-105 px-6 transition-all duration-300 focus-visible:ring-0",
-													isSubmitted && "opacity-50 cursor-not-allowed",
+										<div className="grid grid-cols-2 gap-x-8">
+											<FormField
+												control={form.control}
+												name="phone"
+												render={({ field }) => (
+													<FormItem>
+														<CustomFormLabel required>Số Điện Thoại</CustomFormLabel>
+														<FormControl>
+															<MyInput
+																className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+																type="number"
+																placeholder="(123) 456 - 7890"
+																{...field}
+															/>
+														</FormControl>
+														<CustomFormMessage />
+													</FormItem>
 												)}
-												disabled={isSubmitted}
-											>
-												<span className="text-base font-semibold uppercase">Tư vấn ngay</span>
-												<FiArrowRight className="w-6 h-6" />
-											</button>
-										</form>
-									</Form>
-								</>
+											/>
+
+											<FormField
+												control={form.control}
+												name="email"
+												render={({ field }) => (
+													<FormItem>
+														<CustomFormLabel>Email</CustomFormLabel>
+														<FormControl>
+															<MyInput placeholder="example@youremail.com" {...field} />
+														</FormControl>
+														<CustomFormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+
+										<VerticalDateTimePicker<FormValues>
+											form={form}
+											name="datetime"
+											label="Thời Gian Tư Vấn"
+											required
+											labelColor="black"
+										/>
+
+										<RectSubmitButton isSubmitted={isSubmitted} type="submit">
+											<span className="text-base font-semibold uppercase">Tư vấn ngay</span>
+											<FiArrowRight className="w-6 h-6" />
+										</RectSubmitButton>
+									</form>
+								</Form>
 							}
 						/>
 					</div>
@@ -176,6 +193,25 @@ const RegisterForm = () => {
 			</div>
 		</Container>
 	);
-};
+}
 
-export default RegisterForm;
+function RectSubmitButton({
+	isSubmitted,
+	children,
+	...props
+}: { isSubmitted: boolean; children: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+	return (
+		<button
+			type="submit"
+			className={cn(
+				"h-12 bg-brand-redPrimary text-white rounded-md shadow-elevation flex items-center justify-center gap-2",
+				"hover:scale-105 px-6 transition-all duration-300 focus-visible:ring-0",
+				isSubmitted && "opacity-50 cursor-not-allowed",
+			)}
+			disabled={isSubmitted}
+			{...props}
+		>
+			{children}
+		</button>
+	);
+}

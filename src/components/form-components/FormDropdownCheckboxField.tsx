@@ -26,6 +26,7 @@ export interface DropdownCheckboxMenuProps {
 	className?: string;
 	triggerClassName?: string;
 	contentClassName?: string;
+	disabled?: boolean;
 }
 
 export function DropdownCheckboxMenu({
@@ -36,21 +37,23 @@ export function DropdownCheckboxMenu({
 	className,
 	triggerClassName,
 	contentClassName,
+	disabled = false,
 }: DropdownCheckboxMenuProps) {
 	const [open, setOpen] = React.useState(false);
 
 	return (
 		<div className={className}>
 			<DropdownMenu open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
-				<DropdownMenuTrigger asChild>
+				<DropdownMenuTrigger asChild disabled={disabled}>
 					<button
 						type="button"
 						className={cn(
-							"text-base font-medium",
+							"text-base font-medium bg-white",
 							"border border-black rounded-md shadow-elevation",
 							"flex items-center justify-between w-full h-12 px-3 py-2",
 							"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
 							triggerClassName,
+							disabled && "cursor-not-allowed",
 						)}
 					>
 						<ConditionalRenderer

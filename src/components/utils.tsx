@@ -179,7 +179,7 @@ export function CustomFormLabel({
 	className,
 }: { children: React.ReactNode; required?: boolean; className?: string }) {
 	return (
-		<FormLabel className={cn("font-semibold text-text-primary flex items-start gap-2", className)}>
+		<FormLabel className={cn("font-semibold text-text-primary flex items-start gap-1", className)}>
 			{children}
 
 			<ConditionalRenderer

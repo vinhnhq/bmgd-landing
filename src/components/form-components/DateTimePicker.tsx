@@ -103,7 +103,7 @@ export const DateTimePicker = <T extends FieldValues>({
 									<button
 										type="button"
 										className={cn(
-											"text-base font-medium",
+											"text-base font-medium bg-white",
 											"border border-black rounded-md shadow-elevation",
 											"flex items-center justify-between w-full h-12 px-3 py-2",
 											"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
@@ -234,7 +234,7 @@ export const VerticalDateTimePicker = <T extends FieldValues>({
 								<button
 									type="button"
 									className={cn(
-										"text-base font-medium",
+										"text-base font-medium bg-white",
 										"border border-black rounded-md shadow-elevation",
 										"flex items-center justify-between w-full h-12 px-3 py-2",
 										"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",

@@ -1,22 +1,26 @@
 "use client";
 
 import ContactInfo from "@/components/contact/ContactInfo";
-import { FormInput } from "@/components/form-components";
-import { DateTimePicker, VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
-import { VerticalFormInput } from "@/components/form-components/FormInput";
+import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
+import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
+import { MyInput, VerticalFormInput } from "@/components/form-components/FormInput";
 import { VerticalFormSelect } from "@/components/form-components/FormSelect";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { ConditionalRenderer, DialogSuccess, FormSubmitButton } from "@/components/utils";
+import {
+	ConditionalRenderer,
+	CustomFormLabel,
+	CustomFormMessage,
+	DialogSuccess,
+	FormSubmitButton,
+} from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiLoader } from "react-icons/fi";
-import { HiOutlinePhone } from "react-icons/hi";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -28,7 +32,7 @@ const formSchema = z.object({
 		message: "Số điện thoại phải có 10 số.",
 	}),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.string({ required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -52,78 +56,107 @@ function ContactNowForm({
 			name: "",
 			phone: "",
 			email: "",
-			type: "insurance",
-			datetime: {
-				date: new Date(),
-				time: `${new Date().getHours() + 1}:00`,
-			},
+			type: ["insurance"],
+			datetime: undefined,
 		},
 	});
 
+	useEffect(() => {
+		const initialDate = new Date();
+		const initialTime = `${initialDate.getHours() + 1}:00`;
+
+		form.setValue("datetime", { date: initialDate, time: initialTime });
+		form.setValue("type", ["insurance"]);
+	}, [form]);
+
 	async function onSubmit(values: FormValues) {
-		setIsSubmitted(true);
-
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
 		setIsSubmitted(false);
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		setIsSubmitted(true);
 		onOpenChange(false);
 		onFinish();
 	}
 
 	return (
-		<form onSubmit={form.handleSubmit(onSubmit)}>
-			<Form {...form}>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="space-y-4">
-					<VerticalFormSelect<FormValues>
-						form={form}
+					<FormField
+						control={form.control}
 						name="type"
-						label=""
-						disabled
-						placeholder="Chọn thông tin cần liên hệ"
-						options={[
-							{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
-							{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
-							{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
-							{ value: "other", label: "Khác" },
-						]}
-						labelColor="black"
-						errorColor="red"
+						render={({ field }) => {
+							const values = Array.isArray(field.value) ? field.value : ([] as string[]);
+
+							return (
+								<FormItem>
+									<FormControl>
+										<DropdownCheckboxMenu
+											disabled
+											values={values}
+											onChange={field.onChange}
+											options={[
+												{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
+												{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+												{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
+												{ value: "other", label: "Khác (Điền Tại Đây)" },
+											]}
+											placeholder="Chọn thông tin cần liên hệ"
+										/>
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							);
+						}}
 					/>
 
-					<VerticalFormInput<FormValues>
-						form={form}
+					<FormField
+						control={form.control}
 						name="name"
-						label="Họ và Tên"
-						placeholder="Nguyễn Văn A"
-						required
-						labelColor="black"
+						render={({ field }) => (
+							<FormItem>
+								<CustomFormLabel required>Họ và Tên</CustomFormLabel>
+								<FormControl>
+									<MyInput placeholder="Nguyễn Văn A" {...field} />
+								</FormControl>
+								<CustomFormMessage />
+							</FormItem>
+						)}
 					/>
 
 					<div className="grid grid-cols-2 gap-x-8">
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="phone"
-							label="Số Điện Thoại"
-							placeholder="(123) 456 - 7890"
-							type="tel"
-							inputMode="numeric"
-							required
-							labelColor="black"
-							onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-								if (!/[0-9]/.test(e.key)) {
-									e.preventDefault();
-								}
-							}}
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel required>Số Điện Thoại</CustomFormLabel>
+									<FormControl>
+										<MyInput
+											className={cn(
+												"[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+											)}
+											type="number"
+											placeholder="(123) 456 - 7890"
+											{...field}
+										/>
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="email"
-							label="Email"
-							placeholder="example@youremail.com"
-							type="email"
-							inputMode="email"
-							labelColor="black"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel>Email</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="example@youremail.com" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 					</div>
 
@@ -145,8 +178,8 @@ function ContactNowForm({
 						fallback={<FormSubmitButton type="submit">Liên Hệ Ngay</FormSubmitButton>}
 					/>
 				</div>
-			</Form>
-		</form>
+			</form>
+		</Form>
 	);
 }
 
@@ -188,7 +221,7 @@ export function FooterContactNowLink() {
 										</DialogDescription>
 									</DialogHeader>
 
-									<div className="flex gap-16">
+									<div className="flex gap-16 align-top">
 										<div className="flex-[2]">
 											<ContactNowForm
 												onOpenChange={(open) => setRenderer("init")}
