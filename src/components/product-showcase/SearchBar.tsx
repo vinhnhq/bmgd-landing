@@ -1,5 +1,6 @@
 import { Selection } from "@/components/me/selection";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { ConditionalRenderer, FilterChip, Title } from "@/components/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
 import { FiChevronDown, FiRotateCw, FiSearch } from "react-icons/fi";
@@ -24,6 +25,11 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 		return selected ? selected.label : "Nhóm Nghiệp Vụ BH";
 	};
 
+	const getSelectedGroupCount = () => {
+		if (!search.searchState.type) return 0;
+		return search.searchState.type?.length || 0;
+	};
+
 	const handleReset = () => {
 		search.resetSearch();
 	};
@@ -39,7 +45,22 @@ const SearchBar = ({ isExpanded, onToggleExpand }: SearchBarProps) => {
 						onClick={() => setShowGroupDialog(true)}
 						className="flex items-center justify-between w-full px-6 cursor-pointer"
 					>
-						<span className="text-2xl font-semibold">{getSelectedGroupLabel()}</span>
+						<ConditionalRenderer
+							condition={!search.searchState.type}
+							component={<Title>{getSelectedGroupLabel()}</Title>}
+							fallback={
+								<ConditionalRenderer
+									condition={Array.isArray(search.searchState.type) && search.searchState.type.length > 1}
+									component={
+										<Title className="flex items-center gap-1">
+											<FilterChip label={getSelectedGroupLabel()} count={getSelectedGroupCount()} />
+											<FilterChip label={`+${getSelectedGroupCount() - 1}`} count={getSelectedGroupCount()} />
+										</Title>
+									}
+									fallback={<FilterChip label={getSelectedGroupLabel()} count={getSelectedGroupCount()} />}
+								/>
+							}
+						/>
 						<FiChevronDown className={`w-8 h-8 stroke-2 transition-transform ${showGroupDialog ? "rotate-180" : ""}`} />
 					</button>
 				</div>

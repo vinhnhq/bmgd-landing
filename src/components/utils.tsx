@@ -205,3 +205,15 @@ export function CustomFormMessage({ errorColor = "red" }: { errorColor?: "red" |
 export function RenderIf(props: { condition: boolean; children: React.ReactNode }) {
 	return props.condition ? props.children : null;
 }
+
+export function FilterChip({ label, count }: { label: string; count: number }) {
+	return (
+		<span className="rounded-full inline-flex px-2 py-1 items-center justify-center bg-black/10 shadow-elevation text-2xl font-normal">
+			{label}
+		</span>
+	);
+}
+
+export function Title({ children, className }: { children: React.ReactNode; className?: string }) {
+	return <span className={`font-semibold text-2xl text-black ${className}`}>{children}</span>;
+}
