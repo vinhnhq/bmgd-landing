@@ -100,25 +100,23 @@ export const DateTimePicker = <T extends FieldValues>({
 						<PopoverTrigger asChild>
 							<div className="flex flex-col gap-2 w-full">
 								<FormControl>
-									<Button
+									<button
 										type="button"
-										variant="outline"
 										className={cn(
-											"w-full h-12 px-4 text-base bg-white border border-black rounded-md",
-											"font-medium text-left justify-start hover:bg-white",
-											"shadow-elevation outline-none",
-											"focus:ring-2 focus:ring-black focus:border-transparent",
-											"focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-0",
-											"transition-all duration-200",
+											"text-base font-medium",
+											"border border-black rounded-md shadow-elevation",
+											"flex items-center justify-between w-full h-12 px-3 py-2",
+											"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
 											className,
 										)}
 									>
-										<span>
-											{field.value.date ? format(field.value.date, "dd/MM/yyyy", { locale: vi }) : "DD/MM/YYYY"},{" "}
-											{field.value.time}
-										</span>
+										<ConditionalRenderer
+											condition={!field.value || !field.value.date || !field.value.time}
+											component={<span className="text-black/60">Chọn thời gian liên hệ</span>}
+											fallback={<span>{getDateTimeString(field.value?.date, field.value?.time)}</span>}
+										/>
 										<LuCalendarCheck2 className="ml-auto !w-6 !h-6" />
-									</Button>
+									</button>
 								</FormControl>
 							</div>
 						</PopoverTrigger>
@@ -129,7 +127,7 @@ export const DateTimePicker = <T extends FieldValues>({
 									mode="single"
 									locale={vi}
 									fixedWeeks
-									selected={field.value.date}
+									selected={field.value?.date}
 									onSelect={(date) => {
 										if (date) field.onChange({ ...field.value, date });
 									}}
@@ -173,7 +171,7 @@ export const DateTimePicker = <T extends FieldValues>({
 												variant="ghost"
 												className={cn(
 													"h-10 mx-4 justify-center font-medium text-[17px] tracking-wide rounded-none text-black",
-													field.value.time === slot
+													field.value?.time === slot
 														? "bg-[#F24444] text-white hover:bg-[#F24444] hover:text-white"
 														: "hover:bg-[#F24444]/10 hover:text-[#F24444]",
 													isTimeDisabled(slot) && "opacity-50 cursor-not-allowed",
@@ -197,8 +195,8 @@ export const DateTimePicker = <T extends FieldValues>({
 								</ScrollArea>
 							</div>
 							<div className="bg-[#F24444] px-4 py-2 text-right text-white font-medium text-base">
-								{field.value.date ? format(field.value.date, "dd/MM/yyyy", { locale: vi }) : "DD/MM/YYYY"},{" "}
-								{field.value.time}
+								{field.value?.date ? format(field.value?.date, "dd/MM/yyyy", { locale: vi }) : "DD/MM/YYYY"},{" "}
+								{field.value?.time || "Chọn giờ"}
 							</div>
 						</PopoverContent>
 					</Popover>
@@ -236,6 +234,7 @@ export const VerticalDateTimePicker = <T extends FieldValues>({
 								<button
 									type="button"
 									className={cn(
+										"text-base font-medium",
 										"border border-black rounded-md shadow-elevation",
 										"flex items-center justify-between w-full h-12 px-3 py-2",
 										"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",

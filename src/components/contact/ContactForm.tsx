@@ -1,5 +1,5 @@
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
-import { FormDropdownCheckboxField } from "@/components/form-components/FormDropdownCheckboxField";
+import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { ConditionalRenderer, CustomFormLabel, CustomFormMessage, FormSubmitButton } from "@/components/utils";
@@ -58,17 +58,32 @@ function ContactForm({
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full space-y-6">
-				<div className="space-y-6">
-					<FormDropdownCheckboxField
+				<div className="space-y-4">
+					<FormField
 						control={form.control}
 						name="type"
-						placeholder="Chọn thông tin cần liên hệ"
-						options={[
-							{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
-							{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
-							{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
-							{ value: "other", label: "Khác (Điền Tại Đây)" },
-						]}
+						render={({ field }) => {
+							const values = Array.isArray(field.value) ? field.value : ([] as string[]);
+
+							return (
+								<FormItem>
+									<FormControl>
+										<DropdownCheckboxMenu
+											values={values}
+											onChange={field.onChange}
+											options={[
+												{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
+												{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+												{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
+												{ value: "other", label: "Khác (Điền Tại Đây)" },
+											]}
+											placeholder="Chọn thông tin cần liên hệ"
+										/>
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							);
+						}}
 					/>
 
 					<FormField
