@@ -1,10 +1,10 @@
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
-import { VerticalFormInput } from "@/components/form-components/FormInput";
-import { VerticalFormSelect } from "@/components/form-components/FormSelect";
-import { Form } from "@/components/ui/form";
-import { ConditionalRenderer, FormSubmitButton } from "@/components/utils";
+import { FormDropdownCheckboxField } from "@/components/form-components/FormDropdownCheckboxField";
+import { MyInput } from "@/components/form-components/FormInput";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { ConditionalRenderer, CustomFormLabel, CustomFormMessage, FormSubmitButton } from "@/components/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiCheck } from "react-icons/fi";
 import * as z from "zod";
@@ -18,7 +18,7 @@ const formSchema = z.object({
 		message: "Số điện thoại phải có 10 số.",
 	}),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.string({ required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -37,76 +37,86 @@ function ContactForm({
 			name: "",
 			phone: "",
 			email: "",
-			type: "",
-			datetime: { date: new Date(), time: `${new Date().getHours() + 1}:00` },
+			type: [],
+			datetime: undefined,
 		},
 	});
 
+	useEffect(() => {
+		const initialDate = new Date();
+		const initialTime = `${initialDate.getHours() + 1}:00`;
+
+		form.setValue("datetime", { date: initialDate, time: initialTime });
+	}, [form]);
+
 	async function onSubmit(values: FormValues) {
-		setIsSubmitted(true);
+		console.log(values);
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		setIsSubmitted(false);
+		setIsSubmitted(true);
 	}
 
 	return (
-		<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full space-y-6">
-			<Form {...form}>
-				<div className="space-y-4">
-					<VerticalFormSelect<FormValues>
-						form={form}
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full space-y-6">
+				<div className="space-y-6">
+					<FormDropdownCheckboxField
+						control={form.control}
 						name="type"
-						label=""
 						placeholder="Chọn thông tin cần liên hệ"
 						options={[
 							{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
 							{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
 							{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
-							{ value: "other", label: "Khác" },
+							{ value: "other", label: "Khác (Điền Tại Đây)" },
 						]}
-						labelColor="black"
-						errorColor="red"
 					/>
 
-					<VerticalFormInput<FormValues>
-						form={form}
+					<FormField
+						control={form.control}
 						name="name"
-						label="Họ và Tên"
-						placeholder="Nguyễn Văn A"
-						required
-						labelColor="black"
-						errorColor="red"
-						labelClassName="w-1/3"
+						render={({ field }) => (
+							<FormItem>
+								<CustomFormLabel required>Họ và Tên</CustomFormLabel>
+								<FormControl>
+									<MyInput placeholder="Nguyễn Văn A" {...field} />
+								</FormControl>
+								<CustomFormMessage />
+							</FormItem>
+						)}
 					/>
 
 					<div className="grid grid-cols-2 gap-x-8">
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="phone"
-							label="Số Điện Thoại"
-							placeholder="(123) 456 - 7890"
-							type="tel"
-							inputMode="numeric"
-							required
-							labelColor="black"
-							errorColor="red"
-							onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-								if (!/[0-9]/.test(e.key)) {
-									e.preventDefault();
-								}
-							}}
-							labelClassName="w-1/3"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel required>Số Điện Thoại</CustomFormLabel>
+									<FormControl>
+										<MyInput
+											className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+											type="number"
+											placeholder="(123) 456 - 7890"
+											{...field}
+										/>
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 
-						<VerticalFormInput<FormValues>
-							form={form}
+						<FormField
+							control={form.control}
 							name="email"
-							label="Email"
-							placeholder="example@youremail.com"
-							type="email"
-							inputMode="email"
-							labelColor="black"
-							errorColor="red"
-							labelClassName="w-1/3"
+							render={({ field }) => (
+								<FormItem>
+									<CustomFormLabel>Email</CustomFormLabel>
+									<FormControl>
+										<MyInput placeholder="example@youremail.com" {...field} />
+									</FormControl>
+									<CustomFormMessage />
+								</FormItem>
+							)}
 						/>
 					</div>
 
@@ -120,8 +130,8 @@ function ContactForm({
 				</div>
 
 				<FormSubmitButton type="submit">Liên Hệ Ngay</FormSubmitButton>
-			</Form>
-		</form>
+			</form>
+		</Form>
 	);
 }
 

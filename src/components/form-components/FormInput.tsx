@@ -2,6 +2,7 @@ import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MyFormLabel, MyFormMessage } from "@/components/utils";
 import { cn } from "@/lib/utils";
+import React from "react";
 import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 export interface FormInputProps<T extends FieldValues> {
@@ -128,3 +129,26 @@ export const VerticalFormInput = <T extends FieldValues>({
 		/>
 	);
 };
+
+const MyInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+	({ className, type, ...props }, ref) => {
+		return (
+			<input
+				type={type}
+				className={cn(
+					"flex h-12 px-3 w-full rounded-md border border-black bg-white text-base font-medium ring-offset-background shadow-elevation",
+					"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground disabled:cursor-not-allowed disabled:opacity-50",
+					"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+					"placeholder:text-black/60 placeholder:text-base",
+					className,
+				)}
+				ref={ref}
+				{...props}
+			/>
+		);
+	},
+);
+
+MyInput.displayName = "MyInput";
+
+export { MyInput };

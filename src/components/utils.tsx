@@ -172,3 +172,28 @@ export const MyFormLabel = forwardRef<
 		/>
 	);
 });
+
+export function CustomFormLabel({ children, required = false }: { children: React.ReactNode; required?: boolean }) {
+	return (
+		<FormLabel className="font-semibold text-text-primary flex items-start gap-2">
+			{children}
+
+			<ConditionalRenderer
+				condition={required}
+				component={<FaAsterisk className="text-text-error w-2 h-2" />}
+				fallback={null}
+			/>
+		</FormLabel>
+	);
+}
+
+export function CustomFormMessage({ errorColor = "red" }: { errorColor?: "red" | "black" }) {
+	return (
+		<FormMessage
+			className={cn("font-semibold", {
+				"text-text-error": errorColor === "red",
+				"text-text-primary": errorColor === "black",
+			})}
+		/>
+	);
+}
