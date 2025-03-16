@@ -8,11 +8,12 @@ import ProductList from "@/components/product-showcase/ProductList";
 import PromotionalBanner from "@/components/promotion-banner";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { Suspense } from "react";
 import { BsFiletypePdf } from "react-icons/bs";
 
 export default function IntlTravelPage() {
 	return (
-		<>
+		<Suspense>
 			<PromotionalBanner />
 			<Navbar />
 
@@ -186,7 +187,7 @@ export default function IntlTravelPage() {
 				<AgentRecruitment />
 			</div>
 			<Footer />
-		</>
+		</Suspense>
 	);
 }
 

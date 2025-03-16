@@ -1,3 +1,5 @@
+"use client";
+
 import InsuranceProducts from "@/components/insurance-products";
 import ProductCard from "@/components/insurance-products/ProductCard";
 import { Container } from "@/components/layout";
