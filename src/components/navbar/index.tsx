@@ -32,7 +32,7 @@ const insuranceProducts = [
 		children: [
 			{
 				title: "Bảo Hiểm Du Lịch Quốc Tế",
-				href: "/san-pham/bao-hiem-du-lich-quoc-te",
+				href: "/products/intl-travel/intro",
 			},
 			{
 				title: "Bảo Hiểm Sức Khoẻ Toàn Diện",
