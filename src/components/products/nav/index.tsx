@@ -1,9 +1,8 @@
 "use client";
 
-import { redirect, usePathname } from "next/navigation";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useLayoutEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const validPaths = {
 	intro: "/products/intl-travel/intro",

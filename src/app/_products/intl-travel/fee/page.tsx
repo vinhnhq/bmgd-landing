@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Table } from "lucide-react";
 import type React from "react";
 
 export default function IntlTravelFeePage() {

@@ -3,7 +3,6 @@
 import { ConditionalRenderer } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import type React from "react";
 import { useState } from "react";
 
 export default function IntlTravelBenefitPage() {

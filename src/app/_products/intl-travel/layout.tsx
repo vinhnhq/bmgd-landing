@@ -1,3 +1,5 @@
+"use client";
+
 import AgentRecruitment from "@/components/agent-recruitment";
 import FAQ from "@/components/agent-recruitment/FAQ";
 import Footer from "@/components/footer";
@@ -6,28 +8,10 @@ import ProductList from "@/components/product-showcase/ProductList";
 import ProductNav from "@/components/products/nav";
 import PromotionalBanner from "@/components/promotion-banner";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
 import Image from "next/image";
+import { Suspense } from "react";
 
-export const metadata: Metadata = {
-	title: "Bao Minh Gia Dinh",
-	description: "Bao Minh Gia Dinh",
-};
-
-export default async function IntlTravelLayout({
-	children,
-	params,
-}: Readonly<{
-	children: React.ReactNode;
-	params: Promise<{
-		url: {
-			pathname: "intro" | "fee" | "benefit" | "claim" | "rule";
-		};
-	}>;
-}>) {
-	const currentPage = await params;
-
-	console.log(currentPage);
+export default function IntlTravelLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<>
 			<PromotionalBanner />
@@ -66,7 +50,9 @@ export default async function IntlTravelLayout({
 			</div>
 
 			<section className="bg-white px-28 py-8">
-				<ProductNav />
+				<Suspense fallback={<span />}>
+					<ProductNav />
+				</Suspense>
 			</section>
 
 			{children}
