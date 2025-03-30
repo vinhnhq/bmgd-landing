@@ -2,12 +2,13 @@
 
 import { ConditionalRenderer, FormSubmitButton, RenderIf } from "@/components/utils";
 import { cn } from "@/lib/utils";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { useReducer, useState } from "react";
 import { BsFiletypePdf } from "react-icons/bs";
-import Image from "next/image";
 import { FiChevronRight } from "react-icons/fi";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ClaimDialog } from "./dialog";
+import { DialogPdf } from "./dialog-pdf";
 
 export default function IntlTravelRulePage() {
 	const [stage, setStage] = useState<"waiting" | "exclude" | "compensation">("compensation");
@@ -78,18 +79,24 @@ function Waiting() {
 	);
 }
 
+const items = [
+	"Loại trừ chung theo quy định.",
+	"Bệnh tật hay tổn thương có sẵn, bệnh mãn tính.",
+	"Nổi loạn, đình công, chiến tranh. Liên quan trực tiếp, gián tiếp tới hoạt động khủng bố.",
+	"Tác động của phản ứng hạt nhân hoặc nhiễm phòng xạ.",
+	"Tổn thất gián tiếp hoặc thệt hại mang tính hậu quả.",
+];
+
 function Exclude() {
-	const items = [
-		"Loại trừ chung theo quy định.",
-		"Bệnh tật hay tổn thương có sẵn, bệnh mãn tính.",
-		"Nổi loạn, đình công, chiến tranh. Liên quan trực tiếp, gián tiếp tới hoạt động khủng bố.",
-		"Tác động của phản ứng hạt nhân hoặc nhiễm phòng xạ.",
-		"Tổn thất gián tiếp hoặc thệt hại mang tính hậu quả.",
-	];
+	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<div className="space-y-8 flex flex-col items-center">
-			<MainPdfButton onClick={() => {}}>Quy Tắc Bảo Hiểm Du Lịch Quốc Tế</MainPdfButton>
+			<ConditionalRenderer
+				condition={isOpen}
+				component={<DialogPdf open={isOpen} onOpenChange={setIsOpen} />}
+				fallback={<MainPdfButton onClick={() => setIsOpen(true)}>Quy Tắc Bảo Hiểm Du Lịch Quốc Tế</MainPdfButton>}
+			/>
 
 			<ul className="divide-y divide-black border border-black">
 				{items.map((item, index) => (
