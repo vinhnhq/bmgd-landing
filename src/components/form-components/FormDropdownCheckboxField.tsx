@@ -12,24 +12,25 @@ import { Check } from "lucide-react";
 import * as React from "react";
 import { FiChevronDown } from "react-icons/fi";
 
-interface DropdownOption {
-	value: string;
+interface DropdownOption<T extends string> {
+	value: T;
 	label: string;
 	disabled?: boolean;
 }
 
-export interface DropdownCheckboxMenuProps {
-	values: string[];
-	onChange: (values: string[]) => void;
-	options: DropdownOption[];
+export interface DropdownCheckboxMenuProps<T extends string> {
+	values: T[];
+	onChange: (values: T[]) => void;
+	options: DropdownOption<T>[];
 	placeholder?: string;
 	className?: string;
 	triggerClassName?: string;
 	contentClassName?: string;
 	disabled?: boolean;
+	shouldClose?: boolean;
 }
 
-export function DropdownCheckboxMenu({
+export function DropdownCheckboxMenu<T extends string>({
 	values,
 	onChange,
 	options,
@@ -38,7 +39,8 @@ export function DropdownCheckboxMenu({
 	triggerClassName,
 	contentClassName,
 	disabled = false,
-}: DropdownCheckboxMenuProps) {
+	shouldClose = false,
+}: DropdownCheckboxMenuProps<T>) {
 	const [open, setOpen] = React.useState(false);
 
 	return (
@@ -100,6 +102,10 @@ export function DropdownCheckboxMenu({
 											onChange(values.filter((value) => value !== option.value));
 										} else {
 											onChange([...values, option.value]);
+										}
+
+										if (shouldClose) {
+											setOpen(false);
 										}
 									}}
 								>

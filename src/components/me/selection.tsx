@@ -157,12 +157,10 @@ export function Selection({
 			: [...selectedIds, id];
 
 		setSelectedIds(newSelectedIds);
-		onChange?.(newSelectedIds);
 	};
 
 	const handleClearAll = () => {
 		setSelectedIds([]);
-		onChange?.([]);
 	};
 
 	const handleApply = () => {
@@ -172,7 +170,6 @@ export function Selection({
 
 	const handleCancel = () => {
 		setSelectedIds([]);
-		onChange?.([]);
 	};
 
 	return (
@@ -198,7 +195,6 @@ export function Selection({
 						buttonText="Chọn hết"
 						onButtonClick={() => {
 							setSelectedIds(options.map((opt) => opt.id));
-							onChange?.(options.map((opt) => opt.id));
 						}}
 						variant="primary"
 					/>

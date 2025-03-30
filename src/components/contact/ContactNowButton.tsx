@@ -1,5 +1,3 @@
-"use client";
-
 import { DateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -7,11 +5,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import {
-	ConditionalRenderer,
-	CustomFormLabel,
-	CustomFormMessage,
-	DialogSuccess,
-	FormSubmitButton,
+  ConditionalRenderer,
+  CustomFormLabel,
+  CustomFormMessage,
+  DialogSuccess,
+  FormSubmitButton,
+  MyButton,
 } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,25 +20,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiLoader } from "react-icons/fi";
 import { HiOutlinePhone } from "react-icons/hi";
-import * as z from "zod";
-
-const formSchema = z.object({
-	name: z
-		.string()
-		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
-		.max(128, { message: "Họ và tên phải có tối đa 128 ký tự." }),
-	phone: z.string().regex(/^[0-9]{10,11}$/, {
-		message: "Số điện thoại phải có 10 số.",
-	}),
-	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
-	datetime: z.object({
-		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
-		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
-	}),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+import { LuRefreshCcw } from "react-icons/lu";
+import { type ContactType, type FormValues, defaultValues, formSchema } from "./schema";
 
 function ContactNowForm({
 	onOpenChange,
@@ -52,13 +34,7 @@ function ContactNowForm({
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
-			type: [],
-			name: "",
-			phone: "",
-			email: "",
-			datetime: undefined,
-		},
+		defaultValues,
 	});
 
 	useEffect(() => {
@@ -78,38 +54,76 @@ function ContactNowForm({
 		onFinish();
 	}
 
+	const type = form.watch("type");
+	const isOtherTypeSelected = type.includes("other");
+
+	useEffect(() => {
+		if (isOtherTypeSelected) {
+			form.setFocus("otherType");
+			form.setValue("otherType", "");
+		}
+	}, [isOtherTypeSelected, form]);
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="space-y-4">
-					<FormField
-						control={form.control}
-						name="type"
-						render={({ field }) => {
-							const values = Array.isArray(field.value) ? field.value : ([] as string[]);
-
-							return (
-								<FormItem className="flex items-center gap-4 w-full">
-									<CustomFormLabel className="w-1/3">Thông tin cần liên hệ</CustomFormLabel>
-									<div className="flex flex-col gap-2 w-full">
+					<ConditionalRenderer
+						condition={isOtherTypeSelected}
+						component={
+							<FormField
+								control={form.control}
+								name="otherType"
+								render={({ field }) => (
+									<FormItem className="flex items-center gap-4 w-full">
+										<CustomFormLabel className="w-1/3">Thông tin cần liên hệ</CustomFormLabel>
 										<FormControl>
-											<DropdownCheckboxMenu
-												values={values}
-												onChange={field.onChange}
-												options={[
-													{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
-													{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
-													{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
-													{ value: "other", label: "Khác (Điền Tại Đây)" },
-												]}
-												placeholder="Chọn thông tin cần liên hệ"
-											/>
+											<div className="flex items-center gap-2 w-full">
+												<MyInput className="flex-1" placeholder="Bạn muốn tư vấn về gì?" {...field} />
+												<MyButton
+													className="shrink-0"
+													icon={<LuRefreshCcw className="w-6 h-6" />}
+													onClick={() => form.reset()}
+												/>
+											</div>
 										</FormControl>
 										<CustomFormMessage />
-									</div>
-								</FormItem>
-							);
-						}}
+									</FormItem>
+								)}
+							/>
+						}
+						fallback={
+							<FormField
+								control={form.control}
+								name="type"
+								render={({ field }) => {
+									const values = Array.isArray(field.value) ? field.value : [];
+
+									return (
+										<FormItem className="flex items-center gap-4 w-full">
+											<CustomFormLabel className="w-1/3">Thông tin cần liên hệ</CustomFormLabel>
+											<div className="flex flex-col gap-2 w-full">
+												<FormControl>
+													<DropdownCheckboxMenu<ContactType>
+														values={values}
+														onChange={field.onChange}
+														options={[
+															{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
+															{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+															{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
+															{ value: "other", label: "Khác (Điền Tại Đây)" },
+														]}
+														placeholder="Chọn thông tin cần liên hệ"
+														shouldClose={isOtherTypeSelected}
+													/>
+												</FormControl>
+												<CustomFormMessage />
+											</div>
+										</FormItem>
+									);
+								}}
+							/>
+						}
 					/>
 
 					<FormField

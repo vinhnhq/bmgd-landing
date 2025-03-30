@@ -217,3 +217,26 @@ export function FilterChip({ label, count }: { label: string; count: number }) {
 export function Title({ children, className }: { children: React.ReactNode; className?: string }) {
 	return <span className={`font-semibold text-2xl text-black ${className}`}>{children}</span>;
 }
+
+export function MyButton({
+	children,
+	className,
+	icon,
+	...props
+}: React.ComponentProps<"button"> & { icon?: React.ReactNode }) {
+	return (
+		<button
+			className={cn(
+				"px-3 py-2 rounded-md border border-black bg-white shadow-elevation h-12 flex items-center justify-center",
+				"focus-visible:outline-none focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+				"hover:ring-2 hover:ring-ring hover:ring-offset-1 hover:outline-none hover:border-transparent",
+				className,
+			)}
+			{...props}
+		>
+			{children}
+
+			{icon && <span>{icon}</span>}
+		</button>
+	);
+}

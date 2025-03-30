@@ -3,8 +3,7 @@
 import ContactInfo from "@/components/contact/ContactInfo";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
-import { MyInput, VerticalFormInput } from "@/components/form-components/FormInput";
-import { VerticalFormSelect } from "@/components/form-components/FormSelect";
+import { MyInput } from "@/components/form-components/FormInput";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
