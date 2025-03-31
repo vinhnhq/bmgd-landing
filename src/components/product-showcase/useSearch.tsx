@@ -23,7 +23,7 @@ export const PRODUCTS = [
 			"Tâm khiến bảo vệ bạn trước những rủi ro do tai nạn, ốm đau, bệnh tật, thai sản... Hỗ trợ viện phí và phẫu thuật, an tâm trước mọi biến cố không lường trước được.",
 		image: "/product-2-banner.jpeg",
 		status: "coming" as const,
-		buttonText: "TÌM HIỂU THÊM",
+		buttonText: "SẮP RA MẮT",
 		tag: "BẢO HIỂM TAI NẠN",
 	},
 	{
@@ -34,7 +34,7 @@ export const PRODUCTS = [
 			"Bảo vệ tài chính cho gia đình trước những sự kiện không mong muốn, từ thương tật, ốm đau đến thai sản, giữ trọn nụ cười cho những người thân yêu.",
 		image: "/product-3-banner.jpeg",
 		status: "coming" as const,
-		buttonText: "TÌM HIỂU THÊM",
+		buttonText: "SẮP RA MẮT",
 		tag: "BẢO HIỂM TAI NẠN",
 	},
 ];
