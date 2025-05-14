@@ -16,7 +16,7 @@ const Slogan = ({ icon, text }: SloganProps) => (
 				<div className="w-[64px] h-[64px] relative">
 					<div className="absolute inset-0 flex items-center justify-center">
 						<div className="w-[64px] h-[64px] bg-[#F24444] rounded-full flex items-center justify-center">
-							<Image src={icon} width={0} height={0} alt="" className="w-full object-contain" aria-hidden="true" />
+							<Image src={icon} width={61} height={64} alt="" className="w-full h-auto" aria-hidden="true" />
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@ export const MainBanner: React.FC = () => {
 		<Container>
 			<div className="relative bg-[#ff3b3b]">
 				{/* Background image */}
-				<Image src={"/light.png"} width={1920} height={1080} alt="Background" className="w-full mix-blend-screen" />
+				<Image src={"/light.png"} width={1440} height={553} alt="Background" className="w-full mix-blend-screen" />
 
 				{/* Content */}
 				<div className="absolute inset-0">
@@ -44,10 +44,10 @@ export const MainBanner: React.FC = () => {
 						<div className="flex-1 flex items-end">
 							<Image
 								src={"/group-asian-business-people-posing-white-background.png"}
-								width={1920}
-								height={1080}
+								width={762}
+								height={546}
 								alt="Business Team"
-								className="w-full object-contain"
+								className="w-full h-auto"
 							/>
 						</div>
 

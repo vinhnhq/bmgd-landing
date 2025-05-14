@@ -1,4 +1,3 @@
-import logoUrl from "@/assets/logo.png";
 import { FooterContactNowLink } from "@/components/contact/FooterContactNowLink";
 import { agentRecruitmentUrl, homePageUrl, privacyPolicyUrl, productShowcaseUrl, termsOfServiceUrl } from "@/constants";
 import Image from "next/image";
@@ -6,6 +5,8 @@ import Link from "next/link";
 import type { ComponentType } from "react";
 import { FaFacebookF, FaLinkedinIn, FaTiktok, FaYoutube } from "react-icons/fa";
 import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
+
+const logoUrl = "/logo.png";
 
 const introLinks = [
 	{ id: "about-us", href: homePageUrl, text: "Về Chúng Tôi" },
@@ -65,7 +66,7 @@ export default function Footer() {
 				<div className="col-span-3">
 					<div className={"flex flex-col gap-8"}>
 						<div className="flex items-center gap-4 justify-center">
-							<Image src={logoUrl} alt="bmgd logo" className="w-8 h-auto aspect-auto" />
+							<Image src={logoUrl} width={281} height={351} alt="bmgd logo" className="w-8 h-auto aspect-auto" />
 							<h4 className="text-xl font-bold text-brand-redSecondary">Bảo Minh Gia Định</h4>
 						</div>
 
@@ -99,7 +100,7 @@ export default function Footer() {
 
 			<div className="flex items-center justify-between py-2">
 				<div className="flex items-center gap-4">
-					<Image src={logoUrl} alt="bmgd logo" className="w-12 h-auto aspect-auto" />
+					<Image src={logoUrl} width={281} height={351} alt="bmgd logo" className="w-12 h-auto aspect-auto" />
 					<p className="text-base font-normal">
 						Copyright © {new Date().getFullYear()} Bảo Hiểm Bảo Minh Gia Định | All Rights Reserved
 					</p>

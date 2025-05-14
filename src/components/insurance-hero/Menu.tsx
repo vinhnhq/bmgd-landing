@@ -146,7 +146,7 @@ function InsuranceCard({ option }: { option: (typeof insuranceOptions)[number] }
 			className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-4 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
 		>
 			<div className="w-24 flex items-center justify-center">
-				<Image src={option.icon} alt="" className="w-auto h-auto object-contain" width={73} height={83} />
+				<Image src={option.icon} alt="" className="w-3/4 h-auto object-contain" width={73} height={83} />
 			</div>
 			<div className="flex-1 flex flex-col justify-between gap-2 py-[1px]">
 				<div className="flex flex-col gap-2">
@@ -179,7 +179,7 @@ function RecruitmentCard({ option }: { option: (typeof recruitmentOptions)[numbe
 			className="flex justify-between items-center gap-4 bg-white border border-black/20 rounded-2xl px-4 py-2 cursor-pointer hover:bg-brand-redPrimary group transition-all duration-300"
 		>
 			<div className="w-24 flex items-center justify-center">
-				<Image src={option.icon} alt="" width={73} height={83} className="w-auto h-auto object-contain" />
+				<Image src={option.icon} alt="" width={89} height={89} className="w-3/4 h-auto object-contain" />
 			</div>
 			<div className="flex-1 flex flex-col justify-between gap-2">
 				<div className="flex flex-col gap-2">

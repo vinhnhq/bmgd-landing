@@ -58,7 +58,9 @@ export default function IntlTravelLayout({ children }: Readonly<{ children: Reac
 			{children}
 
 			<FAQ />
-			<ProductList />
+			<Suspense fallback={<div>Loading products...</div>}>
+				<ProductList />
+			</Suspense>
 
 			<div className="mb-14">
 				<AgentRecruitment />

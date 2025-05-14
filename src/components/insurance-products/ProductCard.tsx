@@ -56,8 +56,8 @@ export default function ProductCard({
 					<div className="w-full">
 						<Image
 							src={image}
-							width={0}
-							height={0}
+							width={1380}
+							height={921}
 							alt={title}
 							className="w-full h-auto aspect-auto rounded-2xl"
 							priority

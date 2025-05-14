@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import Image from "next/image";
 
@@ -74,7 +76,7 @@ export default function CompanyIntro() {
 							</div>
 
 							<div className="w-32 h-32 rounded-full bg-bg-accent group-hover:bg-white flex items-center justify-center">
-								<Image src={feature.icon} alt={feature.title} width={73} height={88} className="w-auto h-auto" />
+								<Image src={feature.icon} alt={feature.title} width={73} height={88} className="w-1/2 h-auto" />
 							</div>
 						</div>
 					</div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/me/carousel";
 import { CreateTestimonialButton } from "./CreateButton";

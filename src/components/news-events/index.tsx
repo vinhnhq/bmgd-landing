@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import NewsSection from "./NewsSection";
 

@@ -208,8 +208,8 @@ function ContactNowForm({
 
 					<Image
 						src={"/tu-van-ngay.jpg"}
-						width={0}
-						height={0}
+						width={1440}
+						height={553}
 						alt="Tư vấn ngay"
 						className="w-full h-auto object-cover absolute bottom-0 right-0 -z-10 max-w-72"
 					/>

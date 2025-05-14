@@ -68,10 +68,10 @@ export default function RegisterForm() {
 				{/* Background Image */}
 				<Image
 					src={"/light.png"}
-					width={1920}
-					height={1080}
+					width={1440}
+					height={553}
 					alt="Register Form Background"
-					className="absolute inset-0 w-full h-full object-cover mix-blend-lighten rounded-lg"
+					className="absolute inset-0 w-full h-auto object-cover mix-blend-lighten rounded-lg"
 				/>
 
 				{/* Content Grid */}
@@ -80,8 +80,8 @@ export default function RegisterForm() {
 					<div className="col-span-5 rounded-lg overflow-hidden">
 						<Image
 							src={"/register-form-img.png"}
-							width={0}
-							height={0}
+							width={440}
+							height={432}
 							alt="Working Meeting"
 							className="w-full h-auto object-cover rounded-lg"
 						/>

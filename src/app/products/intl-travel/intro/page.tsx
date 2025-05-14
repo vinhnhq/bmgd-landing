@@ -1,3 +1,5 @@
+"use client";
+
 import AgentRecruitment from "@/components/agent-recruitment";
 import FAQ from "@/components/agent-recruitment/FAQ";
 import Footer from "@/components/footer";
@@ -6,9 +8,9 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { BsFiletypePdf } from "react-icons/bs";
 
-export default async function IntlTravelIntroPage() {
+export default function IntlTravelIntroPage() {
 	return (
-		<Suspense>
+		<>
 			<section className="bg-white px-28 py-8">
 				<div className="space-y-8 font-medium">
 					<div className="text-xl font-medium">
@@ -128,7 +130,16 @@ export default async function IntlTravelIntroPage() {
 					<FileMenuItem>Quy tắc bảo hiểm du lịch quốc tế</FileMenuItem>
 				</div>
 			</section>
-		</Suspense>
+
+			<FAQ />
+			<Suspense fallback={<div>Loading products...</div>}>
+				<ProductList />
+			</Suspense>
+
+			<div className="mb-14">
+				<AgentRecruitment />
+			</div>
+		</>
 	);
 }
 

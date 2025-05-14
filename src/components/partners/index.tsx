@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/me/carousel";
 import Header from "@/components/me/header";
@@ -37,9 +39,9 @@ export default function Partners() {
 									<Image
 										src={partner.logo}
 										alt={partner.name}
-										width={0}
-										height={0}
-										className="w-3/5 h-full object-contain"
+										width={165}
+										height={137}
+										className="w-3/4 h-auto"
 									/>
 								</div>
 							</div>

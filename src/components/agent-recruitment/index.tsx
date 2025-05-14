@@ -23,8 +23,8 @@ export default function AgentRecruitment() {
 			<Image
 				src={"/light.png"}
 				alt="light background with red overlay"
-				width={0}
-				height={0}
+				width={1440}
+				height={553}
 				priority
 				className="w-full h-auto mix-blend-screen"
 			/>

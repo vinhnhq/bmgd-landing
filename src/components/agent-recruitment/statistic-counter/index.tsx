@@ -46,7 +46,7 @@ const StatisticsCounter: FC<StatisticsCounterProps> = ({ websiteVisits, totalPar
 					title="Tổng Số Đại Lý Hợp Tác"
 					value={totalPartners}
 					digitCount={4}
-					icon={<Image src={"/handshake-2.svg"} width={48} height={48} alt="Partner Icon" className="w-12 h-12" />}
+					icon={<Image src={"/handshake-2.svg"} width={50} height={52} alt="Partner Icon" className="w-full h-auto" />}
 				/>
 			</div>
 		</Container>

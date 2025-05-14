@@ -1,7 +1,10 @@
+"use client";
+
 import { MdEmail, MdPhone } from "react-icons/md";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ConditionalRenderer } from "@/components/utils";
+
 const ContactItem = ({
 	href,
 	icon,

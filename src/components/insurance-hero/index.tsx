@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import Image from "next/image";
 import Menu from "./Menu";
@@ -10,10 +12,10 @@ export default function InsuranceHero() {
 				<Image
 					src={"/light.png"}
 					alt="light background with red overlay"
-					width={0}
-					height={0}
+					width={1440}
+					height={553}
 					priority
-					className="w-full h-full mix-blend-screen object-cover object-center"
+					className="w-full h-auto mix-blend-screen object-cover object-center"
 				/>
 			</div>
 

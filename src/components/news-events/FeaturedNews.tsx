@@ -13,7 +13,7 @@ export default function FeaturedNews({
 }) {
 	return (
 		<div className="rounded-2xl shadow-elevation overflow-hidden h-full">
-			<Image src={imageUrl} width={0} height={0} alt={title} className="w-full h-auto" />
+			<Image src={imageUrl} width={485} height={337} alt={title} className="w-full h-auto" />
 
 			<div className="h-2 w-full bg-brand-redPrimary" />
 

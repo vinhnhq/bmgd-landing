@@ -11,7 +11,7 @@ export default function NewsCard({
 }) {
 	return (
 		<div className="rounded-2xl shadow-elevation h-full flex flex-col justify-between overflow-hidden">
-			<Image src={imageUrl} width={0} height={0} alt={title} className="w-full h-auto" />
+			<Image src={imageUrl} width={285} height={160} alt={title} className="w-full h-auto" />
 
 			<div className="bg-white hover:bg-brand-redPrimary transition-all duration-300 h-full cursor-pointer group p-4 flex flex-col justify-between">
 				<h3 className="text-base font-bold text-black group-hover:text-white uppercase">{title}</h3>
