@@ -5,10 +5,9 @@ import AdvancedFilterForm from "@/components/product-showcase/AdvancedFilterForm
 import Banner from "@/components/product-showcase/Banner";
 import ProductList from "@/components/product-showcase/ProductList";
 import PromotionalBanner from "@/components/promotion-banner";
-import { Suspense } from "react";
-import { Toaster } from "react-hot-toast";
-import { trackPageVisit } from "../actions/visit";
 import { Loader2 } from "lucide-react";
+import { Suspense } from "react";
+import { trackPageVisit } from "../actions/visit";
 
 export default async function ProductShowcase() {
 	await trackPageVisit("/product-showcase");
@@ -27,7 +26,8 @@ export default async function ProductShowcase() {
 				<ProductList />
 			</Suspense>
 
-
+			<SupportPolicy />
+			<Footer />
 		</>
 	);
 }
