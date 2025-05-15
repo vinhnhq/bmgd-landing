@@ -3,6 +3,19 @@ import type Database from "better-sqlite3";
 import { getDb } from "../connection";
 import { CREATE_CONTACT_TABLE_SQL, type ContactRecord } from "../schema/contact";
 
+interface RawContactRecord {
+	id: number;
+	name: string;
+	phone: string;
+	email: string | null;
+	type: string;
+	other_type: string | null;
+	datetime_date: string;
+	datetime_time: string;
+	created_at: string;
+	updated_at: string;
+}
+
 export class ContactRepository {
 	private db: Database.Database;
 
@@ -38,6 +51,16 @@ export class ContactRepository {
 
 	async findAll(): Promise<ContactRecord[]> {
 		const stmt = this.db.prepare("SELECT * FROM contacts ORDER BY created_at DESC");
-		return stmt.all() as ContactRecord[];
+		const rows = stmt.all() as RawContactRecord[];
+
+		return rows.map((row: RawContactRecord) => ({
+			...row,
+			type: JSON.parse(row.type),
+			otherType: row.other_type,
+			datetime: {
+				date: new Date(row.datetime_date),
+				time: row.datetime_time,
+			},
+		})) as ContactRecord[];
 	}
 }

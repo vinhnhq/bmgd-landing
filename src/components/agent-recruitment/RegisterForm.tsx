@@ -76,6 +76,7 @@ export default function RegisterForm() {
 					src={"/light.png"}
 					width={1440}
 					height={553}
+					priority
 					alt="Register Form Background"
 					className="absolute inset-0 w-full h-auto object-cover mix-blend-lighten rounded-lg"
 				/>

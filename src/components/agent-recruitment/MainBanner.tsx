@@ -35,7 +35,14 @@ export const MainBanner: React.FC = () => {
 		<Container>
 			<div className="relative bg-[#ff3b3b]">
 				{/* Background image */}
-				<Image src={"/light.png"} width={1440} height={553} alt="Background" className="w-full mix-blend-screen" />
+				<Image
+					src={"/light.png"}
+					priority
+					width={1440}
+					height={553}
+					alt="Background"
+					className="w-full mix-blend-screen"
+				/>
 
 				{/* Content */}
 				<div className="absolute inset-0">

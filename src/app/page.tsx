@@ -4,6 +4,7 @@ import Contact from "@/components/contact";
 import Footer from "@/components/footer";
 import InsuranceHero from "@/components/insurance-hero";
 import InsuranceProducts from "@/components/insurance-products";
+import { Layout } from "@/components/layout";
 import Navbar from "@/components/navbar";
 import NewsEvents from "@/components/news-events";
 import Partners from "@/components/partners";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
 	return (
-		<>
+		<Layout>
 			<PromotionalBanner />
 			<Navbar />
 			<InsuranceHero />
@@ -54,6 +55,6 @@ export default async function Home() {
 			</section>
 
 			<Footer />
-		</>
+		</Layout>
 	);
 }

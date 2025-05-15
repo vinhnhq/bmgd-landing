@@ -1,5 +1,4 @@
 import "@/app/globals.css";
-import { Layout } from "@/components/layout";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -36,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="vi" className="scroll-smooth">
 			<body className={cn("font-sans antialiased", montserrat.variable)}>
-				<Layout>{children}</Layout>
+				<div>{children}</div>
 			</body>
 		</html>
 	);

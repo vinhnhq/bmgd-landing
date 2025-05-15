@@ -2,6 +2,7 @@
 
 import { ContactRepository } from "@/db/repositories/contact";
 import type { FormValues } from "@/components/contact/schema";
+import type { ContactRecord } from "@/db/schema/contact";
 
 export async function submitContact(data: FormValues): Promise<{ success: boolean; error?: string }> {
 	try {
@@ -24,6 +25,6 @@ export async function getAllContacts() {
 		return { success: true, data: contacts };
 	} catch (error) {
 		console.error("Error fetching contacts:", error);
-		return { success: false, error: "Failed to fetch contacts" };
+		return { success: false, error: "Failed to fetch contacts", data: [] };
 	}
 }
