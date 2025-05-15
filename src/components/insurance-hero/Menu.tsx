@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PiCaretDownBold } from "react-icons/pi";
 
@@ -87,6 +88,15 @@ const recruitmentOptions = [
 
 export default function InsuranceMenu() {
 	const [activeTab, setActiveTab] = useState("insurance");
+	const router = useRouter();
+
+	const handleClick = () => {
+		if (activeTab === "insurance") {
+			router.push("/product-showcase");
+		} else {
+			router.push("/agent-recruitment");
+		}
+	};
 
 	return (
 		<div className="space-y-2">
@@ -132,6 +142,7 @@ export default function InsuranceMenu() {
 			<button
 				type="button"
 				className="w-full flex items-center justify-center gap-2 text-xl font-bold pt-2 text-black hover:scale-105 transition-all duration-300"
+				onClick={handleClick}
 			>
 				TÌM HIỂU THÊM <PiCaretDownBold className="size-6" />
 			</button>

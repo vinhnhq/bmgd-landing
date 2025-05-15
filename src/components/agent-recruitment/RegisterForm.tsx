@@ -27,7 +27,7 @@ const formSchema = z.object({
 		message: "Số điện thoại phải có 10 số.",
 	}),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.enum(contactTypes)).default(["recruitment"]),
+	type: z.array(z.enum(contactTypes)),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -44,6 +44,7 @@ export default function RegisterForm() {
 			name: "",
 			phone: "",
 			email: "",
+			type: ["recruitment"],
 			datetime: undefined,
 		},
 	});

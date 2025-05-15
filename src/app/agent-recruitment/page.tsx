@@ -21,7 +21,7 @@ export default async function AgentRecruitment() {
 			<PromotionalBanner />
 			<Navbar />
 			<MainBanner />
-			<StatisticsCounter totalPartners={4} />
+			<StatisticsCounter totalPartners={200} />
 			<SupportPolicy />
 			<Steps />
 			<NewsEvents />
