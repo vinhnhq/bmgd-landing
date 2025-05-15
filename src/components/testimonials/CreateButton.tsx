@@ -1,5 +1,6 @@
 "use client";
 
+import { submitTestimonial } from "@/app/actions/testimonial";
 import { MyInput } from "@/components/form-components/FormInput";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -16,10 +17,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiLoader } from "react-icons/fi";
 import * as z from "zod";
 
-const formSchema = z.object({
+export const formSchema = z.object({
 	name: z
 		.string()
 		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
@@ -27,12 +29,10 @@ const formSchema = z.object({
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
 	occupation: z.string().optional(),
 	company: z.string().optional(),
-	comment: z.string().min(10, {
-		message: "Nhận xét phải có ít nhất 10 ký tự.",
-	}),
+	comment: z.string().min(10, { message: "Nhận xét phải có ít nhất 10 ký tự." }),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
 const NewForm = ({
 	onOpenChange,
@@ -57,11 +57,18 @@ const NewForm = ({
 	async function onSubmit(values: FormValues) {
 		setIsSubmitted(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		setIsSubmitted(false);
-		onOpenChange(false);
-		onFinish();
+		try {
+			const result = await submitTestimonial(values);
+			if (!result.success) {
+				toast.error(result.error || "Lỗi khi gửi nhận xét. Vui lòng thử lại sau.");
+			}
+			onOpenChange(false);
+			onFinish();
+		} catch (error) {
+			toast.error("Lỗi khi gửi nhận xét. Vui lòng thử lại sau.");
+		} finally {
+			setIsSubmitted(false);
+		}
 	}
 
 	return (
@@ -155,7 +162,7 @@ const NewForm = ({
 	);
 };
 
-export function CreateTestimonialButton() {
+export function CreateTestimonialButton({ onFinish }: { onFinish?: () => void }) {
 	const [renderer, setRenderer] = useState<"create" | "success" | "init">("init");
 
 	return (
@@ -186,14 +193,17 @@ export function CreateTestimonialButton() {
 										</DialogDescription>
 									</DialogHeader>
 
-									<NewForm onOpenChange={(open) => setRenderer("init")} onFinish={() => setRenderer("success")} />
+									<NewForm onOpenChange={(open) => setRenderer("init")} onFinish={onFinish || (() => {})} />
 								</>
 							}
 							fallback={
 								<DialogSuccess
 									title="Đánh giá thành công!"
 									message="Cảm ơn bạn đã gửi đánh giá đến chúng tôi"
-									onClose={() => setRenderer("init")}
+									onClose={() => {
+										setRenderer("init");
+										onFinish?.();
+									}}
 								/>
 							}
 						/>

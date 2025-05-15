@@ -1,5 +1,7 @@
 "use client";
 
+import { submitContact } from "@/app/actions/contact";
+import { contactTypes } from "@/components/contact/schema";
 import { DateTimePicker } from "@/components/form-components";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -7,11 +9,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import {
-  ConditionalRenderer,
-  CustomFormLabel,
-  CustomFormMessage,
-  DialogSuccess,
-  FormSubmitButton,
+	ConditionalRenderer,
+	CustomFormLabel,
+	CustomFormMessage,
+	DialogSuccess,
+	FormSubmitButton,
 } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +21,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -26,11 +29,9 @@ const formSchema = z.object({
 		.string()
 		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
 		.max(128, { message: "Họ và tên phải có tối đa 128 ký tự." }),
-	phone: z.string().regex(/^[0-9]{10,11}$/, {
-		message: "Số điện thoại phải có 10 số.",
-	}),
+	phone: z.string().regex(/^[0-9]{10,11}$/, { message: "Số điện thoại phải có 10 số." }),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.enum(contactTypes)).default(["recruitment"]),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -62,12 +63,15 @@ export const ConsultationDialog = ({ open, onOpenChange }: ConsultationDialogPro
 		const initialTime = `${initialDate.getHours() + 1}:00`;
 
 		form.setValue("datetime", { date: initialDate, time: initialTime });
-		form.setValue("type", ["recruitment"]);
 	}, [form]);
 
-	function onSubmit(values: FormValues) {
-		console.log(values);
-		setIsSubmitted(true);
+	async function onSubmit(values: FormValues) {
+		try {
+			await submitContact(values);
+			setIsSubmitted(true);
+		} catch (error) {
+			toast.error("Lỗi khi gửi liên hệ. Vui lòng thử lại sau.");
+		}
 	}
 
 	return (

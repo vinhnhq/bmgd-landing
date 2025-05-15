@@ -1,5 +1,6 @@
 "use client";
 
+import { submitContact } from "@/app/actions/contact";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -14,6 +15,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiCheck } from "react-icons/fi";
 import { LuRefreshCcw } from "react-icons/lu";
 import { type ContactType, type FormValues, defaultValues, formSchema } from "./schema";
@@ -21,11 +23,26 @@ import { type ContactType, type FormValues, defaultValues, formSchema } from "./
 function ContactForm({
 	isSubmitted,
 	setIsSubmitted,
-}: { isSubmitted: boolean; setIsSubmitted: (isSubmitted: boolean) => void }) {
+}: {
+	isSubmitted: boolean;
+	setIsSubmitted: (isSubmitted: boolean) => void;
+}) {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues,
 	});
+
+	async function onSubmit(values: FormValues) {
+		try {
+			await submitContact(values);
+			setIsSubmitted(true);
+		} catch (error) {
+			toast.error("Lỗi khi gửi liên hệ. Vui lòng thử lại sau.");
+		}
+	}
+
+	const type = form.watch("type");
+	const isOtherTypeSelected = type.includes("other");
 
 	useEffect(() => {
 		const initialDate = new Date();
@@ -33,15 +50,6 @@ function ContactForm({
 
 		form.setValue("datetime", { date: initialDate, time: initialTime });
 	}, [form]);
-
-	async function onSubmit(values: FormValues) {
-		console.log(values);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		setIsSubmitted(true);
-	}
-
-	const type = form.watch("type");
-	const isOtherTypeSelected = type.includes("other");
 
 	useEffect(() => {
 		if (isOtherTypeSelected) {
@@ -82,13 +90,11 @@ function ContactForm({
 								control={form.control}
 								name="type"
 								render={({ field }) => {
-									const values = Array.isArray(field.value) ? field.value : [];
-
 									return (
 										<FormItem>
 											<FormControl>
 												<DropdownCheckboxMenu<ContactType>
-													values={values}
+													values={field.value}
 													onChange={field.onChange}
 													options={[
 														{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },

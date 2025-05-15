@@ -1,3 +1,5 @@
+import { submitContact } from "@/app/actions/contact";
+import { contactTypes } from "@/components/contact/schema";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -10,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiArrowRight } from "react-icons/fi";
 import * as z from "zod";
 
@@ -22,7 +25,7 @@ const formSchema = z.object({
 		message: "Số điện thoại phải có 10 số.",
 	}),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.enum(contactTypes)).default(["recruitment"]),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -36,7 +39,6 @@ export default function RegisterForm() {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			type: ["recruitment"],
 			name: "",
 			phone: "",
 			email: "",
@@ -51,9 +53,13 @@ export default function RegisterForm() {
 		form.setValue("datetime", { date: initialDate, time: initialTime });
 	}, [form]);
 
-	function onSubmit(values: FormValues) {
-		console.log(values);
-		setIsSubmitted(true);
+	async function onSubmit(values: FormValues) {
+		try {
+			await submitContact(values);
+			setIsSubmitted(true);
+		} catch (error) {
+			toast.error("Lỗi khi gửi liên hệ. Vui lòng thử lại sau.");
+		}
 	}
 
 	return (

@@ -1,6 +1,8 @@
 "use client";
 
+import { submitContact } from "@/app/actions/contact";
 import ContactInfo from "@/components/contact/ContactInfo";
+import { contactTypes } from "@/components/contact/schema";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -19,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiLoader } from "react-icons/fi";
 import * as z from "zod";
 
@@ -27,11 +30,9 @@ const formSchema = z.object({
 		.string()
 		.min(1, { message: "Họ và tên phải có ít nhất 1 ký tự." })
 		.max(128, { message: "Họ và tên phải có tối đa 128 ký tự." }),
-	phone: z.string().regex(/^[0-9]{10,11}$/, {
-		message: "Số điện thoại phải có 10 số.",
-	}),
+	phone: z.string().regex(/^[0-9]{10,11}$/, { message: "Số điện thoại phải có 10 số." }),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.enum(contactTypes)).default(["insurance"]),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -65,15 +66,18 @@ function ContactNowForm({
 		const initialTime = `${initialDate.getHours() + 1}:00`;
 
 		form.setValue("datetime", { date: initialDate, time: initialTime });
-		form.setValue("type", ["insurance"]);
 	}, [form]);
 
 	async function onSubmit(values: FormValues) {
-		setIsSubmitted(false);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		setIsSubmitted(true);
-		onOpenChange(false);
-		onFinish();
+		try {
+			setIsSubmitted(false);
+			await submitContact(values);
+			setIsSubmitted(true);
+			onOpenChange(false);
+			onFinish();
+		} catch (error) {
+			toast.error("Lỗi khi gửi liên hệ. Vui lòng thử lại sau.");
+		}
 	}
 
 	return (

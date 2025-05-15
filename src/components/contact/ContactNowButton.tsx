@@ -1,3 +1,6 @@
+"use client";
+
+import { submitContact } from "@/app/actions/contact";
 import { DateTimePicker } from "@/components/form-components/DateTimePicker";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -5,12 +8,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import {
-  ConditionalRenderer,
-  CustomFormLabel,
-  CustomFormMessage,
-  DialogSuccess,
-  FormSubmitButton,
-  MyButton,
+	ConditionalRenderer,
+	CustomFormLabel,
+	CustomFormMessage,
+	DialogSuccess,
+	FormSubmitButton,
+	MyButton,
 } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +21,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiLoader } from "react-icons/fi";
 import { HiOutlinePhone } from "react-icons/hi";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -45,13 +49,17 @@ function ContactNowForm({
 	}, [form]);
 
 	async function onSubmit(values: FormValues) {
-		setIsSubmitted(true);
+		try {
+			setIsSubmitted(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+			await submitContact(values);
 
-		setIsSubmitted(false);
-		onOpenChange(false);
-		onFinish();
+			setIsSubmitted(false);
+			onOpenChange(false);
+			onFinish();
+		} catch (error) {
+			toast.error("Lỗi khi gửi liên hệ. Vui lòng thử lại sau.");
+		}
 	}
 
 	const type = form.watch("type");
