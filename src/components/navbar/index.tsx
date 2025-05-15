@@ -6,6 +6,8 @@ import { FiChevronRight } from "react-icons/fi";
 import { useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { agentRecruitmentUrl, homePageUrl, productShowcaseUrl } from "@/constants";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Move these outside component
 const navLinkBase = "text-3xl font-bold transition-colors";
@@ -184,6 +186,8 @@ const childItemVariants = {
 };
 
 const Navbar = () => {
+	const pathname = usePathname();
+
 	const [activeProduct, setActiveProduct] = useState<(typeof insuranceProducts)[0] | null>(null);
 	const [activeCompensation, setActiveCompensation] = useState<(typeof compensationItems)[0] | null>(null);
 	const [activeMenu, setActiveMenu] = useState<"products" | "compensation" | null>(null);
@@ -222,7 +226,7 @@ const Navbar = () => {
 					{/* Giới Thiệu */}
 					<motion.a
 						href={homePageUrl}
-						className={navLinkPrimary}
+						className={pathname === "/" ? navLinkPrimary : navLinkDefault}
 						whileHover={{ scale: 1.05 }}
 						transition={{ duration: 0.2 }}
 					>
@@ -233,7 +237,7 @@ const Navbar = () => {
 					<div className="group">
 						<motion.button
 							type="button"
-							className={`${navLinkDefault} group/nav flex items-center`}
+							className={`group/nav flex items-center ${pathname === "/product-showcase" ? navLinkPrimary : navLinkDefault}`}
 							onMouseEnter={() => setActiveMenu("products")}
 							whileHover={{ scale: 1.05 }}
 							transition={{ duration: 0.2 }}
@@ -247,9 +251,12 @@ const Navbar = () => {
 									rotate: activeMenu === "products" ? 270 : 90,
 									scale: activeMenu === "products" ? 1.2 : 1,
 								}}
-								transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+								transition={{
+									duration: 0.3,
+									ease: [0.4, 0, 0.2, 1],
+								}}
 							>
-								<FiChevronRight className="w-8 h-8 ml-1 transition-colors stroke-2" />
+								<FiChevronRight className={"w-8 h-8 ml-1 transition-colors stroke-2"} />
 							</motion.div>
 						</motion.button>
 
@@ -379,7 +386,7 @@ const Navbar = () => {
 							whileHover={{ scale: 1.05 }}
 							transition={{ duration: 0.2 }}
 						>
-							<span>Bồi thường</span>
+							<span className={pathname === "/compensation" ? navLinkPrimary : navLinkDefault}>Bồi thường</span>
 							<motion.div
 								animate={{
 									rotate: activeMenu === "compensation" ? 270 : 90,
@@ -511,9 +518,14 @@ const Navbar = () => {
 					</div>
 
 					{/* Tuyển Dụng CTV */}
-					<a href={agentRecruitmentUrl} className={navLinkDefault}>
+					<motion.a
+						href={agentRecruitmentUrl}
+						className={pathname === "/agent-recruitment" ? navLinkPrimary : navLinkDefault}
+						whileHover={{ scale: 1.05 }}
+						transition={{ duration: 0.2 }}
+					>
 						Tuyển Dụng CTV
-					</a>
+					</motion.a>
 				</div>
 			</div>
 		</Container>
