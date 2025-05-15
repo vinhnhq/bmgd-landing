@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "vietnamese", "latin-ext"],
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="vi" className="scroll-smooth">
 			<body className={cn("font-sans antialiased", montserrat.variable)}>
 				<div>{children}</div>
+				<Toaster />
 			</body>
 		</html>
 	);

@@ -1,3 +1,5 @@
+"use client";
+
 import { submitContact } from "@/app/actions/contact";
 import { contactTypes } from "@/components/contact/schema";
 import { VerticalDateTimePicker } from "@/components/form-components/DateTimePicker";

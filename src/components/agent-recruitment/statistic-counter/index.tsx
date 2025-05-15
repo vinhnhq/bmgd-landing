@@ -1,9 +1,11 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import type { FC, ReactNode } from "react";
 import Image from "next/image";
+import { useVisitCount } from "./useVisitCount";
 
 interface StatisticsCounterProps {
-	websiteVisits: number;
 	totalPartners: number;
 }
 
@@ -15,7 +17,6 @@ interface CounterCardProps {
 }
 
 const CounterCard: FC<CounterCardProps> = ({ title, value, icon, digitCount }) => {
-	// Ensure value doesn't exceed digit count
 	const safeValue = Math.min(value, 10 ** digitCount - 1);
 	const digits = safeValue.toString().padStart(digitCount, "0").split("");
 
@@ -37,11 +38,13 @@ const CounterCard: FC<CounterCardProps> = ({ title, value, icon, digitCount }) =
 	);
 };
 
-const StatisticsCounter: FC<StatisticsCounterProps> = ({ websiteVisits, totalPartners }) => {
+export default function StatisticsCounter({ totalPartners }: StatisticsCounterProps) {
+	const visitCount = useVisitCount();
+
 	return (
 		<Container className="bg-white px-28 my-16">
 			<div className="grid grid-cols-2 gap-8">
-				<CounterCard title="Lượt truy cập Website" value={websiteVisits} digitCount={6} />
+				<CounterCard title="Lượt truy cập Website" value={visitCount} digitCount={6} />
 				<CounterCard
 					title="Tổng Số Đại Lý Hợp Tác"
 					value={totalPartners}
@@ -51,6 +54,4 @@ const StatisticsCounter: FC<StatisticsCounterProps> = ({ websiteVisits, totalPar
 			</div>
 		</Container>
 	);
-};
-
-export default StatisticsCounter;
+}

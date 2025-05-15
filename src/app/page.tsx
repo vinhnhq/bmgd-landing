@@ -11,6 +11,7 @@ import Partners from "@/components/partners";
 import PromotionalBanner from "@/components/promotion-banner";
 import Testimonials from "@/components/testimonials";
 import type { Metadata } from "next";
+import { trackPageVisit } from "./actions/visit";
 
 export const metadata: Metadata = {
 	title: "Bảo Minh Gia Định",
@@ -30,6 +31,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+	await trackPageVisit("/");
+
 	return (
 		<Layout>
 			<PromotionalBanner />

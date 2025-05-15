@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import { FiArrowRight } from "react-icons/fi";
 import { useState } from "react";
@@ -28,7 +30,7 @@ const Slogan = ({ icon, text }: SloganProps) => (
 	</div>
 );
 
-export const MainBanner: React.FC = () => {
+export default function MainBanner() {
 	const [showConsultationDialog, setShowConsultationDialog] = useState(false);
 
 	return (
@@ -91,6 +93,4 @@ export const MainBanner: React.FC = () => {
 			<ConsultationDialog open={showConsultationDialog} onOpenChange={setShowConsultationDialog} />
 		</Container>
 	);
-};
-
-export default MainBanner;
+}

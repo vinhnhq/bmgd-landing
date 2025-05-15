@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout";
 import { RenderIf } from "@/components/utils";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
