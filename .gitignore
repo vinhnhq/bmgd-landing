@@ -46,3 +46,6 @@ next-env.d.ts
 .build
 cdk.out/
 .open-next/
+
+# db
+bmgd.db
