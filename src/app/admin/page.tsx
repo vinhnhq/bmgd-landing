@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getAllContacts } from "@/app/actions/contact";
 import { getAllTestimonials } from "@/app/actions/testimonial";
 import { columns as contactColumns } from "./components/contact-cols";

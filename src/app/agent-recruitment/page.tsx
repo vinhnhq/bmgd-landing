@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import FAQ from "@/components/agent-recruitment/FAQ";
 import MainBanner from "@/components/agent-recruitment/MainBanner";
 import RegisterForm from "@/components/agent-recruitment/RegisterForm";

@@ -239,8 +239,8 @@ export const useSearch = () => {
 		matchingProducts: getMatchingProducts(),
 	};
 };
-
 const createNewSearchParams = (params: URLSearchParams) => {
 	const newParams = new URLSearchParams(params);
 	return newParams;
 };
+

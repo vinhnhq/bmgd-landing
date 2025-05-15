@@ -49,3 +49,4 @@ cdk.out/
 
 # db
 bmgd.db
+bmgd-prod.db

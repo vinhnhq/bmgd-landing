@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import SupportPolicy from "@/components/agent-recruitment/SupportPolicy";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";

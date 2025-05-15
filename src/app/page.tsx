@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import AgentRecruitment from "@/components/agent-recruitment";
 import CompanyIntro from "@/components/company-intro";
 import Contact from "@/components/contact";
