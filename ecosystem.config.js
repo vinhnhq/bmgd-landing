@@ -2,7 +2,7 @@ module.exports = {
 	apps: [
 		{
 			name: "bmgd-landing",
-			script: "npm",
+			script: "node_modules/.bin/next",
 			args: "start",
 			exec_mode: "cluster",
 			instances: "1",
