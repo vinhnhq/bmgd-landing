@@ -116,8 +116,8 @@ function ContactNowForm({
 														values={values}
 														onChange={field.onChange}
 														options={[
-															{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
-															{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+															{ value: "insurance", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+															{ value: "claim", label: "Hỗ Trợ Bồi Thường" },
 															{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
 															{ value: "other", label: "Khác (Điền Tại Đây)" },
 														]}

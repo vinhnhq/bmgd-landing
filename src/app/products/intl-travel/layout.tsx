@@ -3,8 +3,8 @@
 import AgentRecruitment from "@/components/agent-recruitment";
 import FAQ from "@/components/agent-recruitment/FAQ";
 import Footer from "@/components/footer";
+import InsuranceProducts from "@/components/insurance-products";
 import Navbar from "@/components/navbar";
-import ProductList from "@/components/product-showcase/ProductList";
 import ProductNav from "@/components/products/nav";
 import PromotionalBanner from "@/components/promotion-banner";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,7 @@ export default function IntlTravelLayout({ children }: Readonly<{ children: Reac
 			</div>
 
 			<section className="bg-white px-28 py-8">
-				<Suspense fallback={<span />}>
+				<Suspense fallback={null}>
 					<ProductNav />
 				</Suspense>
 			</section>
@@ -58,8 +58,8 @@ export default function IntlTravelLayout({ children }: Readonly<{ children: Reac
 			{children}
 
 			<FAQ />
-			<Suspense fallback={<div>Loading products...</div>}>
-				<ProductList />
+			<Suspense fallback={null}>
+				<InsuranceProducts />
 			</Suspense>
 
 			<div className="mb-14">

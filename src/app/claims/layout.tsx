@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
 
-export default function ProductsLayout({ children }: { children: React.ReactNode }) {
+export default function ClaimsLayout({ children }: { children: React.ReactNode }) {
 	return <Layout>{children}</Layout>;
 }

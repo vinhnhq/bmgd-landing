@@ -56,7 +56,7 @@ export default async function Home() {
 			<Testimonials />
 
 			<section id="contact">
-				<Contact />
+				<Contact type={null} />
 			</section>
 
 			<Footer />

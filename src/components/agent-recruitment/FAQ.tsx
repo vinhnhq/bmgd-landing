@@ -9,8 +9,8 @@ export default function FAQ() {
 	return (
 		<Container className="px-28 my-16">
 			<Header
-				title="Câu Hỏi Thường Gặp Về Tuyển Dụng Cộng Tác Viên"
-				description="Tải tài liệu bên dưới để đọc và nắm chi tiết về các vấn đề xoay quanh tuyển dụng Cộng Tác Viên"
+				title="Câu Hỏi Thường Gặp Về Sản Phẩm"
+				description="Tải tài liệu bên dưới để đọc và nắm chi tiết về các vấn đề xoay quanh về Sản Phẩm"
 			/>
 
 			{/* FAQ Card */}
@@ -18,9 +18,9 @@ export default function FAQ() {
 				<h3 className="text-4xl font-bold text-white mb-8 leading-snug">
 					Tải Câu Hỏi
 					<br />
-					Thường Gặp Về
+					Thường Gặp
 					<br />
-					Tuyển Dụng CTV
+					Về Sản Phẩm
 				</h3>
 
 				<button

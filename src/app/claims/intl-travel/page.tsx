@@ -1,6 +1,98 @@
-import { cn } from "@/lib/utils";
+"use client";
 
-export default function IntlTravelClaimPage() {
+import AgentRecruitment from "@/components/agent-recruitment";
+import Contact from "@/components/contact";
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
+import PromotionalBanner from "@/components/promotion-banner";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { BsFiletypePdf } from "react-icons/bs";
+import { FiChevronDown } from "react-icons/fi";
+import { Container } from "@/components/layout";
+import { faqFileUrl } from "../../../constants";
+import Header from "@/components/me/header";
+
+export default function IntlTravelClaim() {
+	return (
+		<main>
+			<PromotionalBanner />
+			<Navbar />
+
+			<div className="relative">
+				<Image
+					src="/bao-hiem-du-lich-quoc-te.jpeg"
+					alt="Bảo Hiểm Du Lịch Quốc Tế"
+					width={1380}
+					height={921}
+					className="w-full h-auto max-h-[691px] object-cover"
+				/>
+
+				<div className="absolute top-0 left-0 w-2/3 h-full bg-gradient-to-r from-[#FF7A79] to-transparent" />
+				<div className="absolute top-0 left-24 w-1/2 h-full">
+					<div className="flex flex-col items-start justify-center h-full gap-8">
+						<button
+							type="button"
+							onClick={() => {
+								document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "center" });
+							}}
+							className={cn(
+								"bg-[#8CC166] text-white px-4 py-4 rounded-lg uppercase text-xl font-extrabold shadow-elevation",
+								"hover:scale-105 transition-transform duration-300",
+							)}
+						>
+							Xem brochure sản phẩm
+						</button>
+						<h1 className="text-white text-5xl font-extrabold">
+							Bảo Hiểm <span className="block mt-2">Du Lịch Quốc Tế</span>
+						</h1>
+						<p className="text-white text-xl font-bold leading-10 w-2/3 justify-center">
+							An tâm trên mọi hành trình với sự bảo vệ toàn diện từ tai nạn, chi phí y tế đến mất hành lý hay hủy chuyến
+							bay, mang đến cho bạn chuyến đi trọn vẹn.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<IntlTravelClaimPage />
+
+			<div className="bg-white px-28 py-8">
+				<AttachedDocuments />
+			</div>
+
+			<div className="my-12">
+				<AgentRecruitment />
+			</div>
+
+			<FAQ />
+
+			<section id="contact">
+				<Contact type="claim" />
+			</section>
+
+			<Footer />
+		</main>
+	);
+}
+
+function Row({ step, children }: { step: string; children: React.ReactNode }) {
+	return (
+		<div
+			className={cn(
+				"flex gap-x-8 items-center",
+				"before:content-[''] before:self-stretch before:border before:border-brand-redSecondary before:mt-6",
+			)}
+		>
+			<div className="rounded-full border-2 border-brand-redSecondary w-56 h-56 flex items-center justify-center -order-1">
+				<span className="text-brand-redSecondary font-bold text-[35px]">{step}</span>
+			</div>
+
+			{children}
+		</div>
+	);
+}
+
+function IntlTravelClaimPage() {
 	return (
 		<main className="bg-white px-28 py-8">
 			<div className="space-y-16">
@@ -175,19 +267,71 @@ export default function IntlTravelClaimPage() {
 	);
 }
 
-function Row({ step, children }: { step: string; children: React.ReactNode }) {
+function AttachedDocuments() {
 	return (
-		<div
-			className={cn(
-				"flex gap-x-8 items-center",
-				"before:content-[''] before:self-stretch before:border before:border-brand-redSecondary before:mt-6",
-			)}
-		>
-			<div className="rounded-full border-2 border-brand-redSecondary w-56 h-56 flex items-center justify-center -order-1">
-				<span className="text-brand-redSecondary font-bold text-[35px]">{step}</span>
+		<section className="bg-brand-redSecondary/20 -mx-28 py-4">
+			<div className="mx-28 space-y-4">
+				<div>
+					<h2 className="text-[32px] font-bold">2. Tài Liệu Đính Kèm</h2>
+					<p className="text-[22px] font-medium">
+						Tải tài liệu bên dưới để đọc và nắm chi tiết về thông tin sản phẩm bảo hiểm này.
+					</p>
+				</div>
+
+				<PdfButton onClick={() => {}} className="ml-12">
+					<div className="flex flex-col items-start">
+						<span>Quy Tắc Bảo Hiểm Du Lịch</span>
+						<span>Quốc Tế</span>
+					</div>
+				</PdfButton>
+			</div>
+		</section>
+	);
+}
+
+function PdfButton({
+	children,
+	className,
+	...props
+}: { children: React.ReactNode; className?: string } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+	return (
+		<button type="button" className={cn("flex items-center gap-4 text-[22px] font-medium", className)} {...props}>
+			<div className="bg-brand-redSecondary py-2 px-1 rounded-md shadow-elevation">
+				<BsFiletypePdf className="text-white w-12 h-auto" />
 			</div>
 
 			{children}
-		</div>
+		</button>
+	);
+}
+
+function FAQ() {
+	return (
+		<Container className="px-28 my-16">
+			<Header
+				title="Câu Hỏi Thường Gặp Về Bồi Thường"
+				description="Tải tài liệu bên dưới để đọc và nắm chi tiết về các vấn đề xoay quanh về Bồi Thường"
+			/>
+
+			{/* FAQ Card */}
+			<div className="max-w-md bg-[#F24444] rounded-xl py-10 px-8">
+				<h3 className="text-4xl font-bold text-white mb-8 leading-snug">
+					Tải Câu Hỏi
+					<br />
+					Thường Gặp
+					<br />
+					Về Bồi Thường
+				</h3>
+
+				<button
+					type="button"
+					onClick={() => window.open(faqFileUrl, "_blank")}
+					className="flex px-8 bg-white text-[#F24444] rounded-full items-center justify-center gap-2 group transition-all duration-300 hover:scale-105"
+				>
+					<span className="text-xl font-bold my-4 uppercase">xem tài liệu</span>
+					<FiChevronDown className="w-8 h-8 group-hover:rotate-180 transition-all duration-300" />
+				</button>
+			</div>
+		</Container>
 	);
 }

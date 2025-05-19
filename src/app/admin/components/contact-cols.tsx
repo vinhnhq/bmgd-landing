@@ -7,9 +7,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 const mapType = (type: ContactType) => {
 	switch (type) {
 		case "claim":
-			return "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp";
-		case "insurance":
 			return "Hỗ Trợ Bồi Thường";
+		case "insurance":
+			return "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp";
 		case "recruitment":
 			return "Tư Vấn Trở Thành Công Tác Viên";
 		case "other":

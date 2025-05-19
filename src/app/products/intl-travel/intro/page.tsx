@@ -30,22 +30,32 @@ export default function IntlTravelIntroPage() {
 					<div className="font-bold text-2xl">Xem và download quyền lợi các gói (Áp dụng cá nhân)</div>
 					<div className="font-bold text-2xl">Đối với Toàn cầu (không bao gồm khối Schengen).</div>
 
-					<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
-						- Quyền lợi phổ thông (Mức trách nhiệm tối đa đến 50.000 USD)
-					</div>
-					<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
-						- Quyền lợi cao cấp (Mức trách nhiệm tối đa đến 100.000 USD)
-					</div>
-					<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
-						- Quyền lợi thượng hạng (Mức trách nhiệm tối đa đến 150.000 USD)
-					</div>
+					<a href="https://www.baominh.com.vn/uploads/source/QUYEN%20LOI%20PHO%20THONG%20-%20STANDARD_1.pdf" target="_blank" rel="noopener noreferrer">
+						<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
+							- Quyền lợi phổ thông (Mức trách nhiệm tối đa đến 50.000 USD)
+						</div>
+					</a>
+
+					<a href="https://www.baominh.com.vn/uploads/source/BANG%20QUYEN%20LOI%20CAO%20CAP%20-%20SUPERIOR_2.pdf" target="_blank" rel="noopener noreferrer">
+						<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
+							- Quyền lợi cao cấp (Mức trách nhiệm tối đa đến 100.000 USD)
+						</div>
+					</a>
+
+					<a href="https://www.baominh.com.vn/uploads/source/QUYEN%20LOI%20THUONG%20HANG%20-%20PREMIER_2.pdf" target="_blank" rel="noopener noreferrer">
+						<div className="text-blue-700 underline underline-offset-4 cursor-pointer text-xl font-medium">
+							- Quyền lợi thượng hạng (Mức trách nhiệm tối đa đến 150.000 USD)
+						</div>
+					</a>
 
 					<div className="py-8">
 						<div className="border border-black border-b-0 p-4 space-y-4">
 							<h2 className="text-3xl font-bold text-center text-brand-redSecondary">BẢNG TÓM TẮT VỀ SẢN PHẨM</h2>
 							<p className="text-center text-2xl font-bold">
 								(Chi tiết xin vui lòng xem tại Quy Tắc Bảo Hiểm Du Lịch Quốc Tế
-								<span className="text-blue-700 underline underline-offset-4 cursor-pointer ml-2">tại đây</span>)
+								<a href="https://www.baominh.com.vn/uploads/source/File%20t%C3%A0i%20li%E1%BB%87u/con%20nguoi/Du%20lich/quy-tac-du-lich-quoc-te.pdf" target="_blank" rel="noopener noreferrer">
+									<span className="text-blue-700 underline underline-offset-4 cursor-pointer ml-2">tại đây</span>
+								</a>)
 							</p>
 						</div>
 
@@ -124,15 +134,23 @@ export default function IntlTravelIntroPage() {
 
 			<section className="bg-white px-28">
 				<div className="grid grid-cols-2 gap-8">
-					<FileMenuItem>Quyền lợi thượng hạng USD</FileMenuItem>
-					<FileMenuItem>Quyền lợi phổ thông USD</FileMenuItem>
-					<FileMenuItem>Quyền lợi cao cấp USD</FileMenuItem>
-					<FileMenuItem>Quy tắc bảo hiểm du lịch quốc tế</FileMenuItem>
+					<a href="https://www.baominh.com.vn/uploads/source/QUYEN%20LOI%20THUONG%20HANG%20-%20PREMIER_2.pdf" target="_blank" rel="noopener noreferrer">
+						<FileMenuItem>Quyền lợi thượng hạng USD</FileMenuItem>
+					</a>
+					<a href="https://www.baominh.com.vn/uploads/source/QUYEN%20LOI%20PHO%20THONG%20-%20STANDARD_1.pdf" target="_blank" rel="noopener noreferrer">
+						<FileMenuItem>Quyền lợi phổ thông USD</FileMenuItem>
+					</a>
+					<a href="https://www.baominh.com.vn/uploads/source/BANG%20QUYEN%20LOI%20CAO%20CAP%20-%20SUPERIOR_2.pdf" target="_blank" rel="noopener noreferrer">
+						<FileMenuItem>Quyền lợi cao cấp USD</FileMenuItem>
+					</a>
+					<a href="https://www.baominh.com.vn/uploads/source/File%20t%C3%A0i%20li%E1%BB%87u/con%20nguoi/Du%20lich/quy-tac-du-lich-quoc-te.pdf" target="_blank" rel="noopener noreferrer">
+						<FileMenuItem>Quy tắc bảo hiểm du lịch quốc tế</FileMenuItem>
+					</a>
 				</div>
 			</section>
 
 			<FAQ />
-			<Suspense fallback={<div>Loading products...</div>}>
+			<Suspense fallback={null}>
 				<ProductList />
 			</Suspense>
 

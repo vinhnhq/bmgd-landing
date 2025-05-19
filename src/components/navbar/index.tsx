@@ -38,11 +38,11 @@ const insuranceProducts = [
 			},
 			{
 				title: "Bảo Hiểm Sức Khoẻ Toàn Diện",
-				href: "/san-pham/bao-hiem-suc-khoe-toan-dien",
+				href: "/",
 			},
 			{
 				title: "Bảo Hiểm Sức Khoẻ Gia Đình",
-				href: "/san-pham/bao-hiem-suc-khoe-gia-dinh",
+				href: "/",
 			},
 		],
 	},
@@ -75,15 +75,15 @@ const compensationItems = [
 		children: [
 			{
 				title: "Bảo Hiểm Du Lịch Quốc Tế",
-				href: "/boi-thuong/bao-hiem-du-lich-quoc-te",
+				href: "/claims/intl-travel",
 			},
 			{
 				title: "Bảo Hiểm Sức Khoẻ Toàn Diện",
-				href: "/boi-thuong/bao-hiem-suc-khoe-toan-dien",
+				href: "/",
 			},
 			{
 				title: "Bảo Hiểm Sức Khoẻ Gia Đình",
-				href: "/boi-thuong/bao-hiem-suc-khoe-gia-dinh",
+				href: "/",
 			},
 		],
 	},
@@ -237,7 +237,7 @@ const Navbar = () => {
 					<div className="group">
 						<motion.button
 							type="button"
-							className={`group/nav flex items-center ${pathname === "/product-showcase" ? navLinkPrimary : navLinkDefault}`}
+							className={`group/nav flex items-center ${pathname === "/product-showcase" || pathname.includes("/products") ? navLinkPrimary : navLinkDefault}`}
 							onMouseEnter={() => setActiveMenu("products")}
 							whileHover={{ scale: 1.05 }}
 							transition={{ duration: 0.2 }}
@@ -328,7 +328,7 @@ const Navbar = () => {
 																>
 																	{activeProduct.children.map((child) => (
 																		<motion.a
-																			key={child.href}
+																			key={child.href + child.title}
 																			href={child.href}
 																			className="block text-2xl font-medium text-black hover:text-[#F24444] transition-colors px-4 py-2"
 																			variants={childItemVariants}
@@ -381,12 +381,12 @@ const Navbar = () => {
 					<div className="group">
 						<motion.button
 							type="button"
-							className={`${navLinkDefault} group/nav flex items-center`}
+							className={`group/nav flex items-center ${pathname.includes("/claims") ? navLinkPrimary : navLinkDefault}`}
 							onMouseEnter={() => setActiveMenu("compensation")}
 							whileHover={{ scale: 1.05 }}
 							transition={{ duration: 0.2 }}
 						>
-							<span className={pathname === "/compensation" ? navLinkPrimary : navLinkDefault}>Bồi thường</span>
+							<span>Bồi thường</span>
 							<motion.div
 								animate={{
 									rotate: activeMenu === "compensation" ? 270 : 90,
@@ -468,7 +468,7 @@ const Navbar = () => {
 																>
 																	{activeCompensation.children.map((child) => (
 																		<motion.a
-																			key={child.href}
+																			key={child.href + child.title}
 																			href={child.href}
 																			className="block text-2xl font-medium text-black hover:text-[#F24444] transition-colors px-4 py-2"
 																			variants={childItemVariants}

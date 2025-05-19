@@ -20,11 +20,11 @@ export default async function ProductShowcase() {
 			<Navbar />
 			<Banner />
 
-			<Suspense fallback={<Loader2 className="w-10 h-10 animate-spin" />}>
+			<Suspense fallback={null}>
 				<AdvancedFilterForm />
 			</Suspense>
 
-			<Suspense fallback={<Loader2 className="w-10 h-10 animate-spin" />}>
+			<Suspense fallback={null}>
 				<ProductList />
 			</Suspense>
 

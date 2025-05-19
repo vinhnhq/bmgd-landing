@@ -23,13 +23,18 @@ import { type ContactType, type FormValues, defaultValues, formSchema } from "./
 function ContactForm({
 	isSubmitted,
 	setIsSubmitted,
+	type,
 }: {
 	isSubmitted: boolean;
 	setIsSubmitted: (isSubmitted: boolean) => void;
+	type: ContactType | null;
 }) {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues,
+		defaultValues: {
+			...defaultValues,
+			type: type ? [type] : defaultValues.type,
+		},
 	});
 
 	async function onSubmit(values: FormValues) {
@@ -41,8 +46,8 @@ function ContactForm({
 		}
 	}
 
-	const type = form.watch("type");
-	const isOtherTypeSelected = type.includes("other");
+	const formType = form.watch("type");
+	const isOtherTypeSelected = formType.includes("other");
 
 	useEffect(() => {
 		const initialDate = new Date();
@@ -94,11 +99,12 @@ function ContactForm({
 										<FormItem>
 											<FormControl>
 												<DropdownCheckboxMenu<ContactType>
+													disabled={type !== null}
 													values={field.value}
 													onChange={field.onChange}
 													options={[
-														{ value: "insurance", label: "Hỗ Trợ Bồi Thường" },
-														{ value: "claim", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+														{ value: "insurance", label: "Tư Vấn Sản Phẩm Phù Hợp Theo Doanh Nghiệp" },
+														{ value: "claim", label: "Hỗ Trợ Bồi Thường" },
 														{ value: "recruitment", label: "Tư Vấn Trở Thành Công Tác Viên" },
 														{ value: "other", label: "Khác (Điền Tại Đây)" },
 													]}
@@ -178,14 +184,14 @@ function ContactForm({
 	);
 }
 
-export default function ContactFormContainer() {
+export default function ContactFormContainer({ type }: { type: ContactType | null }) {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	return (
 		<ConditionalRenderer
 			condition={isSubmitted}
 			component={<Success />}
-			fallback={<ContactForm isSubmitted={isSubmitted} setIsSubmitted={setIsSubmitted} />}
+			fallback={<ContactForm isSubmitted={isSubmitted} setIsSubmitted={setIsSubmitted} type={type} />}
 		/>
 	);
 }
