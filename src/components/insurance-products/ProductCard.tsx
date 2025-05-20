@@ -34,6 +34,7 @@ export default function ProductCard({
 	buttonText,
 	tag,
 	isActive,
+	link,
 }: {
 	title: string;
 	category: string;
@@ -43,6 +44,7 @@ export default function ProductCard({
 	buttonText: string;
 	tag: string;
 	isActive: boolean;
+	link?: string;
 }) {
 	return (
 		<div className="h-full">
@@ -90,6 +92,11 @@ export default function ProductCard({
 							? "bg-brand-redPrimary text-white group-hover:bg-white group-hover:text-brand-redPrimary"
 							: "bg-text-secondary text-white group-hover:bg-white group-hover:text-text-secondary",
 					)}
+					onClick={() => {
+						if (link) {
+							window.location.href = link;
+						}
+					}}
 				>
 					{buttonText}
 				</button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { contactTypes } from "@/components/contact/schema";
 import { DateTimePicker } from "@/components/form-components";
 import { DropdownCheckboxMenu } from "@/components/form-components/FormDropdownCheckboxField";
 import { MyInput } from "@/components/form-components/FormInput";
@@ -30,7 +31,7 @@ const formSchema = z.object({
 		message: "Số điện thoại phải có 10 số.",
 	}),
 	email: z.union([z.string().email({ message: "Email không hợp lệ." }), z.literal("")]),
-	type: z.array(z.string(), { required_error: "Vui lòng chọn thông tin cần liên hệ." }),
+	type: z.array(z.enum(contactTypes)),
 	datetime: z.object({
 		date: z.date({ required_error: "Vui lòng chọn ngày tư vấn." }),
 		time: z.string({ required_error: "Vui lòng chọn thời gian tư vấn." }),
@@ -52,7 +53,7 @@ export const ClaimDialog = ({ open, onOpenChange }: ClaimDialogProps) => {
 			name: "",
 			phone: "",
 			email: "",
-			type: [],
+			type: ["claim"],
 			datetime: undefined,
 		},
 	});
@@ -62,7 +63,6 @@ export const ClaimDialog = ({ open, onOpenChange }: ClaimDialogProps) => {
 		const initialTime = `${initialDate.getHours() + 1}:00`;
 
 		form.setValue("datetime", { date: initialDate, time: initialTime });
-		form.setValue("type", ["insurance"]);
 	}, [form]);
 
 	function onSubmit(values: FormValues) {

@@ -22,6 +22,7 @@ const products = [
 		category: "Bảo hiểm du lịch",
 		status: "available",
 		isActive: true,
+		link: "/products/intl-travel/intro",
 	},
 	{
 		id: 2,
@@ -58,6 +59,7 @@ const products = [
 		category: "Bảo hiểm du lịch",
 		status: "available",
 		isActive: true,
+		link: "/products/intl-travel/intro",
 	},
 	{
 		id: 5,

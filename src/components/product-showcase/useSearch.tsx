@@ -14,6 +14,7 @@ export const PRODUCTS = [
 		status: "available" as const,
 		buttonText: "TÌM HIỂU THÊM",
 		tag: "BẢO HIỂM TAI NẠN",
+		link: "/products/intl-travel/intro",
 	},
 	{
 		id: "2",
@@ -243,4 +244,3 @@ const createNewSearchParams = (params: URLSearchParams) => {
 	const newParams = new URLSearchParams(params);
 	return newParams;
 };
-

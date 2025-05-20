@@ -59,7 +59,15 @@ export default function IntlTravelRulePage() {
 						</p>
 					</div>
 
-					<PdfButton onClick={() => {}} className="ml-12">
+					<PdfButton
+						onClick={() => {
+							window.open(
+								"https://www.baominh.com.vn/uploads/source/File%20t%C3%A0i%20li%E1%BB%87u/con%20nguoi/Du%20lich/quy-tac-du-lich-quoc-te.pdf",
+								"_blank",
+							);
+						}}
+						className="ml-12"
+					>
 						<div className="flex flex-col items-start">
 							<span>Quy Tắc Bảo Hiểm Du Lịch</span>
 							<span>Quốc Tế</span>
@@ -87,6 +95,7 @@ const items = [
 	"Tổn thất gián tiếp hoặc thệt hại mang tính hậu quả.",
 ];
 
+// TODO: add dialog to read pdf later
 function Exclude() {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -95,7 +104,18 @@ function Exclude() {
 			<ConditionalRenderer
 				condition={isOpen}
 				component={<DialogPdf open={isOpen} onOpenChange={setIsOpen} />}
-				fallback={<MainPdfButton onClick={() => setIsOpen(true)}>Quy Tắc Bảo Hiểm Du Lịch Quốc Tế</MainPdfButton>}
+				fallback={
+					<MainPdfButton
+						onClick={() => {
+							window.open(
+								"https://www.baominh.com.vn/uploads/source/File%20t%C3%A0i%20li%E1%BB%87u/con%20nguoi/Du%20lich/quy-tac-du-lich-quoc-te.pdf",
+								"_blank",
+							);
+						}}
+					>
+						Quy Tắc Bảo Hiểm Du Lịch Quốc Tế
+					</MainPdfButton>
+				}
 			/>
 
 			<ul className="divide-y divide-black border border-black">
@@ -138,7 +158,16 @@ function Compensation() {
 
 	return (
 		<div className="space-y-4 flex flex-col items-center relative">
-			<MainPdfButton onClick={() => {}}>Đơn yêu cầu bồi thường</MainPdfButton>
+			<MainPdfButton
+				onClick={() => {
+					window.open(
+						"https://tructuyen.baominh.vn/wp-content/uploads/2016/09/GYCBT-CLAIMFORM-IW_IH-EN.doc&sa=D&source=editors&ust=1747747668270067&usg=AOvVaw3R24ZxTpgtuJ3D_cLbyCZ0",
+						"_blank",
+					);
+				}}
+			>
+				Đơn yêu cầu bồi thường
+			</MainPdfButton>
 
 			<ul className="w-full divide-y divide-black border border-black">
 				{items.map((item, index) => {
