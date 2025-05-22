@@ -470,7 +470,7 @@ function FirstTable() {
 						<CellDescription>
 							Tiền đặt cọc không được hoàn lại cho chuyến đi và chi phí đi lại tăng lên vì cắt ngắn hay hủy chuyến do
 							Người được bảo hiểm bị chết, ốm đau thương tật nghiêm trọng, phải ra làm chứng hay thu tòa hoặc được cách
-							ly y tế kiểm dịch.
+							ly để kiểm dịch.
 						</CellDescription>
 					</TableCell>
 					<TableCell>Không áp dụng</TableCell>
