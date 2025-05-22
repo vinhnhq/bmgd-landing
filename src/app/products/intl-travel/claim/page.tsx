@@ -35,6 +35,8 @@ export default function IntlTravelClaimPage() {
 									<a
 										href="https://tructuyen.baominh.vn/wp-content/uploads/2016/09/GYCBT-CLAIMFORM-IW_IH-EN.doc"
 										className="text-blue-500 hover:underline"
+										target="_blank"
+										rel="noopener noreferrer"
 									>
 										Tải tại đây
 									</a>

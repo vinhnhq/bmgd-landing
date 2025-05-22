@@ -79,7 +79,7 @@ const QuickActionButton = ({
 	</a>
 );
 
-export default function () {
+export default function QuickActionButtons() {
 	return (
 		<div className="fixed bottom-0 w-full">
 			<div className="mx-auto max-w-[1440px] relative">

@@ -1,6 +1,6 @@
 "use client";
 
-import AgentRecruitment from "@/components/agent-recruitment";
+import AgentRecruitmentTiny from "@/components/agent-recruitment-tiny";
 import FAQ from "@/components/agent-recruitment/FAQ";
 import Footer from "@/components/footer";
 import InsuranceProducts from "@/components/insurance-products";
@@ -35,6 +35,12 @@ export default function IntlTravelLayout({ children }: Readonly<{ children: Reac
 								"bg-[#8CC166] text-white px-4 py-4 rounded-lg uppercase text-xl font-extrabold shadow-elevation",
 								"hover:scale-105 transition-transform duration-300",
 							)}
+							onClick={() => {
+								window.open(
+									"https://drive.google.com/file/d/1t9vpZCsIBd8kTOMKe2W4DKFb-oTPRZhw/view?usp=drive_link",
+									"_blank",
+								);
+							}}
 						>
 							Xem brochure sản phẩm
 						</button>
@@ -63,7 +69,7 @@ export default function IntlTravelLayout({ children }: Readonly<{ children: Reac
 			</Suspense>
 
 			<div className="mb-14">
-				<AgentRecruitment />
+				<AgentRecruitmentTiny />
 			</div>
 
 			<Footer />

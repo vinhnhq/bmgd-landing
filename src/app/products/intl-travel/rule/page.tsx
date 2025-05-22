@@ -160,10 +160,7 @@ function Compensation() {
 		<div className="space-y-4 flex flex-col items-center relative">
 			<MainPdfButton
 				onClick={() => {
-					window.open(
-						"https://tructuyen.baominh.vn/wp-content/uploads/2016/09/GYCBT-CLAIMFORM-IW_IH-EN.doc&sa=D&source=editors&ust=1747747668270067&usg=AOvVaw3R24ZxTpgtuJ3D_cLbyCZ0",
-						"_blank",
-					);
+					window.open("https://tructuyen.baominh.vn/wp-content/uploads/2016/09/GYCBT-CLAIMFORM-IW_IH-EN.doc", "_blank");
 				}}
 			>
 				Đơn yêu cầu bồi thường

@@ -3,10 +3,76 @@
 import { ConditionalRenderer } from "@/components/utils";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDebounce } from "react-use";
 
 export default function IntlTravelBenefitPage() {
 	const [table, setTable] = useState<"first" | "second">("first");
+
+	const containerRef = useRef<HTMLDivElement>(null);
+	const leftButtonRef = useRef<HTMLButtonElement>(null);
+	const rightButtonRef = useRef<HTMLButtonElement>(null);
+
+	// Define the update function with useCallback to memoize it
+	const updateButtonPositions = useCallback(() => {
+		if (containerRef.current && leftButtonRef.current && rightButtonRef.current) {
+			const minOffset = 256;
+
+			const containerRect = containerRef.current.getBoundingClientRect();
+
+			// Position buttons horizontally
+			const containerLeft = containerRect.left + window.scrollX;
+			const containerRight = containerRect.right + window.scrollX;
+			leftButtonRef.current.style.left = `${containerLeft - 64}px`;
+			rightButtonRef.current.style.right = `${document.documentElement.clientWidth - containerRight - 64}px`;
+
+			const containerTop = containerRect.top;
+			const containerBottom = containerRect.bottom;
+
+			// Center in viewport
+			const centerInViewport = window.innerHeight / 2;
+
+			if (containerTop + minOffset > centerInViewport) {
+				leftButtonRef.current.style.top = `${containerTop + minOffset}px`;
+				rightButtonRef.current.style.top = `${containerTop + minOffset}px`;
+				return;
+			}
+
+			if (containerBottom - minOffset < centerInViewport) {
+				leftButtonRef.current.style.top = `${containerBottom - minOffset}px`;
+				rightButtonRef.current.style.top = `${containerBottom - minOffset}px`;
+				return;
+			}
+
+			// Clamp to container bounds
+			const clampedPosition = centerInViewport;
+
+			// Apply vertical position
+			leftButtonRef.current.style.top = `${clampedPosition}px`;
+			rightButtonRef.current.style.top = `${clampedPosition}px`;
+		}
+	}, []);
+
+	// Use debounce for both scroll and manual updates
+	const [, cancel] = useDebounce(updateButtonPositions, 100, [updateButtonPositions]);
+
+	useEffect(() => {
+		// Initial positioning (no debounce for this)
+		updateButtonPositions();
+
+		// Set up event listeners that will trigger the debounced function
+		const handleEvents = () => updateButtonPositions();
+
+		window.addEventListener("scroll", handleEvents);
+		window.addEventListener("resize", handleEvents);
+
+		return () => {
+			window.removeEventListener("scroll", handleEvents);
+			window.removeEventListener("resize", handleEvents);
+			// Cancel any pending debounced updates
+			cancel();
+		};
+	}, [updateButtonPositions, cancel]);
 
 	return (
 		<main className="bg-white px-28 py-8 space-y-12">
@@ -18,14 +84,15 @@ export default function IntlTravelBenefitPage() {
 
 			<section id="benefit" className="space-y-8">
 				<article>
-					<div className="space-y-1 relative">
+					<div className="space-y-1 relative" ref={containerRef}>
 						<div className="text-[25px] italic font-medium text-black text-right">Đơn vị tính: USD</div>
 
 						<ConditionalRenderer condition={table === "first"} component={<FirstTable />} fallback={<SecondTable />} />
 
 						<button
+							ref={leftButtonRef}
 							className={cn(
-								"absolute top-[1056px] -left-16 flex items-center justify-center h-8 w-8 rounded-full bg-white shadow-elevation",
+								"fixed flex items-center justify-center h-8 w-8 rounded-full bg-white shadow-elevation z-50",
 								"hover:bg-brand-redPrimary hover:text-white transition-all duration-300",
 								table === "first" && "cursor-not-allowed",
 							)}
@@ -36,8 +103,9 @@ export default function IntlTravelBenefitPage() {
 						</button>
 
 						<button
+							ref={rightButtonRef}
 							className={cn(
-								"absolute top-[1056px] -right-16 flex items-center justify-center h-8 w-8 rounded-full bg-white shadow-elevation",
+								"fixed flex items-center justify-center h-8 w-8 rounded-full bg-white shadow-elevation z-50",
 								"hover:bg-brand-redPrimary hover:text-white transition-all duration-300",
 								table === "second" && "cursor-not-allowed",
 							)}

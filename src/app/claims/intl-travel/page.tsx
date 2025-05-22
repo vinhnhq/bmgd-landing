@@ -41,7 +41,7 @@ export default function IntlTravelClaim() {
 								"hover:scale-105 transition-transform duration-300",
 							)}
 						>
-							Xem brochure sản phẩm
+							Yêu cầu bồi thường
 						</button>
 						<h1 className="text-white text-5xl font-extrabold">
 							Bảo Hiểm <span className="block mt-2">Du Lịch Quốc Tế</span>
