@@ -112,7 +112,7 @@ export default function IntlTravelIntroPage() {
 										trợ chi phí học hành của trẻ em; Chi phí y tế do tai nạn và ốm đau, chi phí nha khoa do tai nạn; Trợ
 										cấp tiền mặt khi nằm viện; Chi phí cho thân nhân đi thăm.
 										<br />
-										<br />- Chi phí đưa trẻ em hồi hương, vận chuyển khẩn cấp, vận chuyển hài cốt/mài tàng, bảo lãnh
+										<br />- Chi phí đưa trẻ em hồi hương, vận chuyển khẩn cấp, vận chuyển hài cốt/mai táng, bảo lãnh
 										thanh toán viện phí, thiệt hại hành lý và tư trang, hỗ trợ du lịch toàn cầu, hành lý bị trì hoãn,
 										mất giấy tờ thông hành, cắt ngắn hay hủy bỏ chuyến đi, lỡ nối chuyến, trách nhiệm cá nhân, bắt cóc
 										và con tin, tổn thất tư gia vì hỏa hoạn và trong trường hợp bị khủng bố.
@@ -123,7 +123,7 @@ export default function IntlTravelIntroPage() {
 									<td className="border border-black p-4">
 										- Loại trừ chung theo quy định.
 										<br />- Bệnh tật hay tổn thương có sẵn, bệnh mãn tính.
-										<br />- Nội loạn, đình công, chiến tranh. Liên quan trực tiếp, gián tiếp tới hoạt động khủng bố.
+										<br />- Nổi loạn, đình công, chiến tranh. Liên quan trực tiếp, gián tiếp tới hoạt động khủng bố.
 										<br />- Tác động của phản ứng hạt nhân hoặc nhiễm phóng xạ.
 										<br />- Tổn thất gián tiếp hoặc thiệt hại mang tính hậu quả.
 									</td>

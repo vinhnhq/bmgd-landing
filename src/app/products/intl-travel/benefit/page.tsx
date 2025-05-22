@@ -268,7 +268,7 @@ function FirstTable() {
 					<TableCell size="medium" className="text-left space-y-4">
 						<span>5.4 Chi Phí Điều Trị Tiếp Theo</span>
 						<CellDescription>
-							Chi phí y tế phát sinh trong vòng 90 ngày kể từ khi trở về Nước xuất hành sau chuyến đi nước ngoài.
+							Chi phí y tế phát sinh trong lãnh thổ Nước xuất hành trong vòng 90 ngày kể từ khi trở về Nước xuất hành.
 						</CellDescription>
 					</TableCell>
 					<TableCell>$800</TableCell>
@@ -877,7 +877,7 @@ function SecondTable() {
 						<CellDescription>
 							Tiền đặt cọc không được hoàn lại cho chuyến đi và chi phí đi lại tăng lên vì cắt ngắn hay hủy chuyến do
 							Người được bảo hiểm bị chết, ốm đau thương tật nghiêm trọng, phải ra làm chứng hay thu tòa hoặc được cách
-							ly y tế kiểm dịch.
+							ly để kiểm dịch.
 						</CellDescription>
 					</TableCell>
 					<TableCell>$4,500</TableCell>
