@@ -24,6 +24,7 @@ const insuranceOptions = [
 		buttonText: "Tìm Hiểu Thêm",
 		icon: images.product1,
 		bgColor: "bg-brand-redPrimary",
+		link: "/products/intl-travel/intro",
 	},
 	{
 		id: 2,
@@ -56,6 +57,7 @@ const recruitmentOptions = [
 		buttonText: "Tìm Hiểu Thêm",
 		icon: images.art1,
 		bgColor: "bg-[#F24444]",
+		link: "/agent-recruitment",
 	},
 	{
 		id: 2,
@@ -65,6 +67,7 @@ const recruitmentOptions = [
 		buttonText: "Tìm Hiểu Thêm",
 		icon: images.art2,
 		bgColor: "bg-white",
+		link: "/agent-recruitment",
 	},
 	{
 		id: 3,
@@ -74,6 +77,7 @@ const recruitmentOptions = [
 		buttonText: "Tìm Hiểu Thêm",
 		icon: images.art3,
 		bgColor: "bg-white",
+		link: "/agent-recruitment",
 	},
 	{
 		id: 4,
@@ -83,6 +87,7 @@ const recruitmentOptions = [
 		buttonText: "Tìm Hiểu Thêm",
 		icon: images.art4,
 		bgColor: "bg-white",
+		link: "/agent-recruitment",
 	},
 ];
 
@@ -151,6 +156,8 @@ export default function InsuranceMenu() {
 }
 
 function InsuranceCard({ option }: { option: (typeof insuranceOptions)[number] }) {
+	const router = useRouter();
+
 	return (
 		<div
 			key={option.id}
@@ -174,6 +181,11 @@ function InsuranceCard({ option }: { option: (typeof insuranceOptions)[number] }
 							"px-4 py-1 min-w-40 text-base font-bold rounded-full flex items-center justify-center bg-brand-redPrimary text-white ",
 							"group-hover:bg-white group-hover:text-brand-redPrimary",
 						)}
+						onClick={() => {
+							if (option.link) {
+								router.push(option.link);
+							}
+						}}
 					>
 						{option.buttonText}
 					</button>
@@ -184,6 +196,8 @@ function InsuranceCard({ option }: { option: (typeof insuranceOptions)[number] }
 }
 
 function RecruitmentCard({ option }: { option: (typeof recruitmentOptions)[number] }) {
+	const router = useRouter();
+
 	return (
 		<div
 			key={option.id}
@@ -202,6 +216,11 @@ function RecruitmentCard({ option }: { option: (typeof recruitmentOptions)[numbe
 					<button
 						type="button"
 						className="px-2 py-1 min-w-36 text-sm font-bold rounded-full bg-brand-redPrimary text-white group-hover:bg-white group-hover:text-brand-redPrimary"
+						onClick={() => {
+							if (option.link) {
+								router.push(option.link);
+							}
+						}}
 					>
 						{option.buttonText}
 					</button>
