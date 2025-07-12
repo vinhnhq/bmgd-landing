@@ -96,6 +96,7 @@ Run with `bun run <script>` or `npm run <script>` depending on your package mana
 | `NODE_ENV`| `development`     | Switches DB default path & enables dev mode   |
 
 Create a `.env.local` file to override variables locally.
+Copy `env.sample` to `.env.local` (or `.env.production`) and adjust the values as needed.
 
 ---
 
